@@ -1,0 +1,101 @@
+---
+title: "A graphical summary of your random forest"
+author: "randomForestExplainer"
+date: "`r as.character(format(Sys.Date(), format = '%B %d, %Y'))`"
+output: 
+    html_document:
+        toc: true
+        toc_float: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, echo = FALSE)
+```
+
+```{r}
+min_depth_frame <- min_depth_distribution(forest)
+importance_frame <- measure_importance(forest)
+if(interactions == TRUE) {
+  if(is.null(vars)){
+    vars <- important_variables(importance_frame)
+  }
+  interactions_frame <- min_depth_interactions(forest, vars)
+}
+```
+
+## Details of your forest
+
+```{r}
+forest
+```
+
+## Distribution of minimal depth
+
+The plot below shows the distribution of minimal depth among the trees of your forest. Note that:
+
+- the mean of the distribution is marked by a vertical bar with a value label on it (the scale for it is different than for the rest of the plot),
+
+- the scale of the X axis goes from zero to the maximum number of trees in which any variable was used for splitting.
+
+```{r}
+plot_min_depth_distribution(min_depth_frame)
+```
+
+Minimal depth for a variable in a tree equals to the depth of the node which splits on that variable and is the closest to the root of the tree. If it is low than a lot of observations are divided into groups on the basis of this variable
+
+## Importance measures
+
+Below you can explore the measures of importance for all variables in the forest:
+
+```{r}
+formatRound(datatable(importance_frame), c(2, 4, 5, 8), digits = 4)
+```
+
+## Multi-way importance plot
+
+The multi-way importance plot shows the relation between three measures of importance and labels 10 variables which scored best when it comes to these three measures (i.e. for which the sum of the ranks for those measures is the lowest).
+
+The first multi-way importance plot focuses on three importance measures that derive from the structure of trees in the forest:
+
+- mean depth of first split on the variable,
+
+- number of trees in which the root is split on the variable,
+
+- the total number of nodes in the forest that split on that variable.
+
+```{r}
+if(forest$type == "regression"){
+  measure1 <- "mse_increase"
+  measure2 <- "node_purity_increase"
+} else {
+  measure1 <- "accuracy_decrease"
+  measure2 <- "gini_decrease"
+}
+measures_print <- paste(measure1, measure2, sep = " and ")
+plot_multi_way_importance(importance_frame, size_measure = "no_of_nodes")
+```
+
+The second multi-way importance plot shows two importance measures that derive from the role a variable plays in prediction: `r print(noquote(measures_print))` with the additional information on the $p$-value based on a binomial distribution of the number of nodes split on the variable assuming that variables are randomly drawn to form splits (i.e. if a variable is significant it means that the variable is used for splitting more often than would be the case if the selection was random).
+
+```{r}
+plot_multi_way_importance(importance_frame, x_measure = measure1, y_measure = measure2, size_measure = "p_value")
+```
+
+## Compare importance measures
+
+The plot below shows bilateral relations between the following importance measures: `r print(noquote(paste(measures, collapse = ", ")))`, if some variables are strongly related to each other it may be worth to consider focusing only on one of them. 
+
+```{r, fig.width = 10, fig.height = 9}
+plot_importance_ggpairs(importance_frame, measures) + theme_set(theme_bw(13))
+```
+
+## Compare rankings of variables
+
+The plot below shows bilateral relations between the rankings of variables according to chosen importance measures. This approach might be useful as rankings are more evenly spread than corresponding importance measures. This may also more clearly show where the different measures of importance disagree or agree.
+
+```{r, fig.width = 10, fig.height = 9}
+plot_importance_rankings(importance_frame, measures) + theme_set(theme_bw(13))
+```
+
+```{r conditional_print, child = 'Explain_forest_template_interactions.Rmd', eval = interactions}
+```

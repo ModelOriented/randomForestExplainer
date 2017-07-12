@@ -1,0 +1,46 @@
+## Variable interactions
+
+### Conditional minimal depth
+
+The plot below reports 30 top interactions according to mean of conditional minimal depth -- a generalization of minimal depth that measures the depth of the second variable in a tree of which the first variable is a root (a subtree of a tree from the forest). In order to be comparable to normal minimal depth 1 is subtracted so that 0 is the minimum.
+
+For example value of 0 for interaction x:y in a tree means that if we take the highest subtree with the root splitting on x then y is used for splitting immediately after x (minimal depth of x in this subtree is 1). The values presented are means over all trees in the forest.
+
+Note that:
+
+- the plot shows only 30 interactions that appeared most frequently,
+
+- the horizontal line shows the minimal value of the depicted statistic among interactions for which it was calculated,
+
+- the interactions considered are ones with the following variables as first (root variables): `r print(noquote(paste(vars, collapse = ", ")))` and all possible values of the second variable.
+
+```{r}
+plot_min_depth_interactions(interactions_frame)
+```
+
+You can explore the data used for plotting by interacting with the following table:
+
+```{r}
+formatRound(datatable(interactions_frame), c(3, 6), digits = 4)
+```
+
+### Prediction on a grid
+
+The plots below show predictions of the random forest depending on values of components of an interaction (the values of remaining predictors are sampled from their empirical distribution) for up to `r no_of_pred_plots` most frequent interactions that consist of two numerical variables.
+
+```{r}
+interactions_frame <- merge(interactions_frame, data.frame(variable = names(data), class = sapply(data, class)), all.x = TRUE)
+interactions_frame <- merge(interactions_frame, data.frame(root_variable = names(data), root_class = sapply(data, class)), all.x = TRUE)
+interactions_frame <- interactions_frame[order(interactions_frame$occurrences, decreasing = TRUE), ]
+interactions_frame <- interactions_frame[interactions_frame$class %in% c("numeric", "integer") & interactions_frame$root_class %in% c("numeric", "integer"), ]
+interactions_frame <- interactions_frame[as.character(interactions_frame$variable) != as.character(interactions_frame$root_variable), ]
+if(nrow(interactions_frame) > 0){
+  selected <- interactions_frame[1:min(no_of_pred_plots, nrow(interactions_frame)), c("root_variable", "variable")]
+  for(i in 1:nrow(selected)){
+    print(plot_predict_interaction(forest, data, paste0(selected$root_variable[i]), paste0(selected$variable[i]), grid = pred_grid))
+  }
+} else {
+  print("There are no interactions among the ones considered that consists of two numerical variables so we cannot plot prediction of the forest on the grid.")
+}
+```
+
