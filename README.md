@@ -1,5 +1,11 @@
 # randomForestExplainer
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
+[![Pending Pull-Requests](http://githubbadges.herokuapp.com/MI2DataLab/randomForestExplainer/pulls.svg)](https://github.com/MI2DataLab/randomForestExplainer/pulls)
+[![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/randomForestExplainer/issues.svg)](https://github.com/MI2DataLab/randomForestExplainer/issues)
+
+
+
 Set of tools to understand what is happening inside 'BlackBox' classifiers like Random Forest / Gradient Boosting
 
 ## Instalation
