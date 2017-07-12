@@ -11,3 +11,8 @@ devtools::install_github("MI2DataLab/randomForestExplainer")
 ## Vignettes 
 
 * [Understanding random forests with randomForestExplainer](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
+
+
+## Examples
+
+https://github.com/geneticsMiNIng/BlackBoxOpener/tree/master/examples
