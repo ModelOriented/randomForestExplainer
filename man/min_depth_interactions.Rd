@@ -24,7 +24,7 @@ A data frame with each observarion giving the means of conditional minimal depth
 Calculate mean conditional minimal depth with respect to a vector of variables
 }
 \examples{
-forest <- randomForest::randomForest(Species ~ ., data = iris)
+forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 200)
 min_depth_interactions(forest, names(iris))
 
 }

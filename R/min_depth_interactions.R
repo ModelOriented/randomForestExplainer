@@ -1,5 +1,6 @@
 # Calculate conditional depth in a tree with respect to all variables from vector vars
 conditional_depth <- function(frame, vars){
+  `.SD` <- NULL; depth <- NULL; `split var` <- NULL
   index <- data.table::as.data.table(frame)[, .SD[which.min(depth), "number"], by = `split var`]
   index <- index[!is.na(index$`split var`), ]
   if(any(index$`split var` %in% vars)){
@@ -26,6 +27,7 @@ conditional_depth <- function(frame, vars){
 
 # Get a data frame with values of minimal depth conditional on selected variables for the whole forest
 min_depth_interactions_values <- function(forest, vars){
+  `.` <- NULL; .SD <- NULL; tree <- NULL; `split var` <- NULL
   interactions_frame <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
              calculate_tree_depth() %>% cbind(., tree = i, number = 1:nrow(.))) %>%
@@ -62,12 +64,13 @@ min_depth_interactions_values <- function(forest, vars){
 #' @importFrom data.table rbindlist
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris)
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 200)
 #' min_depth_interactions(forest, names(iris))
 #'
 #' @export
 min_depth_interactions <- function(forest, vars = important_variables(measure_importance(forest)),
                                    mean_sample = "top_trees", uncond_mean_sample = mean_sample){
+  variable <- NULL; `.` <- NULL; tree <- NULL; `split var` <- NULL; depth <- NULL
   min_depth_interactions_frame <- min_depth_interactions_values(forest, vars)
   mean_tree_depth <- min_depth_interactions_frame[[2]]
   min_depth_interactions_frame <- min_depth_interactions_frame[[1]]
@@ -122,13 +125,14 @@ min_depth_interactions <- function(forest, vars = important_variables(measure_im
 #' @import ggplot2
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris)
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 200)
 #' plot_min_depth_interactions(min_depth_interactions(forest, names(iris)))
 #'
 #' @export
 plot_min_depth_interactions <- function(interactions_frame, k = 30,
                                         main = paste0("Mean minimal depth for ",
                                                       paste0(k, " most frequent interactions"))){
+  mean_min_depth <- NULL; occurrences <- NULL; uncond_mean_min_depth <- NULL
   if("randomForest" %in% class(interactions_frame)){
     interactions_frame <- min_depth_interactions(interactions_frame)
   }
@@ -165,6 +169,9 @@ plot_min_depth_interactions <- function(interactions_frame, k = 30,
 #' @return A ggplot2 object
 #'
 #' @import ggplot2
+#' @importFrom stats predict
+#' @importFrom stats terms
+#' @importFrom stats as.formula
 #'
 #' @examples
 #' forest <- randomForest::randomForest(Species ~., data = iris)

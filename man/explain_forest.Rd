@@ -33,6 +33,6 @@ Explains a random forest in a html document using plots created by randomForestE
 }
 \examples{
 forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-explain_forest(forest, vars = names(iris), interactions = TRUE)
+explain_forest(forest, vars = names(iris))
 
 }

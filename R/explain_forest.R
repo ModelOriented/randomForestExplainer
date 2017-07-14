@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' explain_forest(forest, vars = names(iris), interactions = TRUE)
+#' explain_forest(forest, vars = names(iris))
 #'
 #' @export
 explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,

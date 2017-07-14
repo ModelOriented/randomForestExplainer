@@ -18,6 +18,7 @@ Imports:
   GGally (>= 1.3.0),
   ggplot2 (>= 2.2.1),
   ggrepel (>= 0.6.5),
+  MASS (>= 7.3.47),
   randomForest (>= 4.6.12),
   reshape2 (>= 1.4.2),
   rmarkdown (>= 1.5)

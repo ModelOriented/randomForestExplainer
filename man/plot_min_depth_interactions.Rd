@@ -22,7 +22,7 @@ A ggplot2 object
 Plot the top mean conditional minimal depth
 }
 \examples{
-forest <- randomForest::randomForest(Species ~ ., data = iris)
+forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 200)
 plot_min_depth_interactions(min_depth_interactions(forest, names(iris)))
 
 }

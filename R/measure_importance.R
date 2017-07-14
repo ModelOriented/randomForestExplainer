@@ -8,6 +8,7 @@ measure_min_depth <- function(min_depth_frame, mean_sample){
 
 # Calculate the number of nodes split on each variable for a data frame with the whole forest
 measure_no_of_nodes <- function(forest_table){
+  `split var` <- NULL
   frame <- dplyr::group_by(forest_table, `split var`) %>% dplyr::summarize(n())
   colnames(frame) <- c("variable", "no_of_nodes")
   frame <- as.data.frame(frame[!is.na(frame$variable),])
@@ -45,6 +46,7 @@ measure_vimp <- function(forest, only_nonlocal = FALSE){
 
 # Calculate the number of trees using each variable for splitting
 measure_no_of_trees <- function(min_depth_frame){
+  variable <- NULL
   frame <- dplyr::group_by(min_depth_frame, variable) %>%
     dplyr::summarize(count = n()) %>% as.data.frame()
   colnames(frame)[2] <- "no_of_trees"
@@ -54,6 +56,7 @@ measure_no_of_trees <- function(min_depth_frame){
 
 # Calculate the number of times each variable is split on the root node
 measure_times_a_root <- function(min_depth_frame){
+  variable <- NULL
   frame <- min_depth_frame[min_depth_frame$minimal_depth == 0, ] %>%
     dplyr::group_by(variable) %>% dplyr::summarize(count = n()) %>% as.data.frame()
   colnames(frame)[2] <- "times_a_root"
@@ -65,7 +68,7 @@ measure_times_a_root <- function(min_depth_frame){
 measure_p_value <- function(importance_frame){
   total_no_of_nodes <- sum(importance_frame$no_of_nodes)
   p_value <- unlist(lapply(importance_frame$no_of_nodes,
-                  function(x) binom.test(x, total_no_of_nodes, 1/nrow(importance_frame),
+                  function(x) stats::binom.test(x, total_no_of_nodes, 1/nrow(importance_frame),
                                          alternative = "greater")$p.value))
   return(p_value)
 }
@@ -89,6 +92,7 @@ measure_p_value <- function(importance_frame){
 #'
 #' @export
 measure_importance <- function(forest, mean_sample = "top_trees", measures = NULL){
+  tree <- NULL; `split var` <- NULL; depth <- NULL
   if(is.null(measures)){
     if(forest$type == "classification"){
       measures <- c("mean_min_depth", "no_of_nodes", "accuracy_decrease",
@@ -223,6 +227,7 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
                                       y_measure = "times_a_root", size_measure = NULL,
                                       min_no_of_trees = 0, no_of_labels = 10,
                                       main = "Multi-way importance plot"){
+  variable <- NULL
   if("randomForest" %in% class(importance_frame)){
     importance_frame <- measure_importance(importance_frame)
   }
@@ -332,7 +337,7 @@ plot_importance_rankings <- function(importance_frame, measures =
                          apply(importance_frame[, -c(1, 2)], 2,
                                function(x) frankv(x, order = -1, ties.method = "dense")))
   plot <- ggpairs(rankings[, measures], lower = list(continuous = function(data, mapping){
-    ggplot(data = data, mapping = mapping) + geom_point() +  geom_smooth(method = loess)
+    ggplot(data = data, mapping = mapping) + geom_point() +  geom_smooth(method = "loess")
     }))+ theme_bw()
   if(!is.null(main)){
     plot <- plot + ggtitle(main)
