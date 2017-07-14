@@ -14,5 +14,4 @@ devtools::install_github("MI2DataLab/randomForestExplainer")
 
 ## Examples
 
-* [Initial vignette for glioblastoma data]
-(https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
+* [Initial vignette for glioblastoma data](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
