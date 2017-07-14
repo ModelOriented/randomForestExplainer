@@ -4,12 +4,14 @@
 \alias{measure_importance}
 \title{Importance of variables in a random forest}
 \usage{
-measure_importance(forest, mean_sample = "top_trees")
+measure_importance(forest, mean_sample = "top_trees", measures = NULL)
 }
 \arguments{
 \item{forest}{A random forest produced by the function randomForest with option localImp = TRUE}
 
 \item{mean_sample}{The sample of trees on which mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"}
+
+\item{measures}{A vector of names of importance measures to be calculated - if equal to NULL then all are calculated; if "p_value" is to be calculated then "no_of_nodes" will be too}
 }
 \value{
 A data frame with rows corresponding to variables and columns to various measures of importance of variables
@@ -18,6 +20,7 @@ A data frame with rows corresponding to variables and columns to various measure
 Get a data frame with various measures of importance of variables in a random forest
 }
 \examples{
-measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE))
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+measure_importance(forest)
 
 }

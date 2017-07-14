@@ -4,13 +4,14 @@
 \alias{min_depth_interactions}
 \title{Calculate mean conditional minimal depth}
 \usage{
-min_depth_interactions(forest, vars, mean_sample = "top_trees",
-  uncond_mean_sample = mean_sample)
+min_depth_interactions(forest,
+  vars = important_variables(measure_importance(forest)),
+  mean_sample = "top_trees", uncond_mean_sample = mean_sample)
 }
 \arguments{
 \item{forest}{A randomForest object}
 
-\item{vars}{A character vector with variables with respect to which conditional minimal depth will be calculated}
+\item{vars}{A character vector with variables with respect to which conditional minimal depth will be calculated; by defalt it is extracted by the important_variables function but this may be time consuming}
 
 \item{mean_sample}{The sample of trees on which conditional mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"}
 
@@ -23,6 +24,7 @@ A data frame with each observarion giving the means of conditional minimal depth
 Calculate mean conditional minimal depth with respect to a vector of variables
 }
 \examples{
-min_depth_interactions(randomForest::randomForest(Species ~ ., data = iris), vars = names(iris))
+forest <- randomForest::randomForest(Species ~ ., data = iris)
+min_depth_interactions(forest, names(iris))
 
 }

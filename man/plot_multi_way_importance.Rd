@@ -9,7 +9,7 @@ plot_multi_way_importance(importance_frame, x_measure = "mean_min_depth",
   no_of_labels = 10, main = "Multi-way importance plot")
 }
 \arguments{
-\item{importance_frame}{A result of using the function measure_importance() to a random forest}
+\item{importance_frame}{A result of using the function measure_importance() to a random forest or a randomForest object}
 
 \item{x_measure}{The measure of importance to be shown on the X axis}
 
@@ -30,6 +30,7 @@ A ggplot object
 Plot two or three measures of importance of variables in a random fores. Choose importance measures from the colnames(importance_frame).
 }
 \examples{
-plot_multi_way_importance(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+plot_multi_way_importance(measure_importance(forest))
 
 }

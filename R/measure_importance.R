@@ -1,9 +1,82 @@
+# Calculate mean minimal depth using mean_sample from a properly prepared min_depth_frame
+measure_min_depth <- function(min_depth_frame, mean_sample){
+  frame <- get_min_depth_means(min_depth_frame, min_depth_count(min_depth_frame), mean_sample)
+  colnames(frame)[2] <- "mean_min_depth"
+  frame$variable <- as.character(frame$variable)
+  return(frame)
+}
+
+# Calculate the number of nodes split on each variable for a data frame with the whole forest
+measure_no_of_nodes <- function(forest_table){
+  frame <- dplyr::group_by(forest_table, `split var`) %>% dplyr::summarize(n())
+  colnames(frame) <- c("variable", "no_of_nodes")
+  frame <- as.data.frame(frame[!is.na(frame$variable),])
+  frame$variable <- as.character(frame$variable)
+  return(frame)
+}
+
+# Extract randomForest variable importance measures
+measure_vimp <- function(forest, only_nonlocal = FALSE){
+  if(forest$type == "classification"){
+    if(dim(forest$importance)[2] == 1){
+      if(only_nonlocal == FALSE){
+        print("Warning: your forest does not contain information on local importance so 'accuracy_decrease' measure cannot be extracted. To add it regrow the forest with the option localImp = TRUE and run this function again.")
+      }
+      frame <- as.data.frame(forest$importance[, "MeanDecreaseGini"])
+      colnames(frame) <- "gini_decrease"
+    } else {
+      frame <- as.data.frame(forest$importance[, c("MeanDecreaseAccuracy", "MeanDecreaseGini")])
+      colnames(frame) <- c("accuracy_decrease", "gini_decrease")
+    }
+  } else if(forest$type =="regression"){
+    frame <- as.data.frame(forest$importance)
+    if(dim(forest$importance)[2] == 1){
+      if(only_nonlocal == FALSE){
+        print("Warning: your forest does not contain information on local importance so 'mse_increase' measure cannot be extracted. To add it regrow the forest with the option localImp = TRUE and run this function again.")
+      }
+      colnames(frame) <- "node_purity_increase"
+    } else{
+      colnames(frame) <- c("mse_increase", "node_purity_increase")
+    }
+  }
+  frame$variable <- rownames(frame)
+  return(frame)
+}
+
+# Calculate the number of trees using each variable for splitting
+measure_no_of_trees <- function(min_depth_frame){
+  frame <- dplyr::group_by(min_depth_frame, variable) %>%
+    dplyr::summarize(count = n()) %>% as.data.frame()
+  colnames(frame)[2] <- "no_of_trees"
+  frame$variable <- as.character(frame$variable)
+  return(frame)
+}
+
+# Calculate the number of times each variable is split on the root node
+measure_times_a_root <- function(min_depth_frame){
+  frame <- min_depth_frame[min_depth_frame$minimal_depth == 0, ] %>%
+    dplyr::group_by(variable) %>% dplyr::summarize(count = n()) %>% as.data.frame()
+  colnames(frame)[2] <- "times_a_root"
+  frame$variable <- as.character(frame$variable)
+  return(frame)
+}
+
+# Calculate p_value for an importance frame with "no_of_nodes" column
+measure_p_value <- function(importance_frame){
+  total_no_of_nodes <- sum(importance_frame$no_of_nodes)
+  p_value <- unlist(lapply(importance_frame$no_of_nodes,
+                  function(x) binom.test(x, total_no_of_nodes, 1/nrow(importance_frame),
+                                         alternative = "greater")$p.value))
+  return(p_value)
+}
+
 #' Importance of variables in a random forest
 #'
 #' Get a data frame with various measures of importance of variables in a random forest
 #'
 #' @param forest A random forest produced by the function randomForest with option localImp = TRUE
 #' @param mean_sample The sample of trees on which mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"
+#' @param measures A vector of names of importance measures to be calculated - if equal to NULL then all are calculated; if "p_value" is to be calculated then "no_of_nodes" will be too
 #'
 #' @return A data frame with rows corresponding to variables and columns to various measures of importance of variables
 #'
@@ -11,53 +84,67 @@
 #' @importFrom data.table rbindlist
 #'
 #' @examples
-#' measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' measure_importance(forest)
 #'
 #' @export
-measure_importance <- function(forest, mean_sample = "top_trees"){
-  forest_table <-
-    lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
-             calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
-  min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
-    dplyr::summarize(min(depth))
-  colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
-  min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
-  importance_frame <- get_min_depth_means(min_depth_frame, min_depth_count(min_depth_frame), mean_sample)
-  colnames(importance_frame)[2] <- "mean_min_depth"
-  importance_frame$variable <- as.character(importance_frame$variable)
-  nodes_occurrences <- dplyr::group_by(forest_table, `split var`) %>%
-    dplyr::summarize(n())
-  colnames(nodes_occurrences) <- c("variable", "no_of_nodes")
-  nodes_occurrences <- as.data.frame(nodes_occurrences[!is.na(nodes_occurrences$variable),])
-  nodes_occurrences$variable <- as.character(nodes_occurrences$variable)
-  if(forest$type == "classification"){
-    vimp_frame <- as.data.frame(forest$importance[, c("MeanDecreaseAccuracy", "MeanDecreaseGini")])
-    colnames(vimp_frame) <- c("accuracy_decrease", "gini_decrease")
-  } else if(forest$type =="regression"){
-    vimp_frame <- as.data.frame(forest$importance)
-    colnames(vimp_frame) <- c("mse_increase", "node_purity_increase")
+measure_importance <- function(forest, mean_sample = "top_trees", measures = NULL){
+  if(is.null(measures)){
+    if(forest$type == "classification"){
+      measures <- c("mean_min_depth", "no_of_nodes", "accuracy_decrease",
+                    "gini_decrease", "no_of_trees", "times_a_root", "p_value")
+    } else if(forest$type =="regression") {
+      measures <- c("mean_min_depth", "no_of_nodes", "mse_increase", "node_purity_increase",
+                    "no_of_trees", "times_a_root", "p_value")
+    }
   }
-  vimp_frame$variable <- rownames(vimp_frame)
-  trees_occurrences <- dplyr::group_by(min_depth_frame, variable) %>%
-    dplyr::summarize(count = n()) %>% as.data.frame()
-  colnames(trees_occurrences)[2] <- "no_of_trees"
-  trees_occurrences$variable <- as.character(trees_occurrences$variable)
-  root_count <- min_depth_frame[min_depth_frame$minimal_depth == 0, ] %>%
-    dplyr::group_by(variable) %>% dplyr::summarize(count = n()) %>% as.data.frame()
-  colnames(root_count)[2] <- "times_a_root"
-  root_count$variable <- as.character(root_count$variable)
-  importance_frame <- merge(importance_frame, nodes_occurrences, all = TRUE)
-  importance_frame <- merge(importance_frame, vimp_frame, all = TRUE)
-  importance_frame <- merge(importance_frame, trees_occurrences, all = TRUE)
-  importance_frame <- merge(importance_frame, root_count, all = TRUE)
-  importance_frame[is.na(importance_frame$no_of_nodes), c("no_of_nodes", "no_of_trees")] <- 0
-  importance_frame[is.na(importance_frame$times_a_root), "times_a_root"] <- 0
-  total_no_of_nodes <- sum(importance_frame$no_of_nodes)
-  importance_frame$p_value <-
-    unlist(lapply(importance_frame$no_of_nodes,
-                  function(x) binom.test(x, total_no_of_nodes, 1/nrow(importance_frame),
-                                         alternative = "greater")$p.value))
-  importance_frame$variable <- as.factor(importance_frame$variable)
+  if(("p_value" %in% measures) && !("no_of_nodes" %in% measures)){
+    measures <- c(measures, "no_of_nodes")
+  }
+  importance_frame <- data.frame(variable = rownames(forest$importance), stringsAsFactors = FALSE)
+  # Get objects necessary to calculate importance measures based on the tree structure
+  if(any(c("mean_min_depth", "no_of_nodes", "no_of_trees", "times_a_root", "p_value") %in% measures)){
+    forest_table <-
+      lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
+               calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
+    min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
+      dplyr::summarize(min(depth))
+    colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
+    min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
+  }
+  # Add each importance measure to the table (if it was requested)
+  if("mean_min_depth" %in% measures){
+    importance_frame <- merge(importance_frame, measure_min_depth(min_depth_frame, mean_sample), all = TRUE)
+  }
+  if("no_of_nodes" %in% measures){
+    importance_frame <- merge(importance_frame, measure_no_of_nodes(forest_table), all = TRUE)
+    importance_frame[is.na(importance_frame$no_of_nodes), "no_of_nodes"] <- 0
+  }
+  if(forest$type == "classification"){
+    vimp <- c("accuracy_decrease", "gini_decrease")
+  } else if(forest$type =="regression") {
+    vimp <- c("mse_increase", "node_purity_increase")
+  }
+  if(all(vimp %in% measures)){
+    importance_frame <- merge(importance_frame, measure_vimp(forest), all = TRUE)
+  } else if (vimp[1] %in% measures){
+    importance_frame <- merge(importance_frame, measure_vimp(forest)[, c("variable", vimp[1])], all = TRUE)
+  } else if (vimp[2] %in% measures){
+    importance_frame <- merge(importance_frame,
+                              measure_vimp(forest, only_nonlocal = TRUE)[, c("variable", vimp[2])], all = TRUE)
+  }
+  if("no_of_trees" %in% measures){
+    importance_frame <- merge(importance_frame, measure_no_of_trees(min_depth_frame), all = TRUE)
+    importance_frame[is.na(importance_frame$no_of_trees), "no_of_trees"] <- 0
+  }
+  if("times_a_root" %in% measures){
+    importance_frame <- merge(importance_frame, measure_times_a_root(min_depth_frame), all = TRUE)
+    importance_frame[is.na(importance_frame$times_a_root), "times_a_root"] <- 0
+  }
+  if("p_value" %in% measures){
+    importance_frame$p_value <- measure_p_value(importance_frame)
+    importance_frame$variable <- as.factor(importance_frame$variable)
+  }
   return(importance_frame)
 }
 
@@ -65,7 +152,7 @@ measure_importance <- function(forest, mean_sample = "top_trees"){
 #'
 #' Get the names of k variables with highest sum of rankings based on the specified importance measures
 #'
-#' @param importance_frame A result of using the function measure_importance() to a random forest
+#' @param importance_frame A result of using the function measure_importance() to a random forest or a randomForest object
 #' @param measures A character vector specifying the measures of importance to be used
 #' @param k The number of variables to extract
 #' @param ties_action One of three: c("none", "all", "draw"); specifies which variables to pick when ties occur. When set to "none" we may get less than k variables, when "all" whe may get more and "draw" makes us get exactly k.
@@ -75,11 +162,18 @@ measure_importance <- function(forest, mean_sample = "top_trees"){
 #' @importFrom data.table frankv
 #'
 #' @examples
-#' important_variables(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' important_variables(measure_importance(forest))
 #'
 #' @export
 important_variables <- function(importance_frame, k = 15, measures = names(importance_frame)[2:5],
                                 ties_action = "all"){
+  if("randomForest" %in% class(importance_frame)){
+    importance_frame <- measure_importance(importance_frame)
+    if("predicted" %in% measures){
+      measures <- names(importance_frame)[2:5]
+    }
+  }
   rankings <- data.frame(variable = importance_frame$variable, mean_min_depth =
                            frankv(importance_frame$mean_min_depth, ties.method = "dense"),
                          p_value =
@@ -107,7 +201,7 @@ important_variables <- function(importance_frame, k = 15, measures = names(impor
 #'
 #' Plot two or three measures of importance of variables in a random fores. Choose importance measures from the colnames(importance_frame).
 #'
-#' @param importance_frame A result of using the function measure_importance() to a random forest
+#' @param importance_frame A result of using the function measure_importance() to a random forest or a randomForest object
 #' @param x_measure The measure of importance to be shown on the X axis
 #' @param y_measure The measure of importance to be shown on the Y axis
 #' @param size_measure The measure of importance to be shown as size of points (optional)
@@ -121,13 +215,17 @@ important_variables <- function(importance_frame, k = 15, measures = names(impor
 #' @import ggrepel
 #'
 #' @examples
-#' plot_multi_way_importance(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' plot_multi_way_importance(measure_importance(forest))
 #'
 #' @export
 plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_depth",
                                       y_measure = "times_a_root", size_measure = NULL,
                                       min_no_of_trees = 0, no_of_labels = 10,
                                       main = "Multi-way importance plot"){
+  if("randomForest" %in% class(importance_frame)){
+    importance_frame <- measure_importance(importance_frame)
+  }
   data <- importance_frame[importance_frame$no_of_trees > min_no_of_trees, ]
   data_for_labels <- importance_frame[importance_frame$variable %in%
                                         important_variables(importance_frame, k = no_of_labels,
@@ -173,7 +271,7 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
 #'
 #' Plot selected measures of importance of variables in a forest using ggpairs
 #'
-#' @param importance_frame A result of using the function measure_importance() to a random forest
+#' @param importance_frame A result of using the function measure_importance() to a random forest or a randomForest object
 #' @param measures A character vector specifying the measures of importance to be used
 #' @param main A string to be used as title of the plot
 #' @return A ggplot object
@@ -182,12 +280,19 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
 #' @import GGally
 #'
 #' @examples
-#' plot_importance_ggpairs(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' plot_importance_ggpairs(measure_importance(forest))
 #'
 #' @export
 plot_importance_ggpairs <- function(importance_frame, measures =
                                       names(importance_frame)[c(2, 4, 5, 3, 7)],
                                     main = "Relations between measures of importance"){
+  if("randomForest" %in% class(importance_frame)){
+    importance_frame <- measure_importance(importance_frame)
+    if("predicted" %in% measures){
+      names(importance_frame)[c(2, 4, 5, 3, 7)]
+    }
+  }
   plot <- ggpairs(importance_frame[, measures]) + theme_bw()
   if(!is.null(main)){
     plot <- plot + ggtitle(main)
@@ -199,7 +304,7 @@ plot_importance_ggpairs <- function(importance_frame, measures =
 #'
 #' Plot against each other rankings of variables according to various measures of importance
 #'
-#' @param importance_frame A result of using the function measure_importance() to a random forest
+#' @param importance_frame A result of using the function measure_importance() to a random forest or a randomForest object
 #' @param measures A character vector specifying the measures of importance to be used
 #' @param main A string to be used as title of the plot
 #'
@@ -209,12 +314,19 @@ plot_importance_ggpairs <- function(importance_frame, measures =
 #' @import GGally
 #'
 #' @examples
-#' plot_importance_ggpairs(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' plot_importance_ggpairs(measure_importance(forest))
 #'
 #' @export
 plot_importance_rankings <- function(importance_frame, measures =
                                        names(importance_frame)[c(2, 4, 5, 3, 7)],
                                      main = "Relations between rankings according to different measures"){
+  if("randomForest" %in% class(importance_frame)){
+    importance_frame <- measure_importance(importance_frame)
+    if("predicted" %in% measures){
+      names(importance_frame)[c(2, 4, 5, 3, 7)]
+    }
+  }
   rankings <- data.frame(variable = importance_frame$variable, mean_min_depth =
                            frankv(importance_frame$mean_min_depth, ties.method = "dense"),
                          apply(importance_frame[, -c(1, 2)], 2,

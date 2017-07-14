@@ -9,7 +9,7 @@ plot_min_depth_distribution(min_depth_frame, k = 10, min_no_of_trees = 0,
   main = "Distribution of minimal depth and its mean")
 }
 \arguments{
-\item{min_depth_frame}{A data frame output of min_depth_distribution function}
+\item{min_depth_frame}{A data frame output of min_depth_distribution function or a randomForest object}
 
 \item{k}{The maximal number of variables with lowest mean minimal depth to be used for plotting}
 
@@ -30,6 +30,7 @@ A ggplot object
 Plot the distribution of minimal depth in a random forest
 }
 \examples{
-plot_min_depth_distribution(min_depth_distribution(randomForest::randomForest(Species ~ ., data = iris)))
+forest <- randomForest::randomForest(Species ~ ., data = iris)
+plot_min_depth_distribution(min_depth_distribution(forest))
 
 }

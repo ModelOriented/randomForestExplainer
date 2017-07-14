@@ -1,0 +1,334 @@
+---
+title: "Understanding random forests with randomForestExplainer"
+author: "Aleksandra Paluszyńska"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Understanding random forests with randomForestExplainer}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Introduction
+
+This vignette demonstrates how to use the randomForestExplainer package. We will use the `iris` data, which are very simple. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use a the small `iris` data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: [initial vignette](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
+
+We will use the following packages:
+```{r}
+library(randomForest)
+library(randomForestExplainer)
+```
+
+# Data and forest
+
+As our next step we use the `randomForest::randomForest` function to train a forest of 10000 trees, with option `localImp = TRUE` and $r=\lfloor\sqrt{14128}\rfloor=118$ candidate variables for each split. The reason for growing such a big forest is that we are interested in distinguishing important predictors -- in that case the more trees in a forest the better, as they create more opportunities for good variables to be chosen for splitting (i.e., increase the sample on which statistics such as mean minimal depth are calculated). As building of the below forest takes a long time I load it from the memory:
+
+```{r}
+# set.seed(2017)
+# forest <- randomForest(death1y ~ ., data = GlioblastomaWide, ntree = 10000, localImp = TRUE)
+# save(forest, file = "GlioblastomaWide_forest.rda")
+load("GlioblastomaWide_forest.rda")
+```
+
+Now, I use the `randomForest` package to build a random forest for the data. I need the forest to have as many trees as possible, as with thousands of variables the probablility of each being considered for a split of a node is low and for analyzing the structure of the random forest I need a reasonable number of such instances for each variable, as I cannot say anything about the importance of a variable that was not even considered for a split. Moreover, we will analyze measures of importance of variables so we set `importance = TRUE`.
+
+```{r}
+plot(forest, main = "Learning curve of the forest")
+legend("topright", c("error for 'dead'", "misclassification error", "error for 'alive'"), lty = c(1,1,1), col = c("green", "black", "red"))
+```
+
+In the plot above we can see the learning curve of our forest, i.e. the evolution of out-of-bag error when the number of trees increases. Clearly, this error is minimal for around 500 trees and stabilizes at around 0.4 at 2000 trees. With 10000 trees the OOB estimate of our error rate is 0.42 and the forests classifies correctly 39 out of 62 surviving patients and 33 out of 63 deceased patients. The basic information concerning the forest are:
+
+```{r}
+forest
+```
+
+We conclude that this is a sensible predictor and when it comes to prediction accuracy we could obtain similar results with a lower number of trees.
+
+# Distribution of minimal depth
+
+To obtain the distribution of minimal depth we pass our forest to the function `min_depth_distribution` and store the result, which contains the following columns:
+
+```{r}
+min_depth_frame <- min_depth_distribution(forest)
+head(min_depth_frame, n = 10)
+```
+
+Next, we pass it to the function `plot_min_depth_distribution` and under default settings obtain obtain a plot of the distribution of minimal depth for top ten variables according to mean minimal depth calculated using top trees (`mean_sample = "top_trees"`). 
+
+```{r}
+plot_min_depth_distribution(min_depth_frame)
+```
+
+The function `plot_min_depth_distribution` offers three possibilities when it comes to calculating the mean minimal depth, which differ in he way they treat missing values that appear when a variable is not used for splitting in a tree. They can be described as follows:
+
+- `mean_sample = "all_trees"` (filling missing value): the minimal depth of a variable in a tree that does not use it for splitting is equal to the mean depth of trees. Note that the depth of a tree is equal to the length of the longest path from root to leave in this tree. This equals the maximum depth of a variable in this tree plus one, as leaves are by definition not split by any variable.
+
+- `mean_sample = "top_trees"` (restricting the sample): to calculate the mean minimal depth only $\tilde{B}$ out of $B$ (number of trees) observations are considered, where $\tilde{B}$ is equal to the maximum number of trees in which any variable was used for splitting. Remaining missing values for variables that were used for splitting less than $\tilde{B}$ times are filled in as in `mean_sample = "all_trees"`.
+
+- `mean_sample = "relevant_trees"` (ignoring missing values): mean minimal depth is calculated using only non-missing values.
+
+Note that the $x$-axis ranges from zero trees to the maximum number of trees in which any variable was used for splitting ($\tilde{B}$) which is in this case equal to 85 and is reached by the variable `C8orf58`. This means, that each predictor was used for splitting in less than $1\%$ of all trees, which is caused by a low number of observations that leads to shallow trees.
+
+The ordering of variables in our plot by their mean minimal depth seems accurate when we look at the distribution of minimal depth (e.g., one could argue whether `C8orf58` is indeed better than `SLC17A9` as the latter is more often the root but the former is used for splitting in many more trees). However, this is not always the case. For example, we can calculate the mean minimal depth only using non-missing observations and require that only variables present in at least 60 trees be considered (this is fulfilled by all variables in the previous plot). Some form of the last requirement is in this case necessary to avoid selecting variables that have been by chance used for splitting once at the root. Then, we obtain the following:
+
+```{r}
+plot_min_depth_distribution(min_depth_frame, min_no_of_trees = 60, mean_sample = "relevant_trees")
+```
+
+Clearly, this method of calculating mean minimal depth does not penalize missing observations (when a variable is not used for splitting in a tree) and the plotting function only requires the threshold of 60 trees to be fulfilled. This approach leads to the variable `PPP1R12A` appearing as third best even though it is not only present in about $25\%$ less trees than `C8orf58` but also much less often splits the root node. `C8orf58` on the other hand has minimal depth of 5 in some trees and this contributes to higher mean minimal depth -- in our opinion being used for splitting at depth 5 in a tree is better than not being used at all.
+
+Regardless of the exact parameters used in `plot_min_depth_distribution`, looking at the whole distribution of minimal depth offers a lot more insight into the role that a predictor plays in a forest in contrast to looking only at the mean, especially as it can be calculated in more than one way. Additionally, the function allows us to specify the maximum number of variables plotted `k`, whether the values of mean minimal depth should be scaled to the $[0,1]$ interval (`mean_scale`, logical), the number of digits to round the mean to for display (`mean_round`) and the title of the plot (`main`).
+
+# Various variable importance measures
+
+To further explore variable importance measures we pass our forest to `measure_importance` function and get the following data frame:
+
+```{r}
+# importance_frame <- measure_importance(forest)
+# save(importance_frame, file = "GlioblastomaWide_importance_frame.rda")
+load("GlioblastomaWide_importance_frame.rda")
+head(importance_frame, n = 10)
+```
+
+It contains 14128 rows, each corresponding to a predictor, and 8 columns of which one stores the variable names and the rest store the variable importance measures of a variable $X_j$:
+
+(a) `accuracy_decrease` (classification) -- mean decrease of prediction accuracy after $X_j$ is permuted,
+
+(b) `gini_decrease` (classification) -- mean decrease in the Gini index of node impurity (i.e. increase of node purity) by splits on $X_j$,
+
+(c) `mse_increase` (regression) -- mean increase of mean squared error after $X_j$ is permuted,
+
+(d) `node_purity_increase` (regression) -- mean node purity increase by splits on $X_j$, as measured by the decrease in sum of squares,
+
+(e) `mean_minimal_depth` -- mean minimal depth calculated in one of three ways specified by the parameter `mean_sample`,
+
+(f) `no_of_trees` -- total number of trees in which a split on $X_j$ occurs,
+
+(g) `no_of_nodes` -- total number of nodes that use $X_j$ for splitting (it is usually equal to `no_of_trees` if trees are shallow),
+
+(h) `times_a_root` -- total number of trees in which $X_j$ is used for splitting the root node (i.e., the whole sample is divided into two based on the value of $X_j$),
+
+(i) `p_value` -- $p$-value for the one-sided binomial test using the following distribution: $$Bin(\texttt{no_of_nodes},\ \mathbf{P}(\text{node splits on } X_j)),$$ where we calculate the probability of split on $X_j$ as if $X_j$ was uniformly drawn from the $r$ candidate variables $$\mathbf{P}(\text{node splits on } X_j) = \mathbf{P}(X_j \text{ is a candidate})\cdot\mathbf{P}(X_j \text{ is selected}) = \frac{r}{p}\cdot \frac{1}{r} = \frac{1}{p}.$$ This test tells us whether the observed number of successes (number of nodes in which $X_j$ was used for splitting) exceeds the theoretical number of successes if they were random (i.e. following the binomial distribution given above).
+
+Measures (a)-(d) are calculated by the `randomForest` package so need only to be extracted from our `forest` object if option `localImp = TRUE` was used for growing the forest (we assume this is the case). Note that measures (a) and (c) are based on the decrease in predictive accuracy of the forest after perturbation of the variable, (b) and (d) are based on changes in node purity after splits on the variable and (e)-(i) are based on the structure of the forest.
+
+## Multi-way importance plot
+
+Below we present the result of `plot_multi_way_importance` for the default values of `x_measure` and `y_measure`, which specify measures to use on $x$ and $y$-axis, and the size of points reflects the number of nodes split on the variable. In order not to obscure the picture with too many points we only plot those that correspond to variables used for splitting at least in 30 trees (in our case this requirement restricts the sample to 145 out of 14128 observations). By default 10 top variables in the plot are highlighted in blue and labeled (`no_of_labels`)-- these are selected using the function `important_variables`, i.e. using the sum of rankings based on importance measures used in the plot (more variables may be labeled if ties occur, as is the case here: 11 variables are highlighted).
+
+```{r}
+plot_multi_way_importance(importance_frame, size_measure = "no_of_nodes", min_no_of_trees = 30)
+```
+
+Observe the marked negative relation between `times_a_root` and `mean_min_depth` (though it looks linear it is not as the $y$-axis uses the square root scale). It is necessary to remember that the plot excludes the worst predictors and including them could make the aforementioned relation look a lot different. However, if we are interested in the relation of the depicted importance measures only among variables that were used for splitting in at least 30 trees then our observation remains valid and we can conclude that using either of those two importance measures is sufficient as they are highly (negatively) correlated.
+
+Further, we present the multi-way importance plot for a different set of importance measures: decrease in predictive accuracy after permutation ($x$-axis), decrease in the Gini index ($y$-axis) and levels of significance (color of points).
+
+```{r}
+plot_multi_way_importance(importance_frame, x_measure = "accuracy_decrease", y_measure = "gini_decrease", size_measure = "p_value")
+```
+
+As in the previous plot, the two measures used as coordinates are strongly correlated, but in this case this is somewhat more surprising as one is connected to the structure of the forest and the other to its prediction, whereas in the previous plot both measures reflected the structure. Also, this plot includes all 14128 observations and we can see that the most pronounced differences appear among top variables. Moreover, the $p$-value criterion is evidently not very selective -- indeed, 1015 predictors are significant at the $1\%$ significance level. Interestingly, all 10 top variables here are also top variables in the previous plot so we can be fairly confident that they are truly crucial to predictive ability of our forest.
+
+## Compare measures using ggpairs
+
+Generally, the multi-way importance plot offers a wide variety of possibilities so it can be hard to select the most informative one. One idea of overcoming this obstacle is to first explore relations between different importance measures to then select three that least agree with each other and use them in the multi-way importance plot to select top variables. The first is easily done by plotting selected importance measures pairwise against each other using `plot_importance_ggpairs` as below. One could of course include all seven measures in the plot but by default $p$-value and the number of trees are excluded as both carry similar information as the number of nodes.
+
+```{r}
+plot_importance_ggpairs(importance_frame)
+```
+
+We can see that all depicted measures are highly correlated (of course the correlation of any measure with mean minimal depth is negative as the latter is lowest for best variables), but some less than others. Notably, the points in plots including `accuracy_decrease` and `times_a_root` are most dispersed, so these may be the measures one should select. Moreover, regardless of which measures we compare, there is always only a handful of points that stand out.
+
+## Compare different rankings
+
+In addition to scatter plots and correlation coefficients, the ggpairs plot also depicts density estimate for each importance measure -- all of which are in this case very skewed. An attempt to eliminate this feature by plotting rankings instead of raw measures is implemented in the function `plot_importance_rankings`.
+
+```{r}
+plot_importance_rankings(importance_frame)
+```
+
+The above density estimates show that skewness was eliminated only for two out of five importance measures: `accuracy_decrease` and `gini_decrease`. The skewness of ranking distributions for other measures is most likely caused by frequent ties: e.g. 10370 predictors were ranked last according to the `times_a_root` measure, as they were never used for splitting at the root. In general, ties are much less frequent for importance measures computed by the `randomForest` package also because they are measured on a continuous scale in contrast to the discrete one used for root, node and tree counts.
+
+When comparing the rankings in the above plot we can see that for `accuracy_decrease` and `gini_decrease` they more or less agree for observations with low ranks according to those measures but strongly disagree for variables ranked higher according to `accuracy_decrease`. Also, observe that `times_a_root` and `no_of_nodes` differentiate much more between variables with low ranks than rankings according to other measures.
+
+# Variable interactions
+
+## Conditional minimal depth
+
+After selecting a set of most important variables we can investigate interactions with respect to them, i.e. splits appearing in maximal subtrees with respect to one of the variables selected. To extract the names of 20 most important variables according to both the mean minimal depth and number of trees in which a variable appeared, we pass our `importance_frame` to the function `important_variables` as follows:
+
+```{r}
+(vars <- important_variables(importance_frame, k = 20, measures = c("mean_min_depth", "no_of_trees")))
+```
+
+We pass the result together with or forest to the `min_depth_interactions` function to obtain a data frame containing information on mean conditional minimal depth of variables with respect to each element of `vars` (missing values are filled analogously as for unconditional minimal depth, in one of three ways specified by `mean_sample`).
+
+```{r}
+# interactions_frame <- min_depth_interactions(forest, vars)
+# save(interactions_frame, file = "GlioblastomaWide_interactions_frame.rda")
+load("GlioblastomaWide_interactions_frame.rda")
+head(interactions_frame[order(interactions_frame$occurrences, decreasing = TRUE), ])
+```
+
+Unfortunately, as we have many predictors and little observations, the trees in our forest are shallow and interactions are rare. Specifically, only two interactions appeared 3 times, 153 -- two times and 7767 only one time. Thus, the mean conditional minimal depth is in this case meaningless, as it is calculated on up to three observations. We conclude, that to properly analyze interactions we need to grow another random forest with either increased number of trees or increased $r$ (`mtry`) parameter so that more candidate variables will be tried at each split.
+
+### Forest with increased mtry parameter
+
+We choose to grow a new forest with $r=\lfloor p/3\rfloor=4709$ (this is the default $r$ for regression) repeat the above calculations.
+
+```{r}
+# set.seed(2017)
+# forest_v2 <- randomForest(death1y ~ ., data = GlioblastomaWide, ntree = 10000, mtry = floor(ncol(GlioblastomaWide)/3), importance = TRUE, localImp = TRUE)
+# save(forest_v2, file = "GlioblastomaWide_forest_v2.rda")
+load("GlioblastomaWide_forest_v2.rda"); rm(forest)
+importance_frame <- measure_importance(forest_v2)
+vars <- important_variables(importance_frame, k = 20, measures = c("mean_min_depth", "no_of_trees"))
+# interactions_frame <- min_depth_interactions(forest_v2, vars)
+# save(interactions_frame, file = "GlioblastomaWide_interactions_frame_v2.rda")
+load("GlioblastomaWide_interactions_frame_v2.rda")
+head(interactions_frame[order(interactions_frame$occurrences, decreasing = TRUE), ])
+```
+
+In the new forest 16 of the interactions considered appeared at least 10 times in the forest, of which the most frequent, `SLC17A9:IFIT2` (this corresponds to splits on `IFIT2` in maximal subtrees of `SLC17A9`), a total of 29 times, which is a lot better than before and offers some ground for interaction analysis.
+
+Below we present the result of passing our `interactions_frame` to the function `plot_min_depth_interactions` with the default number of most frequent interactions plotted.
+
+```{r}
+plot_min_depth_interactions(interactions_frame)
+```
+
+An interesting thing about the interactions depicted is that they usually do not include top 20 predictors used as conditioning variables as the non-conditioning variable (only 8 out of 30 do), which suggests that variables that are important in maximal subtrees with respect to top predictors are not important in whole trees. This is actually what we would expect from an interaction: some variable is only important conditional on another one and this in most pronounced in the case of `SLC17A9:IFIT2`, as `IFIT2` has mean minimal depth over 3.5 but in maximal subtrees of `SLC17A9` it is often used for splitting immediately after the root.
+
+Note that in the above the most frequent interaction has a lot lower mean conditional minimal depth than the rest -- this is due to calculating the mean using `"top_trees"` which penalizes interactions that occur less frequently than the most frequent one. Of course, one can switch between `"all_trees"`, `"top_trees"` and `"relevant_trees"` for calculating the mean of both the conditional and unconditional minimal depth (parameters `mean_sample` and `uncond_mean_sample` of function `min_depth_interactions`) but each of them has its drawbacks and we favour using `"top_trees"` (the default). However, as `plot_min_depth_interactions` plots interactions by decreasing frequency the major drawback of calculating the mean only for relevant variables vanishes as interactions appearing only once but with conditional depth 0 will not be included in the plot anyway. Thus, we repeat the computation of means using `"relevant_trees"` and get the following result:
+
+```{r}
+interactions_frame <- min_depth_interactions(forest_v2, vars, mean_sample = "relevant_trees", uncond_mean_sample = "relevant_trees")
+plot_min_depth_interactions(interactions_frame)
+```
+
+We see, that all interactions have mean conditional minimal depth lower than 1 meaning that the split on second variable in the interaction is often the daughter of the root, which is by definition split on the first variable. This is not surprising as trees in our forest are shallow and there are not many possibilities for splits deep in maximal subtrees. From this plot we can also infer that, apart from the first one, the fourth, fifth and sixth interaction seem important, with mean close to zero and number of occurrences equal to 16, 15 and 13, respectively.
+
+## Prediction of the forest on a grid
+
+To further investigate the most frequent interaction `SLC17A9:IFIT2` we use the function `plot_predict_interaction` to plot the prediction of our forest on a grid of values for the components of each interaction. The function requires the forest, training data, variable to use on $x$ and $y$-axis, respectively. In addition, one can also decrease the number of points in both dimensions of the grid from the default of 100 in case of insufficient memory using the parameter `grid`.
+
+```{r}
+plot_predict_interaction(forest_v2, GlioblastomaWide, "SLC17A9", "IFIT2", grid = 80)
+```
+
+Clearly, higher values of `SLC17A9` lead to higher predicted probabilities of the patient surviving one year from diagnosis, but this effect does not change with the variable `IFIT2`. All things considered, this is not surprising -- interaction of these two variables appears in only 29 out of 10000 trees in our forest so it cannot influence the prediction much. This is, as is frequency of interactions, a consequence of the structure of our problem with many variables and not many observations. We already modified our forest to be able to consider interactions at all, and we would have to do more in order to investigate their effect on forest prediction. A possible solution would be to build a forest using only a subset of our predictors, for example 50 top ones and all components of interactions that appeared at least five times in the forest.
+
+# Explain the forest
+
+The `explain_forest()` function is the flagship function of the `randomForestExplainer` package, as it takes your random forest and produces a html report that summarizes all basic results obtained for the forest with the new package. Below, we show the result of running this function with default settings (we only supply the forest, training data, set `interactions = TRUE` contrary to the default to show full functionality and decrease the grid for prediction plots in our most computationally-intense examples).
+
+## Glioblastoma forest: our main example
+
+To explore the importance of variables using all functionality of `randomForestExplainer` we just need to run the following:
+
+```{r, eval = FALSE}
+explain_forest(forest, interactions = TRUE, GlioblastomaWide, pred_grid = 70)
+```
+
+Now, in the working directory a file "Summary_of_your_forest.html" appears and it looks like this:
+[Glioblastoma forest summary](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/examples/Glioblastoma_forest_explained.html)
+
+## Glioblastoma forest with increased mtry
+
+We repeat this for the second version of our forest:
+
+```{r, eval = FALSE}
+explain_forest(forest_v2, interactions = TRUE, GlioblastomaWide, pred_grid = 80)
+```
+
+[Glioblastoma forest version 2 summary](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/examples/Glioblastoma_explained_v2.html)
+
+## Multi-class classification: breast cancer data
+
+We use the breast cancer data as an example of application of random forests to multi-class classification problems. To download and process the data we execute we executed the following code:
+
+```{r, eval = FALSE}
+# source("https://bioconductor.org/biocLite.R")
+# biocLite("DESeq")
+# biocLite("limma")
+# biocLite("TxDb.Hsapiens.UCSC.hg18.knownGene")
+# biocLite("org.Hs.eg.db")
+# biocLite("DESeq2")
+# biocLite("edgeR")
+# devtools::install_github("geneticsMiNIng/MLGenSig", subdir = "MetExpR")
+
+# brca <- MetExpR::BRCA_mRNAseq_chr17
+# colnames(brca) <- make.names(colnames(brca))
+# brca$SUBTYPE <- factor(brca$SUBTYPE)
+
+# save(brca, file = "BreastCancer.rda")
+load("BreastCancer.rda")
+```
+
+Now, we build the random forest with an increased number of trees due to a big number of variables. As this takes a while we retrieve the result from memory and summarize it:
+
+```{r, eval = FALSE}
+# set.seed(2017)
+# forest_brca <- randomForest(SUBTYPE ~ ., data = brca, ntree = 10000, localImp = TRUE)
+# save(forest_brca, file = "BreastCancer_forest.rda")
+load("BreastCancer_forest.rda")
+explain_forest(forest_brca, interactions = TRUE, brca)
+```
+
+[Breast cancer summary](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/examples/BreastCancer_forest_explained.html)
+
+## Regression: PISA data
+
+The same works for the PISA 2015 dataset, for which we consider regression. To download and process the data we executed the following code:
+
+```{r, eval = FALSE}
+# devtools::install_github("pbiecek/PISA2012lite")
+# library("PISA2012lite")
+
+# pisa <- na.omit(student2012[,c(1, 4, 12, 13, 18:20, 39, 61:62, 114, 488, 457, 501)])
+# pisa <- pisa[pisa$CNT %in% c("Austria", "Belgium", "Czech Republic", "Germany", "Denmark", "Spain", "Estonia", "Finland", "France", "United Kingdom", "Greece", "Hungary", "Ireland", "Italy", "Lithuania", "Luxembourg", "Latvia", "Netherlands", "Poland", "Portugal", "Slovak Republic", "Slovenia", "Sweden", "Romania", "Croatia", "Bulgaria"),] # consider only EU countries to reduce the size
+# save(pisa, file = "PISA.rda")
+load("PISA.rda")
+
+# Further reduce the size
+pisa <- pisa[pisa$CNT %in% c("Czech Republic", "Hungary", "Poland", "Slovak Republic"), ] # only the Visegrad group
+pisa$CNT <- factor(pisa$CNT)
+```
+
+We build a forest and summarize it:
+
+```{r, eval = FALSE}
+# set.seed(2017)
+# forest_pisa <- randomForest(PV1MATH ~ ., data = pisa, localImp = TRUE)
+# save(forest_pisa, file = "PISA_forest.rda")
+load("PISA_forest.rda")
+explain_forest(forest_pisa, interactions = TRUE, pisa)
+```
+
+[PISA forest summary](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/examples/PISA_summary.html)
+
+## Regression: Boston data
+
+To easily compare the results of using `randomForestExplainer` to the ones obtained by `ggRandomForests`, another package dealing with random forest visualisation, we also consider the regression example for the `Boston` dataset from package `MASS`, which was used in the package vignette for `ggRandomForests`. We do that with the following code:
+
+```{r, eval = FALSE}
+data(Boston, package = "MASS")
+Boston$chas <- as.logical(Boston$chas)
+# set.seed(2017)
+# forest_Boston <- randomForest(medv ~ ., data = Boston, ntree = 1000, localImp = TRUE)
+# save(forest_Boston, file = "Boston_forest.rda")
+load("Boston_forest.rda")
+explain_forest(forest_Boston, interactions = TRUE, Boston)
+```
+
+[Boston forest summary](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html)
+
+

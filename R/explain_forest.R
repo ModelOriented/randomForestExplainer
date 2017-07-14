@@ -15,7 +15,8 @@
 #' @import DT
 #'
 #' @examples
-#' explain_forest(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE), vars = names(iris), interactions = TRUE)
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' explain_forest(forest, vars = names(iris), interactions = TRUE)
 #'
 #' @export
 explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,

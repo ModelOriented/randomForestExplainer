@@ -9,7 +9,7 @@ plot_min_depth_interactions(interactions_frame, k = 30,
   " most frequent interactions")))
 }
 \arguments{
-\item{interactions_frame}{A data frame produced by the min_depth_interactions_means() function}
+\item{interactions_frame}{A data frame produced by the min_depth_interactions() function or a randomForest object}
 
 \item{k}{The number of best interactions to plot, if set to NULL then all plotted}
 
@@ -22,6 +22,7 @@ A ggplot2 object
 Plot the top mean conditional minimal depth
 }
 \examples{
-plot_min_depth_interactions(min_depth_interactions(randomForest::randomForest(Species ~ ., data = iris), vars = names(iris)))
+forest <- randomForest::randomForest(Species ~ ., data = iris)
+plot_min_depth_interactions(min_depth_interactions(forest, names(iris)))
 
 }

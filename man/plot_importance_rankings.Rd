@@ -9,7 +9,7 @@ plot_importance_rankings(importance_frame,
   main = "Relations between rankings according to different measures")
 }
 \arguments{
-\item{importance_frame}{A result of using the function measure_importance() to a random forest}
+\item{importance_frame}{A result of using the function measure_importance() to a random forest or a randomForest object}
 
 \item{measures}{A character vector specifying the measures of importance to be used}
 
@@ -22,6 +22,7 @@ A ggplot object
 Plot against each other rankings of variables according to various measures of importance
 }
 \examples{
-plot_importance_ggpairs(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+plot_importance_ggpairs(measure_importance(forest))
 
 }

@@ -1,6 +1,5 @@
 # Calculate the depth of each node in a single tree obtained from a forest with randomForest::getTree
 calculate_tree_depth <- function(frame){
-  if(!is.data.frame(frame)) stop("The object is not a data frame!")
   if(!all(c("right daughter", "left daughter") %in% names(frame))){
     stop("The data frame has to contain columns called 'right daughter' and 'left daughter'!
           It should be a product of the function getTree(..., labelVar = T).")
@@ -31,7 +30,6 @@ calculate_tree_depth <- function(frame){
 #'
 #' @export
 min_depth_distribution <- function(forest){
-  if(!("randomForest" %in% class(forest))) stop("The object you supplied is not a random forest!")
   forest_table <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
              calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
@@ -84,7 +82,7 @@ get_min_depth_means <- function(min_depth_frame, min_depth_count_list, mean_samp
 
 #' Plot the distribution of minimal depth in a random forest
 #'
-#' @param min_depth_frame A data frame output of min_depth_distribution function
+#' @param min_depth_frame A data frame output of min_depth_distribution function or a randomForest object
 #' @param k The maximal number of variables with lowest mean minimal depth to be used for plotting
 #' @param min_no_of_trees The minimal number of trees in which a variable has to be used for splitting to be used for plotting
 #' @param mean_sample The sample of trees on which mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"
@@ -98,12 +96,16 @@ get_min_depth_means <- function(min_depth_frame, min_depth_count_list, mean_samp
 #' @import dplyr
 #'
 #' @examples
-#' plot_min_depth_distribution(min_depth_distribution(randomForest::randomForest(Species ~ ., data = iris)))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris)
+#' plot_min_depth_distribution(min_depth_distribution(forest))
 #'
 #' @export
 plot_min_depth_distribution <- function(min_depth_frame, k = 10, min_no_of_trees = 0,
                                         mean_sample = "top_trees", mean_scale = FALSE, mean_round = 2,
                                         main = "Distribution of minimal depth and its mean"){
+  if("randomForest" %in% class(min_depth_frame)){
+    min_depth_frame <- min_depth_distribution(min_depth_frame)
+  }
   min_depth_count_list <- min_depth_count(min_depth_frame)
   min_depth_means <- get_min_depth_means(min_depth_frame, min_depth_count_list, mean_sample)
   frame_with_means <- merge(min_depth_count_list[[1]], min_depth_means)

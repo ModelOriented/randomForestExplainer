@@ -8,7 +8,7 @@ important_variables(importance_frame, k = 15,
   measures = names(importance_frame)[2:5], ties_action = "all")
 }
 \arguments{
-\item{importance_frame}{A result of using the function measure_importance() to a random forest}
+\item{importance_frame}{A result of using the function measure_importance() to a random forest or a randomForest object}
 
 \item{k}{The number of variables to extract}
 
@@ -23,6 +23,7 @@ A character vector with names of k variables with highest sum of rankings
 Get the names of k variables with highest sum of rankings based on the specified importance measures
 }
 \examples{
-important_variables(measure_importance(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)))
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+important_variables(measure_importance(forest))
 
 }

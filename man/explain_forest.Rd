@@ -32,6 +32,7 @@ A html document in your working directory
 Explains a random forest in a html document using plots created by randomForestExplainer
 }
 \examples{
-explain_forest(randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE), vars = names(iris), interactions = TRUE)
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+explain_forest(forest, vars = names(iris), interactions = TRUE)
 
 }
