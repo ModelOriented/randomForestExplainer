@@ -1,6 +1,6 @@
 Package: randomForestExplainer
 Title: Explaining and visualizing random forests in terms of variable importance
-Version: 0.0.0.9000
+Version: 0.9
 Authors@R: c(
   person("Aleksandra", "Paluszynska", email = "ola.paluszynska@gmail.com", role = c("aut", "cre")),
   person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut","ths"))
