@@ -236,9 +236,9 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
                           labels = c("<0.01", "[0.01, 0.05)", "[0.05, 0.1)", ">=0.1"), right = FALSE)
       plot <- ggplot(data, aes_string(x = x_measure, y = y_measure)) +
         geom_point(aes_string(color = size_measure), size = 3) +
-        geom_point(data = data_for_labels, color = "black", stroke = 2, size = 3, aes(fill = "top"), shape = 21) +
+        geom_point(data = data_for_labels, color = "black", stroke = 2, aes(alpha = "top"), size = 3, shape = 21) +
         geom_label_repel(data = data_for_labels, aes(label = variable), show.legend = FALSE) +
-        theme_bw() + scale_fill_discrete(name = "variable")
+        theme_bw() + scale_alpha_discrete(name = "variable", range = c(1, 1))
     } else {
       plot <- ggplot(data, aes_string(x = x_measure, y = y_measure, size = size_measure)) +
         geom_point(aes(colour = "black")) + geom_point(data = data_for_labels, aes(colour = "blue")) +
