@@ -1,6 +1,6 @@
 # randomForestExplainer
 
-Set of tools to understand what is happening inside 'BlackBox' classifiers like Random Forest / Gradient Boosting
+Set of tools to understand what is happening inside a Random Forest.
 
 ## Instalation
 
@@ -8,6 +8,11 @@ Set of tools to understand what is happening inside 'BlackBox' classifiers like 
 devtools::install_github("MI2DataLab/randomForestExplainer")
 ```
 
-## Vignettes 
+## Vignette
 
-* [Understanding random forests with randomForestExplainer](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
+* [Understanding random forests with randomForestExplainer](https://rawgit.com/MI2DataLab/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
+
+## Examples
+
+* [Initial vignette for glioblastoma data]
+(https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
