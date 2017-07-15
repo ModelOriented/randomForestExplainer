@@ -14,7 +14,7 @@ randomForestExplainer can be installed from [CRAN](https://cran.r-project.org/pa
 install.packages("randomForestExplainer")
 ```
 
-To install and load the latest version of `https://cran.r-project.org/package=randomForestExplainer` from **Github** run:
+To install and load the latest version of `randomForestExplainer` from **Github** run:
 
 ```{r}
 if (!require(devtools)) install.packages("devtools")
