@@ -1,6 +1,6 @@
 # randomForestExplainer
 
-Set of tools to understand what is happening inside a Random Forest.
+Set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: [Master thesis on randomForestExplainer](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf).
 
 ## Instalation
 
