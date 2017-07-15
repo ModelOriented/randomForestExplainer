@@ -99,7 +99,7 @@ get_min_depth_means <- function(min_depth_frame, min_depth_count_list, mean_samp
 #' @import dplyr
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris)
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 300)
 #' plot_min_depth_distribution(min_depth_distribution(forest))
 #'
 #' @export

@@ -30,7 +30,7 @@ A ggplot object
 Plot the distribution of minimal depth in a random forest
 }
 \examples{
-forest <- randomForest::randomForest(Species ~ ., data = iris)
+forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 300)
 plot_min_depth_distribution(min_depth_distribution(forest))
 
 }

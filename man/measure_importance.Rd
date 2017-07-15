@@ -20,7 +20,7 @@ A data frame with rows corresponding to variables and columns to various measure
 Get a data frame with various measures of importance of variables in a random forest
 }
 \examples{
-forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 300)
 measure_importance(forest)
 
 }

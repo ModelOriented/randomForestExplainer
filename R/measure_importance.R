@@ -87,7 +87,7 @@ measure_p_value <- function(importance_frame){
 #' @importFrom data.table rbindlist
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 300)
 #' measure_importance(forest)
 #'
 #' @export
@@ -285,8 +285,9 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
 #' @import GGally
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 200)
+#' frame <- measure_importance(forest, measures = c("mean_min_depth", "times_a_root"))
+#' plot_importance_ggpairs(frame, measures = c("mean_min_depth", "times_a_root"))
 #'
 #' @export
 plot_importance_ggpairs <- function(importance_frame, measures =
@@ -319,8 +320,9 @@ plot_importance_ggpairs <- function(importance_frame, measures =
 #' @import GGally
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 300)
+#' frame <- measure_importance(forest, measures = c("mean_min_depth", "times_a_root"))
+#' plot_importance_ggpairs(frame, measures = c("mean_min_depth", "times_a_root"))
 #'
 #' @export
 plot_importance_rankings <- function(importance_frame, measures =

@@ -22,7 +22,8 @@ A ggplot object
 Plot selected measures of importance of variables in a forest using ggpairs
 }
 \examples{
-forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 200)
+frame <- measure_importance(forest, measures = c("mean_min_depth", "times_a_root"))
+plot_importance_ggpairs(frame, measures = c("mean_min_depth", "times_a_root"))
 
 }
