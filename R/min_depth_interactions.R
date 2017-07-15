@@ -64,8 +64,8 @@ min_depth_interactions_values <- function(forest, vars){
 #' @importFrom data.table rbindlist
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 200)
-#' min_depth_interactions(forest, names(iris))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 100)
+#' min_depth_interactions(forest, c("Petal.Width", "Petal.Length"))
 #'
 #' @export
 min_depth_interactions <- function(forest, vars = important_variables(measure_importance(forest)),
@@ -125,8 +125,8 @@ min_depth_interactions <- function(forest, vars = important_variables(measure_im
 #' @import ggplot2
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 200)
-#' plot_min_depth_interactions(min_depth_interactions(forest, names(iris)))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 100)
+#' plot_min_depth_interactions(min_depth_interactions(forest, c("Petal.Width", "Petal.Length")))
 #'
 #' @export
 plot_min_depth_interactions <- function(interactions_frame, k = 30,

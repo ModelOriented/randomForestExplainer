@@ -23,6 +23,6 @@ Plot selected measures of importance of variables in a forest using ggpairs
 }
 \examples{
 forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-plot_importance_ggpairs(measure_importance(forest))
+plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
 
 }

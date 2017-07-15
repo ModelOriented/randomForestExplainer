@@ -23,6 +23,6 @@ Plot against each other rankings of variables according to various measures of i
 }
 \examples{
 forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-plot_importance_ggpairs(measure_importance(forest))
+plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
 
 }

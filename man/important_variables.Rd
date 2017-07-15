@@ -23,7 +23,7 @@ A character vector with names of k variables with highest sum of rankings
 Get the names of k variables with highest sum of rankings based on the specified importance measures
 }
 \examples{
-forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-important_variables(measure_importance(forest))
+forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 300)
+important_variables(measure_importance(forest), k = 2)
 
 }

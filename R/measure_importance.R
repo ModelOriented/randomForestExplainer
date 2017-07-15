@@ -166,8 +166,8 @@ measure_importance <- function(forest, mean_sample = "top_trees", measures = NUL
 #' @importFrom data.table frankv
 #'
 #' @examples
-#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' important_variables(measure_importance(forest))
+#' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE, ntree = 300)
+#' important_variables(measure_importance(forest), k = 2)
 #'
 #' @export
 important_variables <- function(importance_frame, k = 15, measures = names(importance_frame)[2:5],
@@ -286,7 +286,7 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
 #'
 #' @examples
 #' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' plot_importance_ggpairs(measure_importance(forest))
+#' plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
 #'
 #' @export
 plot_importance_ggpairs <- function(importance_frame, measures =
@@ -320,7 +320,7 @@ plot_importance_ggpairs <- function(importance_frame, measures =
 #'
 #' @examples
 #' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' plot_importance_ggpairs(measure_importance(forest))
+#' plot_importance_ggpairs(measure_importance(forest), measures = c("mean_min_depth", "times_a_root"))
 #'
 #' @export
 plot_importance_rankings <- function(importance_frame, measures =

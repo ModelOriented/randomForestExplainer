@@ -15,8 +15,10 @@
 #' @import DT
 #'
 #' @examples
+#' \dontrun{
 #' forest <- randomForest::randomForest(Species ~ ., data = iris, localImp = TRUE)
-#' explain_forest(forest, vars = names(iris))
+#' explain_forest(forest, interactions = TRUE)
+#' }
 #'
 #' @export
 explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
