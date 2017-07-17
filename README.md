@@ -3,6 +3,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=factorMerger)
 [![Pending Pull-Requests](http://githubbadges.herokuapp.com/MI2DataLab/randomForestExplainer/pulls.svg)](https://github.com/MI2DataLab/randomForestExplainer/pulls)
 [![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/randomForestExplainer/issues.svg)](https://github.com/MI2DataLab/randomForestExplainer/issues)
+[![DOI](https://zenodo.org/badge/97007621.svg)](https://zenodo.org/badge/latestdoi/97007621)
 
 A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: [Master thesis on randomForestExplainer](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf).
 
