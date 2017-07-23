@@ -28,6 +28,10 @@ library(randomForestExplainer)
 
 * [Understanding random forests with randomForestExplainer](https://rawgit.com/MI2DataLab/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
 
+## Cheatsheets
+
+* [One-page summary](https://github.com/MI2DataLab/randomForestExplainer/blob/master/materials/cheatsheet.pdf)
+
 ## Examples
 
 * [Initial vignette for glioblastoma data](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
