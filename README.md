@@ -30,7 +30,7 @@ library(randomForestExplainer)
 
 ## Cheatsheets
 
-* [One-page summary](https://github.com/MI2DataLab/randomForestExplainer/blob/master/materials/cheatsheet.pdf)
+* [A one-page summary](https://github.com/MI2DataLab/randomForestExplainer/blob/master/materials/cheatsheet.pdf)
 
 ## Examples
 
