@@ -11,7 +11,11 @@ measure_importance(forest, mean_sample = "top_trees", measures = NULL)
 
 \item{mean_sample}{The sample of trees on which mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"}
 
-\item{measures}{A vector of names of importance measures to be calculated - if equal to NULL then all are calculated; if "p_value" is to be calculated then "no_of_nodes" will be too}
+\item{measures}{A vector of names of importance measures to be calculated - if equal to NULL then all are calculated;
+if "p_value" is to be calculated then "no_of_nodes" will be too. Suitable measures for \code{classification} forests are:
+\code{mean_min_depth}, \code{accuracy_decrease}, \code{gini_decrease}, \code{no_of_nodes},
+\code{times_a_root}. For \code{regression} forests choose from: \code{mean_min_depth},
+\code{mse_increase}, \code{node_purity_increase}, \code{no_of_nodes}, \code{times_a_root}.}
 }
 \value{
 A data frame with rows corresponding to variables and columns to various measures of importance of variables
