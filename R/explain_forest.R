@@ -34,7 +34,11 @@ explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NUL
   environment$pred_grid <- pred_grid
   environment$measures <- measures
   directory <- getwd()
-  rmarkdown::render(paste0(path.package("randomForestExplainer"), "/templates/Explain_forest_template.rmd"),
+  path_to_templates <- file.path(path.package("randomForestExplainer"), "templates")
+  template_name <- grep('explain_forest_template.rmd', list.files(path_to_templates),
+                   ignore.case = TRUE, value = TRUE)
+
+  rmarkdown::render(file.path(path_to_templates, template_name),
                     "html_document", output_file = paste0(directory, "/Your_forest_explained.html"),
                     envir = environment)
 }
