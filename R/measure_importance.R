@@ -186,7 +186,7 @@ important_variables <- function(importance_frame, k = 15, measures = names(impor
                            frankv(importance_frame$mean_min_depth, ties.method = "dense"),
                          p_value =
                            frankv(importance_frame$p_value, ties.method = "dense"),
-                         apply(importance_frame[, -c(1, 2, 8)], 2,
+                         apply(importance_frame[, !colnames(importance_frame) %in% c("variable", "mean_min_depth", "p_value")], 2,
                                function(x) frankv(x, order = -1, ties.method = "dense")))
   rankings$index <- rowSums(rankings[, measures])
   vars <- as.character(rankings[order(rankings$index), "variable"])[1:min(k, nrow(rankings))]
