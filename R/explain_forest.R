@@ -25,6 +25,12 @@ explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NUL
                              measures = if(forest$type == "classification")
                                c("mean_min_depth", "accuracy_decrease", "gini_decrease", "no_of_nodes", "times_a_root") else
                                  c("mean_min_depth", "mse_increase", "node_purity_increase", "no_of_nodes", "times_a_root")){
+  if(any(c("accuracy_decrease", "mse_increase") %in% measures) & dim(forest$importance)[2] == 1) {
+    stop(paste("Your forest does not contain information on local importance so",
+               paste(intersect(c("accuracy_decrease", "mse_increase"), measures), sep=", "),
+               "measure cannot be extracted.",
+               "To add it regrow the forest with the option localImp = TRUE and run this function again."))
+  }
   environment <- new.env()
   environment$forest <- forest
   environment$data <- data
