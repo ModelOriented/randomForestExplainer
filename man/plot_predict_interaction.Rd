@@ -9,7 +9,7 @@ plot_predict_interaction(forest, data, variable1, variable2, grid = 100,
   paste0(variable1, paste0(" and ", variable2))))
 }
 \arguments{
-\item{forest}{A randomForest object}
+\item{forest}{A randomForest or ranger object}
 
 \item{data}{The data frame on which forest was trained}
 
@@ -29,6 +29,8 @@ Plot the prediction of the forest for a grid of values of two numerical variable
 }
 \examples{
 forest <- randomForest::randomForest(Species ~., data = iris)
+plot_predict_interaction(forest, iris, "Petal.Width", "Sepal.Width")
+forest_ranger <- ranger::ranger(Species ~., data = iris)
 plot_predict_interaction(forest, iris, "Petal.Width", "Sepal.Width")
 
 }

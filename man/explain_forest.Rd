@@ -4,11 +4,12 @@
 \alias{explain_forest}
 \title{Explain a random forest}
 \usage{
-explain_forest(forest, interactions = FALSE, data = NULL, vars = NULL,
-  no_of_pred_plots = 3, pred_grid = 100, measures = if (forest$type ==
-  "classification") c("mean_min_depth", "accuracy_decrease", "gini_decrease",
-  "no_of_nodes", "times_a_root") else c("mean_min_depth", "mse_increase",
-  "node_purity_increase", "no_of_nodes", "times_a_root"))
+explain_forest(forest, interactions = FALSE, data = NULL,
+  vars = NULL, no_of_pred_plots = 3, pred_grid = 100, measures = if
+  (forest$type == "classification") c("mean_min_depth",
+  "accuracy_decrease", "gini_decrease", "no_of_nodes", "times_a_root") else
+  c("mean_min_depth", "mse_increase", "node_purity_increase",
+  "no_of_nodes", "times_a_root"))
 }
 \arguments{
 \item{forest}{A randomForest object created with the option localImp = TRUE}

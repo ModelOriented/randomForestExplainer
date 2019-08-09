@@ -61,7 +61,7 @@ min_depth_interactions_values <- function(forest, vars){
   interactions_frame <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
              calculate_tree_depth() %>% cbind(., tree = i, number = 1:nrow(.))) %>%
-  data.table::rbindlist() %>% as.data.frame()
+    data.table::rbindlist() %>% as.data.frame()
   interactions_frame[vars] <- as.numeric(NA)
   interactions_frame <-
     data.table::as.data.table(interactions_frame)[, conditional_depth(as.data.frame(.SD), vars), by = tree] %>% as.data.frame()
@@ -128,7 +128,7 @@ min_depth_interactions <- function(){
 #' @importFrom data.table rbindlist
 #' @export
 min_depth_interactions.randomForest <- function(forest, vars = important_variables(measure_importance(forest)),
-                                   mean_sample = "top_trees", uncond_mean_sample = mean_sample){
+                                                mean_sample = "top_trees", uncond_mean_sample = mean_sample){
   variable <- NULL; `.` <- NULL; tree <- NULL; `split var` <- NULL; depth <- NULL
   min_depth_interactions_frame <- min_depth_interactions_values(forest, vars)
   mean_tree_depth <- min_depth_interactions_frame[[2]]
@@ -145,7 +145,7 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
     non_occurrences[, -1] <- forest$ntree - occurrences[, -1]
     interactions_frame[is.na(as.matrix(interactions_frame))] <- 0
     interactions_frame[, -1] <- (interactions_frame[, -1] * occurrences[, -1] +
-      as.matrix(non_occurrences[, -1]) %*% diag(mean_tree_depth))/forest$ntree
+                                   as.matrix(non_occurrences[, -1]) %*% diag(mean_tree_depth))/forest$ntree
   } else if(mean_sample == "top_trees"){
     non_occurrences <- occurrences
     non_occurrences[, -1] <- forest$ntree - occurrences[, -1]
@@ -177,7 +177,7 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
 #' @importFrom data.table rbindlist
 #' @export
 min_depth_interactions.ranger <- function(forest, vars = important_variables(measure_importance(forest)),
-                                                mean_sample = "top_trees", uncond_mean_sample = mean_sample){
+                                          mean_sample = "top_trees", uncond_mean_sample = mean_sample){
   variable <- NULL; `.` <- NULL; tree <- NULL; splitvarName <- NULL; depth <- NULL
   min_depth_interactions_frame <- min_depth_interactions_values_ranger(forest, vars)
   mean_tree_depth <- min_depth_interactions_frame[[2]]
@@ -217,7 +217,7 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
     dplyr::summarize(min(depth))
   colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
-  importance_frame <- get_min_depth_means_ranger(min_depth_frame, min_depth_count_ranger(min_depth_frame), uncond_mean_sample)
+  importance_frame <- get_min_depth_means_ranger(min_depth_frame, min_depth_count(min_depth_frame), uncond_mean_sample)
   colnames(importance_frame)[2] <- "uncond_mean_min_depth"
   interactions_frame <- merge(interactions_frame, importance_frame)
 }
@@ -254,7 +254,7 @@ plot_min_depth_interactions <- function(interactions_frame, k = 30,
                  aes(x = interaction, y = mean_min_depth, fill = occurrences)) +
     geom_bar(stat = "identity") +
     geom_pointrange(aes(ymin = pmin(mean_min_depth, uncond_mean_min_depth), y = uncond_mean_min_depth,
-                    ymax = pmax(mean_min_depth, uncond_mean_min_depth), shape = "unconditional"), fatten = 2, size = 1) +
+                        ymax = pmax(mean_min_depth, uncond_mean_min_depth), shape = "unconditional"), fatten = 2, size = 1) +
     geom_hline(aes(yintercept = minimum, linetype = "minimum"), color = "red", size = 1.5) +
     scale_linetype_manual(name = NULL, values = 1) + theme_bw() +
     scale_shape_manual(name = NULL, values = 19) +
@@ -267,7 +267,7 @@ plot_min_depth_interactions <- function(interactions_frame, k = 30,
 
 #' Plot the prediction of the forest for a grid of values of two numerical variables
 #'
-#' @param forest A randomForest object
+#' @param forest A randomForest or ranger object
 #' @param data The data frame on which forest was trained
 #' @param variable1 A character string with the name a numerical predictor that will on X-axis
 #' @param variable2 A character string with the name a numerical predictor that will on Y-axis
@@ -295,8 +295,8 @@ plot_predict_interaction <- function(forest, data, variable1, variable2, grid = 
 #' @importFrom stats as.formula
 #' @export
 plot_predict_interaction.randomForest <- function(forest, data, variable1, variable2, grid = 100,
-                                     main = paste0("Prediction of the forest for different values of ",
-                                                   paste0(variable1, paste0(" and ", variable2)))){
+                                                  main = paste0("Prediction of the forest for different values of ",
+                                                                paste0(variable1, paste0(" and ", variable2)))){
   newdata <- expand.grid(seq(min(data[[variable1]]), max(data[[variable1]]), length.out = grid),
                          seq(min(data[[variable2]]), max(data[[variable2]]), length.out = grid))
   colnames(newdata) <- c(variable1, variable2)
@@ -342,8 +342,8 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
 #' @importFrom stats as.formula
 #' @export
 plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, grid = 100,
-                                                  main = paste0("Prediction of the forest for different values of ",
-                                                                paste0(variable1, paste0(" and ", variable2)))){
+                                            main = paste0("Prediction of the forest for different values of ",
+                                                          paste0(variable1, paste0(" and ", variable2)))){
   newdata <- expand.grid(seq(min(data[[variable1]]), max(data[[variable1]]), length.out = grid),
                          seq(min(data[[variable2]]), max(data[[variable2]]), length.out = grid))
   colnames(newdata) <- c(variable1, variable2)
