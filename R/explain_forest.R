@@ -22,14 +22,28 @@
 #'
 #' @export
 explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
-                             measures = if(forest$type == "classification")
-                               c("mean_min_depth", "accuracy_decrease", "gini_decrease", "no_of_nodes", "times_a_root") else
-                                 c("mean_min_depth", "mse_increase", "node_purity_increase", "no_of_nodes", "times_a_root")){
-  if(any(c("accuracy_decrease", "mse_increase") %in% measures) & dim(forest$importance)[2] == 1) {
+                           measures = NULL){
+  if(is.null(measures)){
+    if("randomForest" %in% class(forest)){
+      if(forest$type == "classification"){
+        measures <- c("mean_min_depth", "accuracy_decrease", "gini_decrease", "no_of_nodes", "times_a_root")
+      } else{
+        measures <- c("mean_min_depth", "mse_increase", "node_purity_increase", "no_of_nodes", "times_a_root")
+      }
+    } else if("ranger" %in% class(forest)){
+      measures <- c("mean_min_depth", forest$importance.mode, "no_of_nodes", "times_a_root")
+    }
+  }
+  if("randomForest" %in% class(forest) && dim(forest$importance)[2] == 1){
     stop(paste("Your forest does not contain information on local importance so",
-               paste(intersect(c("accuracy_decrease", "mse_increase"), measures), sep=", "),
+               ifelse(forest$type == "classification", "accuracy_decrease", "mse_increase"),
                "measure cannot be extracted.",
                "To add it regrow the forest with the option localImp = TRUE and run this function again."))
+  }
+  if("ranger" %in% class(forest) && forest$importance.mode == "none"){
+   stop(paste("Your forest does not contain importance information so",
+              "importance cannot be extracted.",
+              "To add it regrow the forest with the option importance other than 'none' and run this function again."))
   }
   environment <- new.env()
   environment$forest <- forest
@@ -42,7 +56,7 @@ explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NUL
   directory <- getwd()
   path_to_templates <- file.path(path.package("randomForestExplainer"), "templates")
   template_name <- grep('explain_forest_template.rmd', list.files(path_to_templates),
-                   ignore.case = TRUE, value = TRUE)
+                        ignore.case = TRUE, value = TRUE)
 
   rmarkdown::render(file.path(path_to_templates, template_name),
                     "html_document", output_file = paste0(directory, "/Your_forest_explained.html"),

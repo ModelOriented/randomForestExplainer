@@ -48,7 +48,7 @@ Minimal depth for a variable in a tree equals to the depth of the node which spl
 Below you can explore the measures of importance for all variables in the forest:
 
 ```{r}
-formatRound(datatable(importance_frame), c(2, 4, 5, 8), digits = 4)
+formatRound(datatable(importance_frame), which(!colnames(importance_frame) %in% c("variable", "no_of_nodes", "no_of_trees", "times_a_root")), digits = 4)
 ```
 
 ## Multi-way importance plot
@@ -64,18 +64,24 @@ The first multi-way importance plot focuses on three importance measures that de
 - the total number of nodes in the forest that split on that variable.
 
 ```{r}
-if(forest$type == "regression"){
-  measure1 <- "mse_increase"
-  measure2 <- "node_purity_increase"
-} else {
-  measure1 <- "accuracy_decrease"
-  measure2 <- "gini_decrease"
+if(inherits(forest, "randomForest")){
+  if(forest$type == "regression"){
+    measure1 <- "mse_increase"
+    measure2 <- "node_purity_increase"
+  } else {
+    measure1 <- "accuracy_decrease"
+    measure2 <- "gini_decrease"
+  }
+  measures_print <- paste(measure1, measure2, sep = " and ")
+} else if(inherits(forest, "ranger")){
+  measure1 <- "mean_min_depth"
+  measure2 <- forest$importance.mode
+  measures_print <- measure2
 }
-measures_print <- paste(measure1, measure2, sep = " and ")
 plot_multi_way_importance(importance_frame, size_measure = "no_of_nodes")
 ```
 
-The second multi-way importance plot shows two importance measures that derive from the role a variable plays in prediction: `r print(noquote(measures_print))` with the additional information on the $p$-value based on a binomial distribution of the number of nodes split on the variable assuming that variables are randomly drawn to form splits (i.e. if a variable is significant it means that the variable is used for splitting more often than would be the case if the selection was random).
+The second multi-way importance plot shows importance measures that derive from the role a variable plays in prediction: `r print(noquote(measures_print))` with the additional information on the $p$-value based on a binomial distribution of the number of nodes split on the variable assuming that variables are randomly drawn to form splits (i.e. if a variable is significant it means that the variable is used for splitting more often than would be the case if the selection was random).
 
 ```{r}
 plot_multi_way_importance(importance_frame, x_measure = measure1, y_measure = measure2, size_measure = "p_value")

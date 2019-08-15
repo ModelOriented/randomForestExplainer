@@ -6,10 +6,10 @@
 \usage{
 plot_predict_interaction(forest, data, variable1, variable2, grid = 100,
   main = paste0("Prediction of the forest for different values of ",
-  paste0(variable1, paste0(" and ", variable2))))
+  paste0(variable1, paste0(" and ", variable2))), time = NULL)
 }
 \arguments{
-\item{forest}{A randomForest object}
+\item{forest}{A randomForest or ranger object}
 
 \item{data}{The data frame on which forest was trained}
 
@@ -20,6 +20,10 @@ plot_predict_interaction(forest, data, variable1, variable2, grid = 100,
 \item{grid}{The number of points on the one-dimensional grid on x and y-axis}
 
 \item{main}{A string to be used as title of the plot}
+
+\item{time}{A numeric value specifying the time at which to predict survival probability, only
+applies to survival forests. If not specified, the time closest to predicted median survival
+time is used}
 }
 \value{
 A ggplot2 object
@@ -29,6 +33,8 @@ Plot the prediction of the forest for a grid of values of two numerical variable
 }
 \examples{
 forest <- randomForest::randomForest(Species ~., data = iris)
+plot_predict_interaction(forest, iris, "Petal.Width", "Sepal.Width")
+forest_ranger <- ranger::ranger(Species ~., data = iris)
 plot_predict_interaction(forest, iris, "Petal.Width", "Sepal.Width")
 
 }

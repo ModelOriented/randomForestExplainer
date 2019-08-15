@@ -4,14 +4,13 @@
 \alias{plot_importance_rankings}
 \title{Plot importance measures rankings with ggpairs}
 \usage{
-plot_importance_rankings(importance_frame,
-  measures = names(importance_frame)[c(2, 4, 5, 3, 7)],
+plot_importance_rankings(importance_frame, measures = NULL,
   main = "Relations between rankings according to different measures")
 }
 \arguments{
 \item{importance_frame}{A result of using the function measure_importance() to a random forest or a randomForest object}
 
-\item{measures}{A character vector specifying the measures of importance to be used}
+\item{measures}{A character vector specifying the measures of importance to be used.}
 
 \item{main}{A string to be used as title of the plot}
 }
