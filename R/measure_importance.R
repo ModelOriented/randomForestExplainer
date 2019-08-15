@@ -60,7 +60,7 @@ measure_vimp <- function(forest, only_nonlocal = FALSE){
 # Extract randomForest variable importance measures
 # ranger
 measure_vimp_ranger <- function(forest){
-  if (forest$importance.mode == "none") {
+  if (forest$importance.mode == "none"){
     stop("No variable importance available, regenerate forest by ranger(..., importance='impurity').")
   }
   frame <- data.frame(importance=forest$variable.importance,
@@ -95,8 +95,8 @@ measure_times_a_root <- function(min_depth_frame){
 measure_p_value <- function(importance_frame){
   total_no_of_nodes <- sum(importance_frame$no_of_nodes)
   p_value <- unlist(lapply(importance_frame$no_of_nodes,
-                  function(x) stats::binom.test(x, total_no_of_nodes, 1/nrow(importance_frame),
-                                         alternative = "greater")$p.value))
+                           function(x) stats::binom.test(x, total_no_of_nodes, 1/nrow(importance_frame),
+                                                         alternative = "greater")$p.value))
   return(p_value)
 }
 
@@ -132,7 +132,7 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
     if(forest$type == "classification"){
       measures <- c("mean_min_depth", "no_of_nodes", "accuracy_decrease",
                     "gini_decrease", "no_of_trees", "times_a_root", "p_value")
-    } else if(forest$type =="regression") {
+    } else if(forest$type =="regression"){
       measures <- c("mean_min_depth", "no_of_nodes", "mse_increase", "node_purity_increase",
                     "no_of_trees", "times_a_root", "p_value")
     }
@@ -161,7 +161,7 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
   }
   if(forest$type == "classification"){
     vimp <- c("accuracy_decrease", "gini_decrease")
-  } else if(forest$type =="regression") {
+  } else if(forest$type =="regression"){
     vimp <- c("mse_increase", "node_purity_increase")
   }
   if(all(vimp %in% measures)){
@@ -193,7 +193,7 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
 measure_importance.ranger <- function(forest, mean_sample = "top_trees", measures = NULL){
   tree <- NULL; splitvarName <- NULL; depth <- NULL
   if(is.null(measures)){
-      measures <- c("mean_min_depth", "no_of_nodes", forest$importance.mode, "no_of_trees", "times_a_root", "p_value")
+    measures <- c("mean_min_depth", "no_of_nodes", forest$importance.mode, "no_of_trees", "times_a_root", "p_value")
   }
   if(("p_value" %in% measures) && !("no_of_nodes" %in% measures)){
     measures <- c(measures, "no_of_nodes")
@@ -261,7 +261,7 @@ important_variables <- function(importance_frame, k = 15,
     if("predicted" %in% measures){
       measures <- names(importance_frame)[2:5]
     }
-  } else if ("ranger" %in% class(importance_frame)) {
+  } else if ("ranger" %in% class(importance_frame)){
     importance_frame <- measure_importance(importance_frame)
   }
   rankings <- data.frame(variable = importance_frame$variable, mean_min_depth =
@@ -376,14 +376,16 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
 #' plot_importance_ggpairs(frame, measures = c("mean_min_depth", "times_a_root"))
 #'
 #' @export
-plot_importance_ggpairs <- function(importance_frame, measures =
-                                      names(importance_frame)[c(2, 4, 5, 3, 7)],
+plot_importance_ggpairs <- function(importance_frame, measures = NULL,
                                     main = "Relations between measures of importance"){
-  if("randomForest" %in% class(importance_frame)){
+  if(any(c("randomForest", "ranger") %in% class(importance_frame))){
     importance_frame <- measure_importance(importance_frame)
-    if("predicted" %in% measures){
-      names(importance_frame)[c(2, 4, 5, 3, 7)]
-    }
+  }
+  if (is.null(measures)){
+    default_measures <- c("gini_decrease", "node_purity_increase", # randomForest
+                          "impurity", "impurity_corrected", "permutation", # ranger
+                          "mean_min_depth", "no_of_trees", "no_of_nodes", "p_value")
+    measures <- intersect(default_measures, colnames(importance_frame))
   }
   plot <- ggpairs(importance_frame[, measures]) + theme_bw()
   if(!is.null(main)){
@@ -397,7 +399,7 @@ plot_importance_ggpairs <- function(importance_frame, measures =
 #' Plot against each other rankings of variables according to various measures of importance
 #'
 #' @param importance_frame A result of using the function measure_importance() to a random forest or a randomForest object
-#' @param measures A character vector specifying the measures of importance to be used
+#' @param measures A character vector specifying the measures of importance to be used.
 #' @param main A string to be used as title of the plot
 #'
 #' @return A ggplot object
@@ -411,22 +413,29 @@ plot_importance_ggpairs <- function(importance_frame, measures =
 #' plot_importance_ggpairs(frame, measures = c("mean_min_depth", "times_a_root"))
 #'
 #' @export
-plot_importance_rankings <- function(importance_frame, measures =
-                                       names(importance_frame)[c(2, 4, 5, 3, 7)],
+plot_importance_rankings <- function(importance_frame, measures = NULL,
                                      main = "Relations between rankings according to different measures"){
-  if("randomForest" %in% class(importance_frame)){
+  if(any(c("randomForest", "ranger") %in% class(importance_frame))){
     importance_frame <- measure_importance(importance_frame)
-    if("predicted" %in% measures){
-      names(importance_frame)[c(2, 4, 5, 3, 7)]
-    }
   }
-  rankings <- data.frame(variable = importance_frame$variable, mean_min_depth =
-                           frankv(importance_frame$mean_min_depth, ties.method = "dense"),
-                         apply(importance_frame[, -c(1, 2)], 2,
+  if (is.null(measures)){
+    default_measures <- c("gini_decrease", "node_purity_increase", # randomForest
+                          "impurity", "impurity_corrected", "permutation", # ranger
+                          "mean_min_depth", "no_of_trees", "no_of_nodes", "p_value")
+    measures <- intersect(default_measures, colnames(importance_frame))
+  }
+  rankings <- data.frame(variable = importance_frame$variable,
+                         apply(importance_frame[, !colnames(importance_frame) %in% c("variable", "mean_min_depth", "p_value")], 2,
                                function(x) frankv(x, order = -1, ties.method = "dense")))
+  if ("mean_min_depth" %in% measures){
+    rankings$mean_min_depth = frankv(importance_frame$mean_min_depth, ties.method = "dense")
+  }
+  if ("p_value" %in% measures){
+    rankings$p_value = frankv(importance_frame$p_value, ties.method = "dense")
+  }
   plot <- ggpairs(rankings[, measures], lower = list(continuous = function(data, mapping){
     ggplot(data = data, mapping = mapping) + geom_point() +  geom_smooth(method = "loess")
-    }))+ theme_bw()
+  })) + theme_bw()
   if(!is.null(main)){
     plot <- plot + ggtitle(main)
   }

@@ -4,7 +4,9 @@
 \alias{min_depth_interactions}
 \title{Calculate mean conditional minimal depth}
 \usage{
-min_depth_interactions()
+min_depth_interactions(forest,
+  vars = important_variables(measure_importance(forest)),
+  mean_sample = "top_trees", uncond_mean_sample = mean_sample)
 }
 \arguments{
 \item{forest}{A randomForest object}

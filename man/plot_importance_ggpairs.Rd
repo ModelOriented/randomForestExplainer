@@ -4,8 +4,7 @@
 \alias{plot_importance_ggpairs}
 \title{Plot importance measures with ggpairs}
 \usage{
-plot_importance_ggpairs(importance_frame,
-  measures = names(importance_frame)[c(2, 4, 5, 3, 7)],
+plot_importance_ggpairs(importance_frame, measures = NULL,
   main = "Relations between measures of importance")
 }
 \arguments{
