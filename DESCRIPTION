@@ -28,4 +28,4 @@ Suggests:
   knitr
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
-URL: https://github.com/MI2DataLab/randomForestExplainer
+URL: https://github.com/ModelOriented/randomForestExplainer

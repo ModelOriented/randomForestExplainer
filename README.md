@@ -1,8 +1,7 @@
 # randomForestExplainer
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=factorMerger)
-[![Pending Pull-Requests](http://githubbadges.herokuapp.com/MI2DataLab/randomForestExplainer/pulls.svg)](https://github.com/MI2DataLab/randomForestExplainer/pulls)
-[![Github Issues](http://githubbadges.herokuapp.com/MI2DataLab/randomForestExplainer/issues.svg)](https://github.com/MI2DataLab/randomForestExplainer/issues)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
+[![Github Issues](http://githubbadges.herokuapp.com/ModelOriented/randomForestExplainer/issues.svg)](https://github.com/MI2DataLab/ModelOriented/issues)
 [![DOI](https://zenodo.org/badge/97007621.svg)](https://zenodo.org/badge/latestdoi/97007621)
 
 A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: [Master thesis on randomForestExplainer](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf).
@@ -19,18 +18,18 @@ To install and load the latest version of `randomForestExplainer` from **Github*
 
 ```{r}
 if (!require(devtools)) install.packages("devtools")
-devtools::install_github("MI2DataLab/randomForestExplainer")
+devtools::install_github("ModelOriented/randomForestExplainer")
 
 library(randomForestExplainer)
 ```
 
 ## Vignette
 
-* [Understanding random forests with randomForestExplainer](https://rawgit.com/MI2DataLab/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
+* [Understanding random forests with randomForestExplainer](https://rawgit.com/ModelOriented/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
 
 ## Cheatsheets
 
-* [A one-page summary](https://github.com/MI2DataLab/randomForestExplainer/blob/master/materials/cheatsheet.pdf)
+* [A one-page summary](https://github.com/ModelOriented/randomForestExplainer/blob/master/materials/cheatsheet.pdf)
 
 ## Examples
 
