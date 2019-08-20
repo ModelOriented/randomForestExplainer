@@ -5,7 +5,8 @@
 \title{Extract k most important variables in a random forest}
 \usage{
 important_variables(importance_frame, k = 15,
-  measures = names(importance_frame)[2:5], ties_action = "all")
+  measures = names(importance_frame)[2:min(5, ncol(importance_frame))],
+  ties_action = "all")
 }
 \arguments{
 \item{importance_frame}{A result of using the function measure_importance() to a random forest or a randomForest object}

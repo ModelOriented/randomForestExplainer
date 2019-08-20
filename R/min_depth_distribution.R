@@ -14,27 +14,63 @@ calculate_tree_depth <- function(frame){
   return(frame)
 }
 
+# Calculate the depth of each node in a single tree obtained from a forest with ranger::treeInfo
+calculate_tree_depth_ranger <- function(frame){
+  if(!all(c("rightChild", "leftChild") %in% names(frame))){
+    stop("The data frame has to contain columns called 'rightChild' and 'leftChild'!
+         It should be a product of the function ranger::treeInfo().")
+  }
+  frame$depth <- NA
+  frame$depth[1] <- 0
+  for(i in 2:nrow(frame)){
+    frame[i, "depth"] <-
+      frame[(!is.na(frame[, "leftChild"]) & frame[, "leftChild"] == frame[i, "nodeID"]) |
+              (!is.na(frame[, "rightChild"]) & frame[, "rightChild"] == frame[i, "nodeID"]), "depth"] + 1
+  }
+  return(frame)
+}
+
 #' Calculate minimal depth distribution of a random forest
 #'
 #' Get minimal depth values for all trees in a random forest
 #'
-#' @param forest A randomForest object
+#' @param forest A randomForest or ranger object
 #'
 #' @return A data frame with the value of minimal depth for every variable in every tree
 #'
-#' @import dplyr
-#' @importFrom data.table rbindlist
-#'
 #' @examples
 #' min_depth_distribution(randomForest::randomForest(Species ~ ., data = iris))
+#' min_depth_distribution(ranger::ranger(Species ~ ., data = iris))
 #'
 #' @export
 min_depth_distribution <- function(forest){
+  UseMethod("min_depth_distribution")
+}
+
+#' @import dplyr
+#' @importFrom data.table rbindlist
+#' @export
+min_depth_distribution.randomForest <- function(forest){
   tree <- NULL; `split var` <- NULL; depth <- NULL
   forest_table <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
              calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
+    dplyr::summarize(min(depth))
+  colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
+  min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
+  return(min_depth_frame)
+}
+
+#' @import dplyr
+#' @importFrom data.table rbindlist
+#' @export
+min_depth_distribution.ranger <- function(forest){
+  tree <- NULL; splitvarName <- NULL; depth <- NULL
+  forest_table <-
+    lapply(1:forest$num.trees, function(i) ranger::treeInfo(forest, tree = i) %>%
+             calculate_tree_depth_ranger() %>% cbind(tree = i)) %>% rbindlist()
+  min_depth_frame <- dplyr::group_by(forest_table, tree, splitvarName) %>%
     dplyr::summarize(min(depth))
   colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
