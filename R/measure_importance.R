@@ -31,7 +31,7 @@ measure_no_of_nodes_ranger <- function(forest_table){
 # Extract randomForest variable importance measures
 # randomForest
 measure_vimp <- function(forest, only_nonlocal = FALSE){
-  if(forest$type == "classification"){
+  if(forest$type %in% c("classification", "unsupervised")){
     if(dim(forest$importance)[2] == 1){
       if(only_nonlocal == FALSE){
         print("Warning: your forest does not contain information on local importance so 'accuracy_decrease' measure cannot be extracted. To add it regrow the forest with the option localImp = TRUE and run this function again.")
@@ -129,7 +129,7 @@ measure_importance <- function(forest, mean_sample = "top_trees", measures = NUL
 measure_importance.randomForest <- function(forest, mean_sample = "top_trees", measures = NULL){
   tree <- NULL; `split var` <- NULL; depth <- NULL
   if(is.null(measures)){
-    if(forest$type == "classification"){
+    if(forest$type %in% c("classification", "unsupervised")){
       measures <- c("mean_min_depth", "no_of_nodes", "accuracy_decrease",
                     "gini_decrease", "no_of_trees", "times_a_root", "p_value")
     } else if(forest$type =="regression"){
@@ -159,7 +159,7 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
     importance_frame <- merge(importance_frame, measure_no_of_nodes(forest_table), all = TRUE)
     importance_frame[is.na(importance_frame$no_of_nodes), "no_of_nodes"] <- 0
   }
-  if(forest$type == "classification"){
+  if(forest$type %in% c("classification", "unsupervised")){
     vimp <- c("accuracy_decrease", "gini_decrease")
   } else if(forest$type =="regression"){
     vimp <- c("mse_increase", "node_purity_increase")

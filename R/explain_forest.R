@@ -25,7 +25,7 @@ explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NUL
                            measures = NULL){
   if(is.null(measures)){
     if("randomForest" %in% class(forest)){
-      if(forest$type == "classification"){
+      if(forest$type %in% c("classification", "unsupervised")){
         measures <- c("mean_min_depth", "accuracy_decrease", "gini_decrease", "no_of_nodes", "times_a_root")
       } else{
         measures <- c("mean_min_depth", "mse_increase", "node_purity_increase", "no_of_nodes", "times_a_root")
@@ -36,7 +36,7 @@ explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NUL
   }
   if("randomForest" %in% class(forest) && dim(forest$importance)[2] == 1){
     stop(paste("Your forest does not contain information on local importance so",
-               ifelse(forest$type == "classification", "accuracy_decrease", "mse_increase"),
+               ifelse(forest$type %in% c("classification", "unsupervised"), "accuracy_decrease", "mse_increase"),
                "measure cannot be extracted.",
                "To add it regrow the forest with the option localImp = TRUE and run this function again."))
   }

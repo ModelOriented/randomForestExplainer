@@ -303,6 +303,10 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
                                                   main = paste0("Prediction of the forest for different values of ",
                                                                 paste0(variable1, paste0(" and ", variable2))),
                                                   time = NULL){
+  if (forest$type == "unsupervised") {
+    warning("plot_predict_interaction cannot be performed on unsupervised random forests.")
+    return(NULL)
+  }
   newdata <- expand.grid(seq(min(data[[variable1]]), max(data[[variable1]]), length.out = grid),
                          seq(min(data[[variable2]]), max(data[[variable2]]), length.out = grid))
   colnames(newdata) <- c(variable1, variable2)
