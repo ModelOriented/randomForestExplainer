@@ -25,7 +25,8 @@ Imports:
   reshape2 (>= 1.4.2),
   rmarkdown (>= 1.5)
 Suggests:
-  knitr
+    knitr,
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 URL: https://github.com/ModelOriented/randomForestExplainer
