@@ -143,6 +143,9 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
   importance_frame <- data.frame(variable = rownames(forest$importance), stringsAsFactors = FALSE)
   # Get objects necessary to calculate importance measures based on the tree structure
   if(any(c("mean_min_depth", "no_of_nodes", "no_of_trees", "times_a_root", "p_value") %in% measures)){
+    if (is.null(forest$forest)) {
+      stop("Make sure forest has been saved when calling randomForest by randomForest(..., keep.forest = TRUE).")
+    }
     forest_table <-
       lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
                calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
