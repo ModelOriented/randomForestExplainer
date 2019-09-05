@@ -39,11 +39,11 @@ conditional_depth_ranger <- function(frame, vars){
         df <- frame[begin:nrow(frame), setdiff(names(frame), setdiff(vars, j))]
         df[[j]][1] <- 0
         for(k in 2:nrow(df)){
-          if(length(df[(!is.na(df[, "leftChild"]) & df[, "leftChild"] == as.numeric(df[k, "number"])) |
-                       (!is.na(df[, "rightChild"]) & df[, "rightChild"] == as.numeric(df[k, "number"])), j]) != 0){
+          if(length(df[(!is.na(df[, "leftChild"]) & df[, "leftChild"] == as.numeric(df[k, "number"]) - 1) |
+                       (!is.na(df[, "rightChild"]) & df[, "rightChild"] == as.numeric(df[k, "number"]) - 1), j]) != 0){
             df[k, j] <-
-              df[(!is.na(df[, "leftChild"]) & df[, "leftChild"] == as.numeric(df[k, "number"])) |
-                   (!is.na(df[, "rightChild"]) & df[, "rightChild"] == as.numeric(df[k, "number"])), j] + 1
+              df[(!is.na(df[, "leftChild"]) & df[, "leftChild"] == as.numeric(df[k, "number"]) - 1) |
+                   (!is.na(df[, "rightChild"]) & df[, "rightChild"] == as.numeric(df[k, "number"]) - 1), j] + 1
           }
         }
         frame[begin:nrow(frame), setdiff(names(frame), setdiff(vars, j))] <- df
