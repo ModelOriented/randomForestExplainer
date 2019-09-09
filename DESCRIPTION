@@ -14,7 +14,6 @@ LazyData: true
 Imports:
   data.table (>= 1.10.4),
   dplyr (>= 0.7.1),
-  dtplyr (>= 0.0.2),
   DT (>= 0.2),
   GGally (>= 1.3.0),
   ggplot2 (>= 2.2.1),
