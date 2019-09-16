@@ -39,6 +39,35 @@ test_that("min_depth_interactions works", {
                     0)
 })
 
+test_that("plot_multi_way_importance works", {
+  p <- plot_multi_way_importance(rf_c)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_distribution works", {
+  p <- plot_min_depth_distribution(rf_c)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_interactions works", {
+  p <- plot_min_depth_interactions(rf_c)
+  expect_silent(print(p))
+})
+
+test_that("plot_predict_interaction works", {
+  p <- plot_predict_interaction(rf_c, data = iris, variable1 = "Petal.Width", variable2 = "Petal.Length")
+  expect_silent(print(p))
+})
+
+test_that("plot_importance_ggpairs works", {
+  p <- plot_importance_ggpairs(rf_c)
+  expect_silent(suppressMessages(print(p)))
+})
+
+test_that("plot_importance_rankings works", {
+  p <- plot_importance_rankings(rf_c)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
 
 context("Test randomForest regression forests")
 
@@ -69,6 +98,35 @@ test_that("min_depth_interactions works", {
                     1)
 })
 
+test_that("plot_multi_way_importance works", {
+  p <- plot_multi_way_importance(rf_r)
+  expect_silent(suppressWarnings(print(p)))
+})
+
+test_that("plot_min_depth_distribution works", {
+  p <- plot_min_depth_distribution(rf_r)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_interactions works", {
+  p <- plot_min_depth_interactions(rf_r)
+  expect_silent(print(p))
+})
+
+test_that("plot_predict_interaction works", {
+  p <- plot_predict_interaction(rf_r, data = mtcars, variable1 = "cyl", variable2 = "wt")
+  expect_silent(print(p))
+})
+
+test_that("plot_importance_ggpairs works", {
+  p <- plot_importance_ggpairs(rf_r)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
+
+test_that("plot_importance_rankings works", {
+  p <- plot_importance_rankings(rf_r)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
 
 context("Test randomForest unsupervised forests")
 
@@ -97,4 +155,34 @@ test_that("min_depth_interactions works", {
   min_depth_int <- min_depth_interactions(rf_u, vars = c("Petal.Width"))
   expect_equivalent(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
                     1)
+})
+
+test_that("plot_multi_way_importance works", {
+  p <- plot_multi_way_importance(rf_u)
+  expect_silent(suppressWarnings(print(p)))
+})
+
+test_that("plot_min_depth_distribution works", {
+  p <- plot_min_depth_distribution(rf_u)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_interactions works", {
+  p <- plot_min_depth_interactions(rf_u)
+  expect_silent(print(p))
+})
+
+test_that("plot_predict_interaction does not work for unsupervised forests", {
+  expect_warning(p <- plot_predict_interaction(rf_u, data = iris, variable1 = "Petal.Width", variable2 = "Sepal.Length"))
+  expect_null(p)
+})
+
+test_that("plot_importance_ggpairs works", {
+  p <- plot_importance_ggpairs(rf_u)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
+
+test_that("plot_importance_rankings works", {
+  p <- plot_importance_rankings(rf_u)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
