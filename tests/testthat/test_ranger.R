@@ -5,11 +5,10 @@ load(system.file("testdata/test_ranger.rda", package="randomForestExplainer", mu
 # library(ranger)
 # library(survival)
 # set.seed(12345)
-# ranger_c <- ranger(Species ~ ., data = iris, importance = "impurity", num.trees = 2)
+# ranger_c <- ranger(Species ~ ., data = iris, importance = "impurity", num.trees = 2, probability = TRUE)
 # ranger_r <- ranger(mpg ~ ., data = mtcars, importance = "impurity", num.trees = 2)
 # ranger_s <- ranger(Surv(futime, fustat) ~ ., data = ovarian, importance = "impurity", num.trees = 2)
-# save(ranger_c, ranger_r, ranger_s, file = "inst/testdata/test_ranger.rda")
-
+# save(ranger_c, ranger_r, ranger_s, ovarian, file = "inst/testdata/test_ranger.rda")
 
 context("Test ranger classification forests")
 
@@ -24,7 +23,7 @@ test_that("important_variables works", {
   imp_vars <- important_variables(ranger_c, k = 3,
                                   measures = c("mean_min_depth", "impurity",
                                                "no_of_nodes", "times_a_root", "p_value"))
-  expect_equal(imp_vars, c("Petal.Width", "Petal.Length", "Sepal.Length"))
+  expect_equal(imp_vars, c("Petal.Width", "Sepal.Length", "Petal.Length"))
 })
 
 test_that("min_depth_distribution works", {
@@ -39,6 +38,35 @@ test_that("min_depth_interactions works", {
                     1.5)
 })
 
+test_that("plot_multi_way_importance works", {
+  p <- plot_multi_way_importance(ranger_c)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_distribution works", {
+  p <- plot_min_depth_distribution(ranger_c)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_interactions works", {
+  p <- plot_min_depth_interactions(ranger_c)
+  expect_silent(print(p))
+})
+
+test_that("plot_predict_interaction works", {
+  p <- plot_predict_interaction(ranger_c, data = iris, variable1 = "Petal.Width", variable2 = "Petal.Length")
+  expect_silent(print(p))
+})
+
+test_that("plot_importance_ggpairs works", {
+  p <- plot_importance_ggpairs(ranger_c)
+  expect_silent(suppressMessages(print(p)))
+})
+
+test_that("plot_importance_rankings works", {
+  p <- plot_importance_rankings(ranger_c)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
 
 context("Test ranger regression forests")
 
@@ -69,6 +97,35 @@ test_that("min_depth_interactions works", {
                     0.5)
 })
 
+test_that("plot_multi_way_importance works", {
+  p <- plot_multi_way_importance(ranger_r)
+  expect_silent(suppressWarnings(print(p)))
+})
+
+test_that("plot_min_depth_distribution works", {
+  p <- plot_min_depth_distribution(ranger_r)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_interactions works", {
+  p <- plot_min_depth_interactions(ranger_r)
+  expect_silent(print(p))
+})
+
+test_that("plot_predict_interaction works", {
+  p <- plot_predict_interaction(ranger_r, data = mtcars, variable1 = "cyl", variable2 = "wt")
+  expect_silent(print(p))
+})
+
+test_that("plot_importance_ggpairs works", {
+  p <- plot_importance_ggpairs(ranger_r)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
+
+test_that("plot_importance_rankings works", {
+  p <- plot_importance_rankings(ranger_c)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
 
 context("Test ranger survival forests")
 
@@ -97,4 +154,34 @@ test_that("min_depth_interactions works", {
   min_depth_int <- min_depth_interactions(ranger_s, vars = c("age"))
   expect_equivalent(min_depth_int[min_depth_int$interaction == "age:ecog.ps", ]$mean_min_depth,
                     0.5)
+})
+
+test_that("plot_multi_way_importance works", {
+  p <- plot_multi_way_importance(ranger_s)
+  expect_silent(suppressWarnings(print(p)))
+})
+
+test_that("plot_min_depth_distribution works", {
+  p <- plot_min_depth_distribution(ranger_s)
+  expect_silent(print(p))
+})
+
+test_that("plot_min_depth_interactions works", {
+  p <- plot_min_depth_interactions(ranger_s)
+  expect_silent(print(p))
+})
+
+test_that("plot_predict_interaction works", {
+  p <- plot_predict_interaction(ranger_s, data = ovarian, variable1 = "age", variable2 = "ecog.ps")
+  expect_silent(print(p))
+})
+
+test_that("plot_importance_ggpairs works", {
+  p <- plot_importance_ggpairs(ranger_s)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
+})
+
+test_that("plot_importance_rankings works", {
+  p <- plot_importance_rankings(ranger_s)
+  expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
