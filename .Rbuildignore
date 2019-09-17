@@ -5,3 +5,5 @@ materials*
 ^_pkgdown\.yml$
 ^\.travis\.yml$
 ^cran-comments\.md$
+^doc$
+^Meta$

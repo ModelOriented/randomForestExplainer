@@ -5,9 +5,9 @@
 [![codecov](https://codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/randomForestExplainer)
 [![DOI](https://zenodo.org/badge/97007621.svg)](https://zenodo.org/badge/latestdoi/97007621)
 
-A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: [Master thesis on randomForestExplainer](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf).
+A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: [Master thesis on randomForestExplainer](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf).
 
-## Instalation
+## Installation
 
 randomForestExplainer can be installed from [CRAN](https://cran.r-project.org/package=randomForestExplainer) as follows:
 
@@ -26,7 +26,7 @@ library(randomForestExplainer)
 
 ## Vignette
 
-* [Understanding random forests with randomForestExplainer](https://rawgit.com/ModelOriented/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
+* [Understanding random forests with randomForestExplainer](https://cdn.staticaly.com/gh/ModelOriented/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
 
 ## Cheatsheets
 
@@ -34,4 +34,4 @@ library(randomForestExplainer)
 
 ## Examples
 
-* [Initial vignette for glioblastoma data](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
+* [Initial vignette for glioblastoma data](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)

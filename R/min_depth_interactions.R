@@ -110,11 +110,11 @@ min_depth_interactions_values_ranger <- function(forest, vars){
 #' Calculate mean conditional minimal depth with respect to a vector of variables
 #'
 #' @param forest A randomForest object
-#' @param vars A character vector with variables with respect to which conditional minimal depth will be calculated; by defalt it is extracted by the important_variables function but this may be time consuming
+#' @param vars A character vector with variables with respect to which conditional minimal depth will be calculated; by default it is extracted by the important_variables function but this may be time consuming
 #' @param mean_sample The sample of trees on which conditional mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"
 #' @param uncond_mean_sample The sample of trees on which unconditional mean minimal depth is calculated, possible values are "all_trees", "top_trees", "relevant_trees"
 #'
-#' @return A data frame with each observarion giving the means of conditional minimal depth and the size of sample for a given interaction
+#' @return A data frame with each observation giving the means of conditional minimal depth and the size of sample for a given interaction
 #'
 #' @examples
 #' forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 100)

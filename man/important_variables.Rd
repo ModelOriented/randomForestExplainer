@@ -15,7 +15,7 @@ important_variables(importance_frame, k = 15,
 
 \item{measures}{A character vector specifying the measures of importance to be used}
 
-\item{ties_action}{One of three: c("none", "all", "draw"); specifies which variables to pick when ties occur. When set to "none" we may get less than k variables, when "all" whe may get more and "draw" makes us get exactly k.}
+\item{ties_action}{One of three: c("none", "all", "draw"); specifies which variables to pick when ties occur. When set to "none" we may get less than k variables, when "all" we may get more and "draw" makes us get exactly k.}
 }
 \value{
 A character vector with names of k variables with highest sum of rankings
