@@ -54,6 +54,7 @@ min_depth_distribution.randomForest <- function(forest){
   tree <- NULL; `split var` <- NULL; depth <- NULL
   forest_table <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
+             mutate_if(is.factor, as.character) %>%
              calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
     dplyr::summarize(min(depth))

@@ -60,6 +60,7 @@ min_depth_interactions_values <- function(forest, vars){
   `.` <- NULL; .SD <- NULL; tree <- NULL; `split var` <- NULL
   interactions_frame <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
+             mutate_if(is.factor, as.character) %>%
              calculate_tree_depth() %>% cbind(., tree = i, number = 1:nrow(.))) %>%
     data.table::rbindlist() %>% as.data.frame()
   interactions_frame[vars] <- as.numeric(NA)
@@ -164,6 +165,7 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
   forest_table <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
+             mutate_if(is.factor, as.character) %>%
              calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
     dplyr::summarize(min(depth))
