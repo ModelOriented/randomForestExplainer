@@ -26,7 +26,7 @@ library(randomForestExplainer)
 
 ## Vignette
 
-* [Understanding random forests with randomForestExplainer](https://cdn.staticaly.com/gh/ModelOriented/randomForestExplainer/master/inst/doc/randomForestExplainer.html)
+* [Understanding random forests with randomForestExplainer](https://modeloriented.github.io/randomForestExplainer/articles/randomForestExplainer.html)
 
 ## Cheatsheets
 
