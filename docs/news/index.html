@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • randomForestExplainer</title>
+<title>Changelog • randomForestExplainer</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -61,7 +61,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -116,103 +116,45 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+      <h1>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/ModelOriented/randomForestExplainer/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <table class="ref-index">
-
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="explain_forest.html">explain_forest()</a></code> </p>
-        </td>
-        <td><p>Explain a random forest</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="important_variables.html">important_variables()</a></code> </p>
-        </td>
-        <td><p>Extract k most important variables in a random forest</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="measure_importance.html">measure_importance()</a></code> </p>
-        </td>
-        <td><p>Importance of variables in a random forest</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="min_depth_distribution.html">min_depth_distribution()</a></code> </p>
-        </td>
-        <td><p>Calculate minimal depth distribution of a random forest</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="min_depth_interactions.html">min_depth_interactions()</a></code> </p>
-        </td>
-        <td><p>Calculate mean conditional minimal depth</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_importance_ggpairs.html">plot_importance_ggpairs()</a></code> </p>
-        </td>
-        <td><p>Plot importance measures with ggpairs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_importance_rankings.html">plot_importance_rankings()</a></code> </p>
-        </td>
-        <td><p>Plot importance measures rankings with ggpairs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_min_depth_distribution.html">plot_min_depth_distribution()</a></code> </p>
-        </td>
-        <td><p>Plot the distribution of minimal depth in a random forest</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_min_depth_interactions.html">plot_min_depth_interactions()</a></code> </p>
-        </td>
-        <td><p>Plot the top mean conditional minimal depth</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_multi_way_importance.html">plot_multi_way_importance()</a></code> </p>
-        </td>
-        <td><p>Multi-way importance plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_predict_interaction.html">plot_predict_interaction()</a></code> </p>
-        </td>
-        <td><p>Plot the prediction of the forest for a grid of values of two numerical variables</p></td>
-      </tr>
-    </tbody>
-    </table>
+    <div id="randomforestexplainer-0-10-0" class="section level1">
+<h1 class="page-header">
+<a href="#randomforestexplainer-0-10-0" class="anchor"></a>randomForestExplainer 0.10.0<small> Unreleased </small>
+</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>Added support for ranger forests.</li>
+<li>Added support for unsupervised randomForest.</li>
+<li>Added tests for most functions.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed bug for explain_forest not finding templates.</li>
+<li>Added more intuitive error message for explain_forest when local importance is absent.</li>
+</ul>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#randomforestexplainer-0-10-0">0.10.0</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
 

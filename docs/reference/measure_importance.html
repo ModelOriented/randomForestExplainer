@@ -36,9 +36,9 @@
 
 
 <meta property="og:title" content="Importance of variables in a random forest — measure_importance" />
-
 <meta property="og:description" content="Get a data frame with various measures of importance of variables in a random forest" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -51,14 +51,15 @@
 <![endif]-->
 
 <!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14""></script>
 <script>
  window.dataLayer = window.dataLayer || [];
  function gtag(){dataLayer.push(arguments);}
  gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
+ gtag('config', 'UA-5650686-14');
 </script>
+
   </head>
 
   <body>
@@ -75,14 +76,11 @@
       </button>
 
       <div class="navbar-brand-container">
-      <a class = "navbar-mi2logo" href="http://DrWhy.AI/">
-    <img src = "https://github.com/ModelOriented/DrWhyTemplate/blob/master/inst/pkgdown/assets/drwhy_znak_violet_small.jpg?raw=true" alt = "MI2" height = 46 title = "MI2">
-	  </a>
         <a class="navbar-brand" href="../index.html">randomForestExplainer</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.9</span>
+          <span class="version version-default">0.10.0</span>
         </div>
       </div>
     </div>
@@ -100,6 +98,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
         <li>
   <a href="https://github.com/ModelOriented/randomForestExplainer">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -113,6 +114,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -124,13 +126,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Get a data frame with various measures of importance of variables in a random forest</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>measure_importance</span>(<span class='no'>forest</span>, <span class='kw'>mean_sample</span> <span class='kw'>=</span> <span class='st'>"top_trees"</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -151,38 +151,36 @@ if "p_value" is to be calculated then "no_of_nodes" will be too. Suitable measur
 <code>mse_increase</code>, <code>node_purity_increase</code>, <code>no_of_nodes</code>, <code>times_a_root</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame with rows corresponding to variables and columns to various measures of importance of variables</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>forest</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>localImp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
 <span class='fu'>measure_importance</span>(<span class='no'>forest</span>)</div><div class='output co'>#&gt;       variable mean_min_depth no_of_nodes accuracy_decrease gini_decrease
-#&gt; 1 Petal.Length      0.9301561         768       0.308070018     43.722079
-#&gt; 2  Petal.Width      0.9163880         758       0.308795055     45.135259
-#&gt; 3 Sepal.Length      2.3671126         446       0.024881217      8.161863
-#&gt; 4  Sepal.Width      3.4024526         348       0.004041348      2.248044
+#&gt; 1 Petal.Length      1.1114865         749       0.298860983     42.010102
+#&gt; 2  Petal.Width      0.9932432         775       0.310185955     43.803248
+#&gt; 3 Sepal.Length      2.0128041         493       0.033657157     11.235496
+#&gt; 4  Sepal.Width      3.2915203         356       0.007638947      2.196532
 #&gt;   no_of_trees times_a_root      p_value
-#&gt; 1         298          131 1.415446e-18
-#&gt; 2         299          133 6.972519e-17
-#&gt; 3         241           36 1.000000e+00
-#&gt; 4         219            0 1.000000e+00</div><div class='input'>
+#&gt; 1         296          116 3.594621e-13
+#&gt; 2         296          124 3.550723e-17
+#&gt; 3         265           60 9.999994e-01
+#&gt; 4         215            0 1.000000e+00</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="author">
@@ -191,11 +189,14 @@ if "p_value" is to be calculated then "no_of_nodes" will be too. Suitable measur
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
