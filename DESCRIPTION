@@ -1,6 +1,6 @@
 Package: randomForestExplainer
 Title: Explaining and Visualizing Random Forests in Terms of Variable Importance
-Version: 0.9
+Version: 0.10.0
 Authors@R: c(
   person("Aleksandra", "Paluszynska", email = "ola.paluszynska@gmail.com", role = c("aut")),
   person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut","ths")),
@@ -18,13 +18,13 @@ Imports:
   GGally (>= 1.3.0),
   ggplot2 (>= 2.2.1),
   ggrepel (>= 0.6.5),
-  MASS (>= 7.3.47),
   randomForest (>= 4.6.12),
   ranger(>= 0.9.0),
   reshape2 (>= 1.4.2),
   rmarkdown (>= 1.5)
 Suggests:
     knitr,
+    MASS (>= 7.3.47),
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

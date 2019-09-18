@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.width =
 
 # Introduction
 
-This vignette demonstrates how to use the randomForestExplainer package. We will use the `Boston` from package `MASS`. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small `Boston` data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: [initial vignette](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
+This vignette demonstrates how to use the randomForestExplainer package. We will use the `Boston` from package `MASS`. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small `Boston` data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: [initial vignette](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
 
 We will use the following packages:
 
@@ -79,7 +79,7 @@ The function `plot_min_depth_distribution` offers three possibilities when it co
 
 Note that the $x$-axis ranges from zero trees to the maximum number of trees in which any variable was used for splitting ($\tilde{B}$) which is in this case equal to 500 and is reached by all variables plotted.
 
-The ordering of variables in our plot by their mean minimal depth seems quite accurate when we look at the distribution of minimal depth, though one could argue that for example `indus` should be ranked higherthan `dis` as the latter is never used for splitting at the root. Usually we would obtain different orderings when changing the `mean_sample` option but this is not the case if variables are used for splitting in all trees as this option only influences how and whether missing values are treated. The default option, `"top_trees"`, penalizes missing values and this penalization makes the interpretation of the values less obvious -- to address that we can calculate the mean minimal depth only using non-missing observations (`mean_sample = "relevant_trees"`). For forests with many variables with a lot of missing observations we should always consider adding the `min_no_of_trees` option so that only variables used for splitting in at least the declared number of trees will be considered for the plot. This allows us to avoid selecting variables that have been by chance used for splitting e.g., only once but at the root (their mean would be equal to 0). However, in our case we can simply increase the `k` parameter to plot all trees:
+The ordering of variables in our plot by their mean minimal depth seems quite accurate when we look at the distribution of minimal depth, though one could argue that for example `indus` should be ranked higher than `dis` as the latter is never used for splitting at the root. Usually we would obtain different orderings when changing the `mean_sample` option but this is not the case if variables are used for splitting in all trees as this option only influences how and whether missing values are treated. The default option, `"top_trees"`, penalizes missing values and this penalization makes the interpretation of the values less obvious -- to address that we can calculate the mean minimal depth only using non-missing observations (`mean_sample = "relevant_trees"`). For forests with many variables with a lot of missing observations we should always consider adding the `min_no_of_trees` option so that only variables used for splitting in at least the declared number of trees will be considered for the plot. This allows us to avoid selecting variables that have been by chance used for splitting e.g., only once but at the root (their mean would be equal to 0). However, in our case we can simply increase the `k` parameter to plot all trees:
 
 ```{r fig.height = 7}
 plot_min_depth_distribution(min_depth_frame, mean_sample = "relevant_trees", k = 15)
@@ -139,7 +139,7 @@ Observe the marked negative relation between `times_a_root` and `mean_min_depth`
 plot_multi_way_importance(importance_frame, x_measure = "mse_increase", y_measure = "node_purity_increase", size_measure = "p_value", no_of_labels = 5)
 ```
 
-As in the previous plot, the two measures used as coordinates seem correlated, but in this case this is somewhat more surprising as one is connected to the structure of the forest and the other to its prediction, whereas in the previous plot both measures reflected the structure. Also, in this plot we see that although `lstat` and `rm` are similar in terms of node purity increase and $p$-value, the former is markedly better if we look at the increase in MSE. Interestingly, `nox` and `indus` are guite good when it comes to the two measures reflected on the axes, but are not significant according to our $p$-value, which is a derivative of the number of nodes that use a variable for splitting.
+As in the previous plot, the two measures used as coordinates seem correlated, but in this case this is somewhat more surprising as one is connected to the structure of the forest and the other to its prediction, whereas in the previous plot both measures reflected the structure. Also, in this plot we see that although `lstat` and `rm` are similar in terms of node purity increase and $p$-value, the former is markedly better if we look at the increase in MSE. Interestingly, `nox` and `indus` are quite good when it comes to the two measures reflected on the axes, but are not significant according to our $p$-value, which is a derivative of the number of nodes that use a variable for splitting.
 
 ## Compare measures using ggpairs
 
@@ -223,7 +223,7 @@ The `explain_forest()` function is the flagship function of the `randomForestExp
 explain_forest(forest, interactions = TRUE, data = Boston)
 ```
 
-To see the resulting HTML document click here: [Boston forest summary](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html)
+To see the resulting HTML document click here: [Boston forest summary](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html)
 
-For additional examples see: [initial vignette](https://rawgit.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
+For additional examples see: [initial vignette](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
 

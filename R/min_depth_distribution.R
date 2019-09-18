@@ -39,8 +39,8 @@ calculate_tree_depth_ranger <- function(frame){
 #' @return A data frame with the value of minimal depth for every variable in every tree
 #'
 #' @examples
-#' min_depth_distribution(randomForest::randomForest(Species ~ ., data = iris))
-#' min_depth_distribution(ranger::ranger(Species ~ ., data = iris))
+#' min_depth_distribution(randomForest::randomForest(Species ~ ., data = iris, ntree = 100))
+#' min_depth_distribution(ranger::ranger(Species ~ ., data = iris, num.trees = 100))
 #'
 #' @export
 min_depth_distribution <- function(forest){
@@ -54,6 +54,7 @@ min_depth_distribution.randomForest <- function(forest){
   tree <- NULL; `split var` <- NULL; depth <- NULL
   forest_table <-
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
+             mutate_if(is.factor, as.character) %>%
              calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
     dplyr::summarize(min(depth))

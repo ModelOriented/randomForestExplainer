@@ -148,6 +148,7 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
     }
     forest_table <-
       lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
+               mutate_if(is.factor, as.character) %>%
                calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
     min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
       dplyr::summarize(min(depth))
@@ -245,7 +246,7 @@ measure_importance.ranger <- function(forest, mean_sample = "top_trees", measure
 #' @param importance_frame A result of using the function measure_importance() to a random forest or a randomForest object
 #' @param measures A character vector specifying the measures of importance to be used
 #' @param k The number of variables to extract
-#' @param ties_action One of three: c("none", "all", "draw"); specifies which variables to pick when ties occur. When set to "none" we may get less than k variables, when "all" whe may get more and "draw" makes us get exactly k.
+#' @param ties_action One of three: c("none", "all", "draw"); specifies which variables to pick when ties occur. When set to "none" we may get less than k variables, when "all" we may get more and "draw" makes us get exactly k.
 #'
 #' @return A character vector with names of k variables with highest sum of rankings
 #'
