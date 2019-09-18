@@ -5,4 +5,5 @@
 * Added tests for most functions.
 
 ## Bug fixes
-* More intuitive error message for explain_forest when local importance is absent.
+* Fixed bug for explain_forest not finding templates.
+* Added more intuitive error message for explain_forest when local importance is absent.
