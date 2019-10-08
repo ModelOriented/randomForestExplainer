@@ -1,4 +1,4 @@
-# randomForestExplainer
+# randomForestExplainer <img src="man/figures/logo.png" align="right" width="150"/>
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
 [![Build Status](https://travis-ci.org/ModelOriented/randomForestExplainer.svg?branch=master)](https://travis-ci.org/ModelOriented/randomForestExplainer)
@@ -9,19 +9,13 @@ A set of tools to understand what is happening inside a Random Forest. A detaile
 
 ## Installation
 
-randomForestExplainer can be installed from [CRAN](https://cran.r-project.org/package=randomForestExplainer) as follows:
-
-```{r}
-install.packages("randomForestExplainer")
 ```
+# the easiest way to get randomForestExplainer is to install it from CRAN:
+install.packages("randomForestExplainer")
 
-To install and load the latest version of `randomForestExplainer` from **Github** run:
-
-```{r}
-if (!require(devtools)) install.packages("devtools")
+# Or the the development version from GitHub:
+# install.packages("devtools")
 devtools::install_github("ModelOriented/randomForestExplainer")
-
-library(randomForestExplainer)
 ```
 
 ## Vignette
