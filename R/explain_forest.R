@@ -3,6 +3,7 @@
 #' Explains a random forest in a html document using plots created by randomForestExplainer
 #'
 #' @param forest A randomForest object created with the option localImp = TRUE
+#' @param path Path to write output html to
 #' @param interactions Logical value: should variable interactions be considered (this may be time-consuming)
 #' @param data The data frame on which forest was trained - necessary if interactions = TRUE
 #' @param vars A character vector with variables with respect to which interactions will be considered if NULL then they will be selected using the important_variables() function
@@ -10,7 +11,7 @@
 #' @param pred_grid The number of points on the grid of plot_predict_interaction (decrease in case memory problems)
 #' @param measures A character vector specifying the importance measures to be used for plotting ggpairs
 #'
-#' @return A html document in your working directory
+#' @return A html document. If path is not specified, this document will be "Your_forest_explained.html" in your working directory
 #'
 #' @import DT
 #'
@@ -21,8 +22,12 @@
 #' }
 #'
 #' @export
-explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
+explain_forest <- function(forest, path = NULL, interactions = FALSE, data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
                            measures = NULL){
+  if(is.null(path)) {
+    directory <- getwd()
+    path <- paste0(directory, "/Your_forest_explained.html")
+  }
   if(is.null(measures)){
     if("randomForest" %in% class(forest)){
       if(forest$type %in% c("classification", "unsupervised")){
@@ -53,12 +58,12 @@ explain_forest <- function(forest, interactions = FALSE, data = NULL, vars = NUL
   environment$no_of_pred_plots <- no_of_pred_plots
   environment$pred_grid <- pred_grid
   environment$measures <- measures
-  directory <- getwd()
+
   path_to_templates <- file.path(path.package("randomForestExplainer"), "templates")
   template_name <- grep('explain_forest_template.rmd', list.files(path_to_templates),
                         ignore.case = TRUE, value = TRUE)
 
   rmarkdown::render(file.path(path_to_templates, template_name),
-                    "html_document", output_file = paste0(directory, "/Your_forest_explained.html"),
+                    "html_document", output_file = path,
                     envir = environment)
 }

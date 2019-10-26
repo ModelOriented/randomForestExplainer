@@ -4,12 +4,14 @@
 \alias{explain_forest}
 \title{Explain a random forest}
 \usage{
-explain_forest(forest, interactions = FALSE, data = NULL,
-  vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
+explain_forest(forest, path = NULL, interactions = FALSE,
+  data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
   measures = NULL)
 }
 \arguments{
 \item{forest}{A randomForest object created with the option localImp = TRUE}
+
+\item{path}{Path to write output html to}
 
 \item{interactions}{Logical value: should variable interactions be considered (this may be time-consuming)}
 
@@ -24,7 +26,7 @@ explain_forest(forest, interactions = FALSE, data = NULL,
 \item{measures}{A character vector specifying the importance measures to be used for plotting ggpairs}
 }
 \value{
-A html document in your working directory
+A html document. If path is not specified, this document will be "Your_forest_explained.html" in your working directory
 }
 \description{
 Explains a random forest in a html document using plots created by randomForestExplainer
