@@ -26,7 +26,7 @@ explain_forest <- function(forest, path = NULL, interactions = FALSE, data = NUL
                            measures = NULL){
   if(is.null(path)) {
     directory <- getwd()
-    paste0(directory, "/Your_forest_explained.html")
+    path <- paste0(directory, "/Your_forest_explained.html")
   }
   if(is.null(measures)){
     if("randomForest" %in% class(forest)){
