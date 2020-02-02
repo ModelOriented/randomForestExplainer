@@ -81,7 +81,7 @@ if(inherits(forest, "randomForest")){
 plot_multi_way_importance(importance_frame, size_measure = "no_of_nodes")
 ```
 
-The second multi-way importance plot shows importance measures that derive from the role a variable plays in prediction: `r print(noquote(measures_print))` with the additional information on the $p$-value based on a binomial distribution of the number of nodes split on the variable assuming that variables are randomly drawn to form splits (i.e. if a variable is significant it means that the variable is used for splitting more often than would be the case if the selection was random).
+The second multi-way importance plot shows importance measures that derive from the role a variable plays in prediction: `r measures_print` with the additional information on the $p$-value based on a binomial distribution of the number of nodes split on the variable assuming that variables are randomly drawn to form splits (i.e. if a variable is significant it means that the variable is used for splitting more often than would be the case if the selection was random).
 
 ```{r}
 plot_multi_way_importance(importance_frame, x_measure = measure1, y_measure = measure2, size_measure = "p_value")
@@ -89,7 +89,7 @@ plot_multi_way_importance(importance_frame, x_measure = measure1, y_measure = me
 
 ## Compare importance measures
 
-The plot below shows bilateral relations between the following importance measures: `r print(noquote(paste(measures, collapse = ", ")))`, if some variables are strongly related to each other it may be worth to consider focusing only on one of them. 
+The plot below shows bilateral relations between the following importance measures: `r paste(measures, collapse = ", ")`, if some variables are strongly related to each other it may be worth to consider focusing only on one of them. 
 
 ```{r, fig.width = 10, fig.height = 9}
 plot_importance_ggpairs(importance_frame, measures) + theme_set(theme_bw(13))

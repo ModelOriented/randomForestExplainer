@@ -12,7 +12,7 @@ Note that:
 
 - the horizontal line shows the minimal value of the depicted statistic among interactions for which it was calculated,
 
-- the interactions considered are ones with the following variables as first (root variables): `r print(noquote(paste(vars, collapse = ", ")))` and all possible values of the second variable.
+- the interactions considered are ones with the following variables as first (root variables): `r paste(vars, collapse = ", ")` and all possible values of the second variable.
 
 ```{r}
 plot_min_depth_interactions(interactions_frame)
