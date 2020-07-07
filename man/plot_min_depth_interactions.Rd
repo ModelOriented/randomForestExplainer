@@ -4,9 +4,11 @@
 \alias{plot_min_depth_interactions}
 \title{Plot the top mean conditional minimal depth}
 \usage{
-plot_min_depth_interactions(interactions_frame, k = 30,
-  main = paste0("Mean minimal depth for ", paste0(k,
-  " most frequent interactions")))
+plot_min_depth_interactions(
+  interactions_frame,
+  k = 30,
+  main = paste0("Mean minimal depth for ", paste0(k, " most frequent interactions"))
+)
 }
 \arguments{
 \item{interactions_frame}{A data frame produced by the min_depth_interactions() function or a randomForest object}

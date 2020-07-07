@@ -4,9 +4,16 @@
 \alias{explain_forest}
 \title{Explain a random forest}
 \usage{
-explain_forest(forest, path = NULL, interactions = FALSE,
-  data = NULL, vars = NULL, no_of_pred_plots = 3, pred_grid = 100,
-  measures = NULL)
+explain_forest(
+  forest,
+  path = NULL,
+  interactions = FALSE,
+  data = NULL,
+  vars = NULL,
+  no_of_pred_plots = 3,
+  pred_grid = 100,
+  measures = NULL
+)
 }
 \arguments{
 \item{forest}{A randomForest object created with the option localImp = TRUE}
