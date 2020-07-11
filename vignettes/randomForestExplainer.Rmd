@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.width =
 
 # Introduction
 
-This vignette demonstrates how to use the randomForestExplainer package. We will use the `Boston` from package `MASS`. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small `Boston` data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: [initial vignette](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
+This vignette demonstrates how to use the randomForestExplainer package. We will use the `Boston` from package `MASS`. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small `Boston` data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: [initial vignette](https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
 
 We will use the following packages:
 
@@ -223,7 +223,7 @@ The `explain_forest()` function is the flagship function of the `randomForestExp
 explain_forest(forest, interactions = TRUE, data = Boston)
 ```
 
-To see the resulting HTML document click here: [Boston forest summary](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html)
+To see the resulting HTML document click here: [Boston forest summary](https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html)
 
-For additional examples see: [initial vignette](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
+For additional examples see: [initial vignette](https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer/inst/doc/randomForestExplainer.html).
 

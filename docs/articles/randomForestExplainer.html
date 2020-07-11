@@ -50,7 +50,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.10.0</span>
+          <span class="version version-default">0.10.1</span>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>This vignette demonstrates how to use the randomForestExplainer package. We will use the <code>Boston</code> from package <code>MASS</code>. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small <code>Boston</code> data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
+<p>This vignette demonstrates how to use the randomForestExplainer package. We will use the <code>Boston</code> from package <code>MASS</code>. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small <code>Boston</code> data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
 <p>We will use the following packages:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">randomForest</span>)
 <span class="co"># devtools::install_github("MI2DataLab/randomForestExplainer")</span>
@@ -322,8 +322,8 @@
 <a href="#explain-the-forest" class="anchor"></a>Explain the forest</h1>
 <p>The <code><a href="../reference/explain_forest.html">explain_forest()</a></code> function is the flagship function of the <code>randomForestExplainer</code> package, as it takes your random forest and produces a html report that summarizes all basic results obtained for the forest with the new package. Below, we show how to run this function with default settings (we only supply the forest, training data, set <code>interactions = TRUE</code> contrary to the default to show full functionality and decrease the grid for prediction plots in our most computationally-intense examples) for our data set.</p>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/explain_forest.html">explain_forest</a></span>(<span class="no">forest</span>, <span class="kw">interactions</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Boston</span>)</pre></body></html></div>
-<p>To see the resulting HTML document click here: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html">Boston forest summary</a></p>
-<p>For additional examples see: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
+<p>To see the resulting HTML document click here: <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html">Boston forest summary</a></p>
+<p>For additional examples see: <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
 </div>
   </div>
 

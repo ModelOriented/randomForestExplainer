@@ -28,4 +28,4 @@ devtools::install_github("ModelOriented/randomForestExplainer")
 
 ## Examples
 
-* [Initial vignette for glioblastoma data](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
+* [Initial vignette for glioblastoma data](https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer/inst/doc/randomForestExplainer.html)
