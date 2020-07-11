@@ -4,8 +4,11 @@
 \alias{plot_importance_ggpairs}
 \title{Plot importance measures with ggpairs}
 \usage{
-plot_importance_ggpairs(importance_frame, measures = NULL,
-  main = "Relations between measures of importance")
+plot_importance_ggpairs(
+  importance_frame,
+  measures = NULL,
+  main = "Relations between measures of importance"
+)
 }
 \arguments{
 \item{importance_frame}{A result of using the function measure_importance() to a random forest or a randomForest object}

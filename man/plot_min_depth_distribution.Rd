@@ -4,9 +4,15 @@
 \alias{plot_min_depth_distribution}
 \title{Plot the distribution of minimal depth in a random forest}
 \usage{
-plot_min_depth_distribution(min_depth_frame, k = 10,
-  min_no_of_trees = 0, mean_sample = "top_trees", mean_scale = FALSE,
-  mean_round = 2, main = "Distribution of minimal depth and its mean")
+plot_min_depth_distribution(
+  min_depth_frame,
+  k = 10,
+  min_no_of_trees = 0,
+  mean_sample = "top_trees",
+  mean_scale = FALSE,
+  mean_round = 2,
+  main = "Distribution of minimal depth and its mean"
+)
 }
 \arguments{
 \item{min_depth_frame}{A data frame output of min_depth_distribution function or a randomForest object}

@@ -6,15 +6,23 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Understanding random forests with randomForestExplainer • randomForestExplainer</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../dalexverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../dalexverse-2.css" rel="stylesheet">
-<link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- dalexverse --><link href="../dalexverse.css" rel="stylesheet">
+<link href="../dalexverse-2.css" rel="stylesheet">
+<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Understanding random forests with randomForestExplainer">
-<meta property="og:description" content="">
+<meta property="og:description" content="randomForestExplainer">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
-<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--><!-- google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script><script>
@@ -25,7 +33,7 @@
  gtag('config', 'UA-5650686-14');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -42,7 +50,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.10.0</span>
+          <span class="version version-default">0.10.1</span>
         </div>
       </div>
     </div>
@@ -64,7 +72,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/ModelOriented/randomForestExplainer">
+  <a href="https://github.com/ModelOriented/randomForestExplainer/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -82,7 +90,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Understanding random forests with randomForestExplainer</h1>
+      <h1 data-toc-skip>Understanding random forests with randomForestExplainer</h1>
                         <h4 class="author">Aleksandra Paluszyńska</h4>
             
       
@@ -96,19 +104,19 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>This vignette demonstrates how to use the randomForestExplainer package. We will use the <code>Boston</code> from package <code>MASS</code>. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small <code>Boston</code> data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
+<p>This vignette demonstrates how to use the randomForestExplainer package. We will use the <code>Boston</code> from package <code>MASS</code>. In fact, the development of randomForestExplainer was motivated by problems that include lots of predictors and not many observations. However, as they usually require growing large forests and are computationally intensive, we use the small <code>Boston</code> data set here and encourage you to follow our analysis of such large data set concerning glioblastoma here: <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
 <p>We will use the following packages:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(randomForest)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># devtools::install_github("MI2DataLab/randomForestExplainer")</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(randomForestExplainer)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">randomForest</span>)
+<span class="co"># devtools::install_github("MI2DataLab/randomForestExplainer")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">randomForestExplainer</span>)</pre></body></html></div>
 </div>
 <div id="data-and-forest" class="section level1">
 <h1 class="hasAnchor">
 <a href="#data-and-forest" class="anchor"></a>Data and forest</h1>
 <p>The data set <code>Boston</code> has the following structure:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(Boston, <span class="dt">package =</span> <span class="st">"MASS"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">Boston<span class="op">$</span>chas &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/logical.html">as.logical</a></span>(Boston<span class="op">$</span>chas)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(Boston)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">Boston</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"MASS"</span>)
+<span class="no">Boston</span>$<span class="no">chas</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/logical.html">as.logical</a></span>(<span class="no">Boston</span>$<span class="no">chas</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">Boston</span>)</pre></body></html></div>
 <pre><code>## 'data.frame':    506 obs. of  14 variables:
 ##  $ crim   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
 ##  $ zn     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
@@ -125,10 +133,10 @@
 ##  $ lstat  : num  4.98 9.14 4.03 2.94 5.33 ...
 ##  $ medv   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...</code></pre>
 <p>We use the <code><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest::randomForest</a></code> function to train a forest of <span class="math inline">\(B=500\)</span> trees (default value of the <code>mtry</code> parameter of this function), with option <code>localImp = TRUE</code>. The forest is supposed to predict the median price of an apartment <code>medv</code> based on its characteristics.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">forest &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span>(medv <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> Boston, <span class="dt">localImp =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">2017</span>)
+<span class="no">forest</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span>(<span class="no">medv</span> ~ <span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Boston</span>, <span class="kw">localImp</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>The prediction accuracy of our forest can be summarized as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">forest</a></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">forest</span></pre></body></html></div>
 <pre><code>## 
 ## Call:
 ##  randomForest(formula = medv ~ ., data = Boston, localImp = TRUE) 
@@ -144,10 +152,10 @@
 <h1 class="hasAnchor">
 <a href="#distribution-of-minimal-depth" class="anchor"></a>Distribution of minimal depth</h1>
 <p>To obtain the distribution of minimal depth we pass our forest to the function <code>min_depth_distribution</code> and store the result, which contains the following columns (we save this and load it from memory as it takes a while):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># min_depth_frame &lt;- min_depth_distribution(forest)</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># save(min_depth_frame, file = "min_depth_frame.rda")</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"min_depth_frame.rda"</span>)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(min_depth_frame, <span class="dt">n =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># min_depth_frame &lt;- min_depth_distribution(forest)</span>
+<span class="co"># save(min_depth_frame, file = "min_depth_frame.rda")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"min_depth_frame.rda"</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">min_depth_frame</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="fl">10</span>)</pre></body></html></div>
 <pre><code>##    tree variable minimal_depth
 ## 1     1      age             4
 ## 2     1    black             3
@@ -160,8 +168,8 @@
 ## 9     1  ptratio             3
 ## 10    1      rad             6</code></pre>
 <p>Next, we pass it to the function <code>plot_min_depth_distribution</code> and under default settings obtain obtain a plot of the distribution of minimal depth for top ten variables according to mean minimal depth calculated using top trees (<code>mean_sample = "top_trees"</code>). We could also pass our forest directly to the plotting function but if we want to make more than one plot of the minimal depth distribution is more efficient to pass the <code>min_depth_frame</code> to the plotting function so that it will not be calculated again for each plot (this works similarly for other plotting functions of <code>randomForestExplainer</code>).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># plot_min_depth_distribution(forest) # gives the same result as below but takes longer</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/plot_min_depth_distribution.html">plot_min_depth_distribution</a></span>(min_depth_frame)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># plot_min_depth_distribution(forest) # gives the same result as below but takes longer</span>
+<span class="fu"><a href="../reference/plot_min_depth_distribution.html">plot_min_depth_distribution</a></span>(<span class="no">min_depth_frame</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>The function <code>plot_min_depth_distribution</code> offers three possibilities when it comes to calculating the mean minimal depth, which differ in he way they treat missing values that appear when a variable is not used for splitting in a tree. They can be described as follows:</p>
 <ul>
@@ -171,7 +179,7 @@
 </ul>
 <p>Note that the <span class="math inline">\(x\)</span>-axis ranges from zero trees to the maximum number of trees in which any variable was used for splitting (<span class="math inline">\(\tilde{B}\)</span>) which is in this case equal to 500 and is reached by all variables plotted.</p>
 <p>The ordering of variables in our plot by their mean minimal depth seems quite accurate when we look at the distribution of minimal depth, though one could argue that for example <code>indus</code> should be ranked higher than <code>dis</code> as the latter is never used for splitting at the root. Usually we would obtain different orderings when changing the <code>mean_sample</code> option but this is not the case if variables are used for splitting in all trees as this option only influences how and whether missing values are treated. The default option, <code>"top_trees"</code>, penalizes missing values and this penalization makes the interpretation of the values less obvious – to address that we can calculate the mean minimal depth only using non-missing observations (<code>mean_sample = "relevant_trees"</code>). For forests with many variables with a lot of missing observations we should always consider adding the <code>min_no_of_trees</code> option so that only variables used for splitting in at least the declared number of trees will be considered for the plot. This allows us to avoid selecting variables that have been by chance used for splitting e.g., only once but at the root (their mean would be equal to 0). However, in our case we can simply increase the <code>k</code> parameter to plot all trees:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/plot_min_depth_distribution.html">plot_min_depth_distribution</a></span>(min_depth_frame, <span class="dt">mean_sample =</span> <span class="st">"relevant_trees"</span>, <span class="dt">k =</span> <span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_min_depth_distribution.html">plot_min_depth_distribution</a></span>(<span class="no">min_depth_frame</span>, <span class="kw">mean_sample</span> <span class="kw">=</span> <span class="st">"relevant_trees"</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">15</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>Clearly, using only relevant trees for calculating the mean does not change it for variables that have no missing values. Also, in this case the change does not influence the ordering of variables, but of course this usually not the case in more complex examples.</p>
 <p>Regardless of the exact parameters used in <code>plot_min_depth_distribution</code>, looking at the whole distribution of minimal depth offers a lot more insight into the role that a predictor plays in a forest in contrast to looking only at the mean, especially as it can be calculated in more than one way. Additionally, the function allows us to specify the maximum number of variables plotted <code>k</code>, whether the values of mean minimal depth should be scaled to the <span class="math inline">\([0,1]\)</span> interval (<code>mean_scale</code>, logical), the number of digits to round the mean to for display (<code>mean_round</code>) and the title of the plot (<code>main</code>).</p>
@@ -180,10 +188,10 @@
 <h1 class="hasAnchor">
 <a href="#various-variable-importance-measures" class="anchor"></a>Various variable importance measures</h1>
 <p>To further explore variable importance measures we pass our forest to <code>measure_importance</code> function and get the following data frame (we save and load it from memory to save time):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># importance_frame &lt;- measure_importance(forest)</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># save(importance_frame, file = "importance_frame.rda")</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"importance_frame.rda"</span>)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">importance_frame</a></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># importance_frame &lt;- measure_importance(forest)</span>
+<span class="co"># save(importance_frame, file = "importance_frame.rda")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"importance_frame.rda"</span>)
+<span class="no">importance_frame</span></pre></body></html></div>
 <pre><code>##    variable mean_min_depth no_of_nodes mse_increase node_purity_increase
 ## 1       age       3.308000        8936    3.7695582            1144.6959
 ## 2     black       3.512000        7855    1.6677224             762.5438
@@ -230,11 +238,11 @@
 <h2 class="hasAnchor">
 <a href="#multi-way-importance-plot" class="anchor"></a>Multi-way importance plot</h2>
 <p>Below we present the result of <code>plot_multi_way_importance</code> for the default values of <code>x_measure</code> and <code>y_measure</code>, which specify measures to use on <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-axis, and the size of points reflects the number of nodes split on the variable. For problems with many variables we can restrict the plot to only those used for splitting in at least <code>min_no_of_trees</code> trees. By default 10 top variables in the plot are highlighted in blue and labeled (<code>no_of_labels</code>) – these are selected using the function <code>important_variables</code>, i.e. using the sum of rankings based on importance measures used in the plot (more variables may be labeled if ties occur).</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># plot_multi_way_importance(forest, size_measure = "no_of_nodes") # gives the same result as below but takes longer</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/plot_multi_way_importance.html">plot_multi_way_importance</a></span>(importance_frame, <span class="dt">size_measure =</span> <span class="st">"no_of_nodes"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># plot_multi_way_importance(forest, size_measure = "no_of_nodes") # gives the same result as below but takes longer</span>
+<span class="fu"><a href="../reference/plot_multi_way_importance.html">plot_multi_way_importance</a></span>(<span class="no">importance_frame</span>, <span class="kw">size_measure</span> <span class="kw">=</span> <span class="st">"no_of_nodes"</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 <p>Observe the marked negative relation between <code>times_a_root</code> and <code>mean_min_depth</code>. Also, the superiority of <code>lstat</code> and <code>rm</code> is clear in all three dimensions plotted (though it is not clear which of the two is better). Further, we present the multi-way importance plot for a different set of importance measures: increase of mean squared error after permutation (<span class="math inline">\(x\)</span>-axis), increase in the node purity index (<span class="math inline">\(y\)</span>-axis) and levels of significance (color of points). We also set <code>no_of_labels</code> to five so that only five top variables will be highlighted (as ties occur, six are eventually labeled).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/plot_multi_way_importance.html">plot_multi_way_importance</a></span>(importance_frame, <span class="dt">x_measure =</span> <span class="st">"mse_increase"</span>, <span class="dt">y_measure =</span> <span class="st">"node_purity_increase"</span>, <span class="dt">size_measure =</span> <span class="st">"p_value"</span>, <span class="dt">no_of_labels =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_multi_way_importance.html">plot_multi_way_importance</a></span>(<span class="no">importance_frame</span>, <span class="kw">x_measure</span> <span class="kw">=</span> <span class="st">"mse_increase"</span>, <span class="kw">y_measure</span> <span class="kw">=</span> <span class="st">"node_purity_increase"</span>, <span class="kw">size_measure</span> <span class="kw">=</span> <span class="st">"p_value"</span>, <span class="kw">no_of_labels</span> <span class="kw">=</span> <span class="fl">5</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>As in the previous plot, the two measures used as coordinates seem correlated, but in this case this is somewhat more surprising as one is connected to the structure of the forest and the other to its prediction, whereas in the previous plot both measures reflected the structure. Also, in this plot we see that although <code>lstat</code> and <code>rm</code> are similar in terms of node purity increase and <span class="math inline">\(p\)</span>-value, the former is markedly better if we look at the increase in MSE. Interestingly, <code>nox</code> and <code>indus</code> are quite good when it comes to the two measures reflected on the axes, but are not significant according to our <span class="math inline">\(p\)</span>-value, which is a derivative of the number of nodes that use a variable for splitting.</p>
 </div>
@@ -242,8 +250,8 @@
 <h2 class="hasAnchor">
 <a href="#compare-measures-using-ggpairs" class="anchor"></a>Compare measures using ggpairs</h2>
 <p>Generally, the multi-way importance plot offers a wide variety of possibilities so it can be hard to select the most informative one. One idea of overcoming this obstacle is to first explore relations between different importance measures to then select three that least agree with each other and use them in the multi-way importance plot to select top variables. The first is easily done by plotting selected importance measures pairwise against each other using <code>plot_importance_ggpairs</code> as below. One could of course include all seven measures in the plot but by default <span class="math inline">\(p\)</span>-value and the number of trees are excluded as both carry similar information as the number of nodes.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># plot_importance_ggpairs(forest) # gives the same result as below but takes longer</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/plot_importance_ggpairs.html">plot_importance_ggpairs</a></span>(importance_frame)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># plot_importance_ggpairs(forest) # gives the same result as below but takes longer</span>
+<span class="fu"><a href="../reference/plot_importance_ggpairs.html">plot_importance_ggpairs</a></span>(<span class="no">importance_frame</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <p>We can see that all depicted measures are highly correlated (of course the correlation of any measure with mean minimal depth is negative as the latter is lowest for best variables), but some less than others. Moreover, regardless of which measures we compare, there always seem to be two points that stand out and these most likely correspond to <code>lstat</code> and <code>rm</code> (to now for sure we could just examine the <code>importance_frame</code>).</p>
 </div>
@@ -251,8 +259,8 @@
 <h2 class="hasAnchor">
 <a href="#compare-different-rankings" class="anchor"></a>Compare different rankings</h2>
 <p>In addition to scatter plots and correlation coefficients, the ggpairs plot also depicts density estimate for each importance measure – all of which are in this case very skewed. An attempt to eliminate this feature by plotting rankings instead of raw measures is implemented in the function <code>plot_importance_rankings</code> that also includes the fitted LOESS curve in each plot.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># plot_importance_rankings(forest) # gives the same result as below but takes longer</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="../reference/plot_importance_rankings.html">plot_importance_rankings</a></span>(importance_frame)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="co"># plot_importance_rankings(forest) # gives the same result as below but takes longer</span>
+<span class="fu"><a href="../reference/plot_importance_rankings.html">plot_importance_rankings</a></span>(<span class="no">importance_frame</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 <p>The above density estimates show that skewness was eliminated for all of our importance measures (this is not always the case, e.g., when ties in rankings are frequent, and this is likely for discrete importance measures such as <code>times_a_root</code>, then the distribution of the ranking will also be skewed).</p>
 <p>When comparing the rankings in the above plot we can see that two pairs of measures almost exactly agree in their rankings of variables: <code>mean_min_depth</code> vs. <code>mse_increase</code> and <code>mse_increase</code> vs. <code>node_purity_increase</code>. In applications where there are many variables, the LOESS curve may be the main takeaway from this plot (if points fill in the whole plotting area and this is likely if the distributions of measures are close to uniform).</p>
@@ -265,14 +273,14 @@
 <h2 class="hasAnchor">
 <a href="#conditional-minimal-depth" class="anchor"></a>Conditional minimal depth</h2>
 <p>After selecting a set of most important variables we can investigate interactions with respect to them, i.e. splits appearing in maximal subtrees with respect to one of the variables selected. To extract the names of 5 most important variables according to both the mean minimal depth and number of trees in which a variable appeared, we pass our <code>importance_frame</code> to the function <code>important_variables</code> as follows:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># (vars &lt;- important_variables(forest, k = 5, measures = c("mean_min_depth", "no_of_trees"))) # gives the same result as below but takes longer</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">(vars &lt;-<span class="st"> </span><span class="kw"><a href="../reference/important_variables.html">important_variables</a></span>(importance_frame, <span class="dt">k =</span> <span class="dv">5</span>, <span class="dt">measures =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mean_min_depth"</span>, <span class="st">"no_of_trees"</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="co"># (vars &lt;- important_variables(forest, k = 5, measures = c("mean_min_depth", "no_of_trees"))) # gives the same result as below but takes longer</span>
+(<span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/important_variables.html">important_variables</a></span>(<span class="no">importance_frame</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">measures</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mean_min_depth"</span>, <span class="st">"no_of_trees"</span>)))</pre></body></html></div>
 <pre><code>## [1] "lstat" "rm"    "crim"  "nox"   "dis"</code></pre>
 <p>We pass the result together with or forest to the <code>min_depth_interactions</code> function to obtain a data frame containing information on mean conditional minimal depth of variables with respect to each element of <code>vars</code> (missing values are filled analogously as for unconditional minimal depth, in one of three ways specified by <code>mean_sample</code>). If we would not specify the <code>vars</code> argument then the vector of conditioning variables would be by default obtained using <code><a href="../reference/important_variables.html">important_variables(measure_importance(forest))</a></code>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># interactions_frame &lt;- min_depth_interactions(forest, vars)</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co"># save(interactions_frame, file = "interactions_frame.rda")</span></a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"interactions_frame.rda"</span>)</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(interactions_frame[<span class="kw"><a href="https://rdrr.io/r/base/order.html">order</a></span>(interactions_frame<span class="op">$</span>occurrences, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>), ])</a></code></pre></div>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="co"># interactions_frame &lt;- min_depth_interactions(forest, vars)</span>
+<span class="co"># save(interactions_frame, file = "interactions_frame.rda")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"interactions_frame.rda"</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">interactions_frame</span>[<span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span>(<span class="no">interactions_frame</span>$<span class="no">occurrences</span>, <span class="kw">decreasing</span> <span class="kw">=</span> <span class="fl">TRUE</span>), ])</pre></body></html></div>
 <pre><code>##    variable root_variable mean_min_depth occurrences interaction
 ## 53       rm         lstat       1.179381         485    lstat:rm
 ## 18     crim         lstat       1.934738         478  lstat:crim
@@ -288,15 +296,15 @@
 ## 33                 1.288
 ## 8                  3.512</code></pre>
 <p>Then, we pass our <code>interactions_frame</code> to the plotting function <code>plot_min_depth_interactions</code> and obtain the following:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># plot_min_depth_interactions(forest) # calculates the interactions_frame for default settings so may give different results than the function below depending on our settings and takes more time</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/plot_min_depth_interactions.html">plot_min_depth_interactions</a></span>(interactions_frame)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="co"># plot_min_depth_interactions(forest) # calculates the interactions_frame for default settings so may give different results than the function below depending on our settings and takes more time</span>
+<span class="fu"><a href="../reference/plot_min_depth_interactions.html">plot_min_depth_interactions</a></span>(<span class="no">interactions_frame</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 <p>Note that the interactions are ordered by decreasing number of occurrences – the most frequent one, <code>lstat:rm</code>, is also the one with minimal mean conditional minimal depth. Remarkably, the unconditional mean minimal depth of <code>rm</code> in the forest is almost equal to its mean minimal depth across maximal subtrees with <code>lstat</code> as the root variable.</p>
 <p>Generally, the plot contains much information and can be interpreted in many ways but always bear in mind the method used for calculating the conditional (<code>mean_sample</code> parameter) and unconditional (<code>uncond_mean_sample</code> parameter) mean minimal depth. Using the default <code>"top_trees"</code> penalizes interactions that occur less frequently than the most frequent one. Of course, one can switch between <code>"all_trees"</code>, <code>"top_trees"</code> and <code>"relevant_trees"</code> for calculating the mean of both the conditional and unconditional minimal depth but each of them has its drawbacks and we favour using <code>"top_trees"</code> (the default). However, as <code>plot_min_depth_interactions</code> plots interactions by decreasing frequency the major drawback of calculating the mean only for relevant variables vanishes as interactions appearing for example only once but with conditional depth 0 will not be included in the plot anyway. Thus, we repeat the computation of means using <code>"relevant_trees"</code> and get the following result:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># interactions_frame &lt;- min_depth_interactions(forest, vars, mean_sample = "relevant_trees", uncond_mean_sample = "relevant_trees")</span></a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co"># save(interactions_frame, file = "interactions_frame_relevant.rda")</span></a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"interactions_frame_relevant.rda"</span>)</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="kw"><a href="../reference/plot_min_depth_interactions.html">plot_min_depth_interactions</a></span>(interactions_frame)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="co"># interactions_frame &lt;- min_depth_interactions(forest, vars, mean_sample = "relevant_trees", uncond_mean_sample = "relevant_trees")</span>
+<span class="co"># save(interactions_frame, file = "interactions_frame_relevant.rda")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"interactions_frame_relevant.rda"</span>)
+<span class="fu"><a href="../reference/plot_min_depth_interactions.html">plot_min_depth_interactions</a></span>(<span class="no">interactions_frame</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-16-1.png" width="672"></p>
 <p>Comparing this plot with the previous one we see that removing penalization of missing values lowers the mean conditional minimal depth of all interactions except the most frequent one. Now, in addition to the frequent ones, some of the less frequent like <code>rm:tax</code> stand out.</p>
 </div>
@@ -304,7 +312,7 @@
 <h2 class="hasAnchor">
 <a href="#prediction-of-the-forest-on-a-grid" class="anchor"></a>Prediction of the forest on a grid</h2>
 <p>To further investigate the most frequent interaction <code>lstat:rm</code> we use the function <code>plot_predict_interaction</code> to plot the prediction of our forest on a grid of values for the components of each interaction. The function requires the forest, training data, variable to use on <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>-axis, respectively. In addition, one can also decrease the number of points in both dimensions of the grid from the default of 100 in case of insufficient memory using the parameter <code>grid</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="../reference/plot_predict_interaction.html">plot_predict_interaction</a></span>(forest, Boston, <span class="st">"rm"</span>, <span class="st">"lstat"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_predict_interaction.html">plot_predict_interaction</a></span>(<span class="no">forest</span>, <span class="no">Boston</span>, <span class="st">"rm"</span>, <span class="st">"lstat"</span>)</pre></body></html></div>
 <p><img src="randomForestExplainer_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>In the above plot we can clearly see the effect of interaction: the predicted median price is highest when <code>lstat</code> is low and <code>rm</code> is high and low when the reverse is true. To further investigate the effect of interactions we could plot other frequent ones on a grid.</p>
 </div>
@@ -313,48 +321,28 @@
 <h1 class="hasAnchor">
 <a href="#explain-the-forest" class="anchor"></a>Explain the forest</h1>
 <p>The <code><a href="../reference/explain_forest.html">explain_forest()</a></code> function is the flagship function of the <code>randomForestExplainer</code> package, as it takes your random forest and produces a html report that summarizes all basic results obtained for the forest with the new package. Below, we show how to run this function with default settings (we only supply the forest, training data, set <code>interactions = TRUE</code> contrary to the default to show full functionality and decrease the grid for prediction plots in our most computationally-intense examples) for our data set.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="../reference/explain_forest.html">explain_forest</a></span>(forest, <span class="dt">interactions =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> Boston)</a></code></pre></div>
-<p>To see the resulting HTML document click here: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html">Boston forest summary</a></p>
-<p>For additional examples see: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/explain_forest.html">explain_forest</a></span>(<span class="no">forest</span>, <span class="kw">interactions</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">Boston</span>)</pre></body></html></div>
+<p>To see the resulting HTML document click here: <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/master/examples/Boston_forest_explained.html">Boston forest summary</a></p>
+<p>For additional examples see: <a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer/inst/doc/randomForestExplainer.html">initial vignette</a>.</p>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
-      <li><a href="#data-and-forest">Data and forest</a></li>
-      <li><a href="#distribution-of-minimal-depth">Distribution of minimal depth</a></li>
-      <li>
-<a href="#various-variable-importance-measures">Various variable importance measures</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#multi-way-importance-plot">Multi-way importance plot</a></li>
-      <li><a href="#compare-measures-using-ggpairs">Compare measures using ggpairs</a></li>
-      <li><a href="#compare-different-rankings">Compare different rankings</a></li>
-      </ul>
-</li>
-      <li>
-<a href="#variable-interactions">Variable interactions</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#conditional-minimal-depth">Conditional minimal depth</a></li>
-      <li><a href="#prediction-of-the-forest-on-a-grid">Prediction of the forest on a grid</a></li>
-      </ul>
-</li>
-      <li><a href="#explain-the-forest">Explain the forest</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
 
 
-      <footer><div class="author">
-  <p>
-    Developed by Aleksandra Paluszynska, Przemyslaw Biecek, Yue Jiang.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
-  </p>
+      <footer><div class="copyright">
+  <p>Developed by Aleksandra Paluszynska, Przemyslaw Biecek, Yue Jiang.</p>
+</div>
+
+<div class="pkgdown">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

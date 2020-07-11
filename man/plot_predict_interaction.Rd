@@ -4,9 +4,16 @@
 \alias{plot_predict_interaction}
 \title{Plot the prediction of the forest for a grid of values of two numerical variables}
 \usage{
-plot_predict_interaction(forest, data, variable1, variable2, grid = 100,
-  main = paste0("Prediction of the forest for different values of ",
-  paste0(variable1, paste0(" and ", variable2))), time = NULL)
+plot_predict_interaction(
+  forest,
+  data,
+  variable1,
+  variable2,
+  grid = 100,
+  main = paste0("Prediction of the forest for different values of ", paste0(variable1,
+    paste0(" and ", variable2))),
+  time = NULL
+)
 }
 \arguments{
 \item{forest}{A randomForest or ranger object}

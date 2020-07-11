@@ -8,43 +8,60 @@
 
 <title>Explain a random forest — explain_forest • randomForestExplainer</title>
 
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="../dalexverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- dalexverse -->
+<link href="../dalexverse.css" rel="stylesheet">
+<link href="../dalexverse-2.css" rel="stylesheet">
 
 <!-- pkgdown -->
-<link href="../dalexverse-2.css" rel="stylesheet">
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
+
+
+
 
 
 
 <meta property="og:title" content="Explain a random forest — explain_forest" />
 <meta property="og:description" content="Explains a random forest in a html document using plots created by randomForestExplainer" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -63,7 +80,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.10.0</span>
+          <span class="version version-default">0.10.1</span>
         </div>
       </div>
     </div>
@@ -103,7 +120,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/ModelOriented/randomForestExplainer">
+  <a href="https://github.com/ModelOriented/randomForestExplainer/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -130,9 +147,16 @@
     <p>Explains a random forest in a html document using plots created by randomForestExplainer</p>
     </div>
 
-    <pre class="usage"><span class='fu'>explain_forest</span>(<span class='no'>forest</span>, <span class='kw'>interactions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>no_of_pred_plots</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>pred_grid</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>explain_forest</span>(
+  <span class='no'>forest</span>,
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interactions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>no_of_pred_plots</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>pred_grid</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,6 +164,10 @@
     <tr>
       <th>forest</th>
       <td><p>A randomForest object created with the option localImp = TRUE</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>Path to write output html to</p></td>
     </tr>
     <tr>
       <th>interactions</th>
@@ -169,118 +197,29 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A html document in your working directory</p>
+    <p>A html document. If path is not specified, this document will be "Your_forest_explained.html" in your working directory</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>forest</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>localImp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>explain_forest</span>(<span class='no'>forest</span>, <span class='kw'>interactions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>processing file: Explain_forest_template.Rmd</span></div><div class='output co'>#&gt;   |                                                                         |                                                                 |   0%  |                                                                         |...                                                              |   5%
-#&gt;    inline R code fragments
-#&gt; 
-#&gt;   |                                                                         |......                                                           |  10%
-#&gt; label: setup (with options) 
-#&gt; List of 1
-#&gt;  $ include: logi FALSE
-#&gt; 
-#&gt;   |                                                                         |..........                                                       |  15%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |.............                                                    |  20%
-#&gt; label: unnamed-chunk-1
-#&gt;   |                                                                         |................                                                 |  25%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |....................                                             |  30%
-#&gt; label: unnamed-chunk-2
-#&gt;   |                                                                         |.......................                                          |  35%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |..........................                                       |  40%
-#&gt; label: unnamed-chunk-3</div><div class='output co'>#&gt;   |                                                                         |.............................                                    |  45%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |................................                                 |  50%
-#&gt; label: unnamed-chunk-4
-#&gt;   |                                                                         |....................................                             |  55%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |.......................................                          |  60%
-#&gt; label: unnamed-chunk-5</div><div class='output co'>#&gt;   |                                                                         |..........................................                       |  65%
-#&gt;    inline R code fragments
-#&gt; 
-#&gt; [1] accuracy_decrease and gini_decrease
-#&gt;   |                                                                         |..............................................                   |  70%
-#&gt; label: unnamed-chunk-6</div><div class='output co'>#&gt; <span class='warning'>Warning: Using alpha for a discrete variable is not advised.</span></div><div class='output co'>#&gt;   |                                                                         |.................................................                |  75%
-#&gt;    inline R code fragments
-#&gt; 
-#&gt; [1] mean_min_depth, accuracy_decrease, gini_decrease, no_of_nodes, times_a_root
-#&gt;   |                                                                         |....................................................             |  80%
-#&gt; label: unnamed-chunk-7 (with options) 
-#&gt; List of 2
-#&gt;  $ fig.width : num 10
-#&gt;  $ fig.height: num 9
-#&gt; </div><div class='output co'>#&gt;   |                                                                         |.......................................................          |  85%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |..........................................................       |  90%
-#&gt; label: unnamed-chunk-8 (with options) 
-#&gt; List of 2
-#&gt;  $ fig.width : num 10
-#&gt;  $ fig.height: num 9
-#&gt; </div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt; <span class='warning'>Warning: span too small.   fewer data values than degrees of freedom.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 0.985</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  0</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 4.0602</span></div><div class='output co'>#&gt;   |                                                                         |..............................................................   |  95%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |.................................................................| 100%
-#&gt; label: conditional_print (with options) 
-#&gt; List of 2
-#&gt;  $ child: chr "Explain_forest_template_interactions.Rmd"
-#&gt;  $ eval : symbol interactions
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>processing file: ./Explain_forest_template_interactions.Rmd</span></div><div class='output co'>#&gt;   |                                                                         |                                                                 |   0%  |                                                                         |.........                                                        |  14%
-#&gt;    inline R code fragments
-#&gt; 
-#&gt; [1] Petal.Width, Petal.Length, Sepal.Length, Sepal.Width
-#&gt;   |                                                                         |...................                                              |  29%
-#&gt; label: unnamed-chunk-9</div><div class='output co'>#&gt;   |                                                                         |............................                                     |  43%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt;   |                                                                         |.....................................                            |  57%
-#&gt; label: unnamed-chunk-10
-#&gt;   |                                                                         |..............................................                   |  71%
-#&gt;    inline R code fragments
-#&gt; 
-#&gt;   |                                                                         |........................................................         |  86%
-#&gt; label: unnamed-chunk-11
-#&gt;   |                                                                         |.................................................................| 100%
-#&gt;   ordinary text without R code
-#&gt; 
-#&gt; 
-#&gt; </div><div class='output co'>#&gt; <span class='message'>output file: Explain_forest_template.knit.md</span></div><div class='output co'>#&gt; /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS Explain_forest_template.utf8.md --to html4 --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash+smart --output /Users/pbiecek/GitHub/randomForestExplainer/docs/reference/Your_forest_explained.html --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/3.5/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable 'theme:bootstrap' --include-in-header /var/folders/_l/jllqh32s3llbxmtrh2431vpr0000gn/T//RtmpWFwgg7/rmarkdown-str1384b6867d71.html --mathjax --variable 'mathjax-url:https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Output created: Your_forest_explained.html</span></div><div class='input'># }
-
-</div></pre>
+<span class='fu'>explain_forest</span>(<span class='no'>forest</span>, <span class='kw'>interactions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+}</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
-      <div class="author">
-  <p>
-    Developed by Aleksandra Paluszynska, Przemyslaw Biecek, Yue Jiang.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
-  </p>
+      <div class="copyright">
+  <p>Developed by Aleksandra Paluszynska, Przemyslaw Biecek, Yue Jiang.</p>
+</div>
+
+<div class="pkgdown">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
