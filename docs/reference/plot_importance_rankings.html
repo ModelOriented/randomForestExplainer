@@ -106,7 +106,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +121,7 @@
 </li>
         <li>
   <a href="https://github.com/ModelOriented/randomForestExplainer/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -147,11 +147,11 @@
     <p>Plot against each other rankings of variables according to various measures of importance</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_importance_rankings</span>(
-  <span class='no'>importance_frame</span>,
-  <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Relations between rankings according to different measures"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_importance_rankings</span><span class='op'>(</span>
+  <span class='va'>importance_frame</span>,
+  measures <span class='op'>=</span> <span class='cn'>NULL</span>,
+  main <span class='op'>=</span> <span class='st'>"Relations between rankings according to different measures"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,9 +175,10 @@
     <p>A ggplot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>forest</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>localImp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
-<span class='no'>frame</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='measure_importance.html'>measure_importance</a></span>(<span class='no'>forest</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean_min_depth"</span>, <span class='st'>"times_a_root"</span>))
-<span class='fu'><a href='plot_importance_ggpairs.html'>plot_importance_ggpairs</a></span>(<span class='no'>frame</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mean_min_depth"</span>, <span class='st'>"times_a_root"</span>))</div><div class='img'><img src='plot_importance_rankings-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='va'>forest</span> <span class='op'>&lt;-</span> <span class='fu'>randomForest</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span><span class='op'>(</span><span class='va'>Species</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>iris</span>, localImp <span class='op'>=</span> <span class='cn'>TRUE</span>, ntree <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span>
+<span class='va'>frame</span> <span class='op'>&lt;-</span> <span class='fu'><a href='measure_importance.html'>measure_importance</a></span><span class='op'>(</span><span class='va'>forest</span>, measures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean_min_depth"</span>, <span class='st'>"times_a_root"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='plot_importance_ggpairs.html'>plot_importance_ggpairs</a></span><span class='op'>(</span><span class='va'>frame</span>, measures <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mean_min_depth"</span>, <span class='st'>"times_a_root"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_importance_rankings-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

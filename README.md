@@ -9,7 +9,7 @@ A set of tools to understand what is happening inside a Random Forest. A detaile
 
 ## Installation
 
-```
+```r
 # the easiest way to get randomForestExplainer is to install it from CRAN:
 install.packages("randomForestExplainer")
 

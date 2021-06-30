@@ -106,7 +106,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +121,7 @@
 </li>
         <li>
   <a href="https://github.com/ModelOriented/randomForestExplainer/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -147,16 +147,16 @@
     <p>Explains a random forest in a html document using plots created by randomForestExplainer</p>
     </div>
 
-    <pre class="usage"><span class='fu'>explain_forest</span>(
-  <span class='no'>forest</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>interactions</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>no_of_pred_plots</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>pred_grid</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>explain_forest</span><span class='op'>(</span>
+  <span class='va'>forest</span>,
+  path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  interactions <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vars <span class='op'>=</span> <span class='cn'>NULL</span>,
+  no_of_pred_plots <span class='op'>=</span> <span class='fl'>3</span>,
+  pred_grid <span class='op'>=</span> <span class='fl'>100</span>,
+  measures <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,10 +200,12 @@
     <p>A html document. If path is not specified, this document will be "Your_forest_explained.html" in your working directory</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>forest</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>localImp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>explain_forest</span>(<span class='no'>forest</span>, <span class='kw'>interactions</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>forest</span> <span class='op'>&lt;-</span> <span class='fu'>randomForest</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span><span class='op'>(</span><span class='va'>Species</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>iris</span>, localImp <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>explain_forest</span><span class='op'>(</span><span class='va'>forest</span>, interactions <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

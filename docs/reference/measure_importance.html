@@ -106,7 +106,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,7 +121,7 @@
 </li>
         <li>
   <a href="https://github.com/ModelOriented/randomForestExplainer/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -147,7 +147,7 @@
     <p>Get a data frame with various measures of importance of variables in a random forest</p>
     </div>
 
-    <pre class="usage"><span class='fu'>measure_importance</span>(<span class='no'>forest</span>, <span class='kw'>mean_sample</span> <span class='kw'>=</span> <span class='st'>"top_trees"</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>measure_importance</span><span class='op'>(</span><span class='va'>forest</span>, mean_sample <span class='op'>=</span> <span class='st'>"top_trees"</span>, measures <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,8 +175,9 @@ if "p_value" is to be calculated then "no_of_nodes" will be too. Suitable measur
     <p>A data frame with rows corresponding to variables and columns to various measures of importance of variables</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>forest</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>localImp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>300</span>)
-<span class='fu'>measure_importance</span>(<span class='no'>forest</span>)</div><div class='output co'>#&gt;       variable mean_min_depth no_of_nodes accuracy_decrease gini_decrease
+    <pre class="examples"><div class='input'><span class='va'>forest</span> <span class='op'>&lt;-</span> <span class='fu'>randomForest</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span><span class='op'>(</span><span class='va'>Species</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>iris</span>, localImp <span class='op'>=</span> <span class='cn'>TRUE</span>, ntree <span class='op'>=</span> <span class='fl'>300</span><span class='op'>)</span>
+<span class='fu'>measure_importance</span><span class='op'>(</span><span class='va'>forest</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       variable mean_min_depth no_of_nodes accuracy_decrease gini_decrease
 #&gt; 1 Petal.Length      1.1114865         749       0.298860983     42.010102
 #&gt; 2  Petal.Width      0.9932432         775       0.310185955     43.803248
 #&gt; 3 Sepal.Length      2.0128041         493       0.033657157     11.235496
