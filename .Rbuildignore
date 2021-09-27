@@ -4,7 +4,7 @@ materials*
 ^docs$
 ^_pkgdown\.yml$
 ^pkgdown$
-^\.travis\.yml$
 ^cran-comments\.md$
 ^doc$
 ^Meta$
+^\.github$

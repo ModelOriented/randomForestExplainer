@@ -1,7 +1,7 @@
 # randomForestExplainer <img src="man/figures/logo.png" align="right" width="150"/>
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
-[![Build Status](https://travis-ci.org/ModelOriented/randomForestExplainer.svg?branch=master)](https://travis-ci.org/ModelOriented/randomForestExplainer)
+[![R-CMD-check](https://github.com/ModelOriented/randomForestExplainer/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/randomForestExplainer/actions)
 [![codecov](https://codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/randomForestExplainer)
 [![DOI](https://zenodo.org/badge/97007621.svg)](https://zenodo.org/badge/latestdoi/97007621)
 
