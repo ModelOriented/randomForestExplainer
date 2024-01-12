@@ -1,9 +1,13 @@
 # randomForestExplainer <img src="man/figures/logo.png" align="right" width="150"/>
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
-[![R-CMD-check](https://github.com/ModelOriented/randomForestExplainer/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/randomForestExplainer/actions)
+
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
+[![R-CMD-check](https://github.com/ModelOriented/randomForestExplainer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ModelOriented/randomForestExplainer/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/randomForestExplainer)
 [![DOI](https://zenodo.org/badge/97007621.svg)](https://zenodo.org/badge/latestdoi/97007621)
+<!-- badges: end -->
+
 
 A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: [Master thesis on randomForestExplainer](https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf).
 
