@@ -10,9 +10,9 @@ load(system.file("testdata/test_randomForest.rda", package="randomForestExplaine
 # save(rf_c, rf_r, rf_u, file = "inst/testdata/test_randomForest.rda")
 
 
-# "Test randomForest classification forests"
+# Test randomForest classification forests -------------------
 
-test_that("measure_importance works", {
+test_that("measure_importance works for randomForest classification forests", {
   imp_df <- measure_importance(rf_c, mean_sample = "all_trees",
                                measures = c("mean_min_depth", "accuracy_decrease", "gini_decrease",
                                             "no_of_nodes", "times_a_root", "p_value"))
@@ -20,60 +20,60 @@ test_that("measure_importance works", {
                c("Petal.Length", "Petal.Width", "Sepal.Length", "Sepal.Width"))
 })
 
-test_that("important_variables works", {
+test_that("important_variables works for randomForest classification forests", {
   imp_vars <- important_variables(rf_c, k = 3,
                                   measures = c("mean_min_depth", "accuracy_decrease", "gini_decrease",
                                                "no_of_nodes", "times_a_root", "p_value"))
   expect_equal(imp_vars, c("Petal.Width", "Petal.Length", "Sepal.Length"))
 })
 
-test_that("min_depth_distribution works", {
+test_that("min_depth_distribution works for randomForest classification forests", {
   min_depth_dist <- min_depth_distribution(rf_c)
   expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth,
                     0)
 })
 
-test_that("min_depth_interactions works", {
+test_that("min_depth_interactions works for randomForest classification forests", {
   min_depth_int <- min_depth_interactions(rf_c, vars = c("Petal.Width"))
   expect_equivalent(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
                     0)
 })
 
-test_that("plot_multi_way_importance works", {
+test_that("plot_multi_way_importance works for randomForest classification forests", {
   p <- plot_multi_way_importance(rf_c)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_distribution works", {
+test_that("plot_min_depth_distribution works for randomForest classification forests", {
   p <- plot_min_depth_distribution(rf_c)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_interacxtions works", {
+test_that("plot_min_depth_interacxtions works for randomForest classification forests", {
   int_frame <- min_depth_interactions(rf_c)
   expect_equal(dim(int_frame), c(16, 6))
   p <- plot_min_depth_interactions(rf_c)
   expect_silent(print(p))
 })
 
-test_that("plot_predict_interaction works", {
+test_that("plot_predict_interaction works for randomForest classification forests", {
   p <- plot_predict_interaction(rf_c, data = iris, variable1 = "Petal.Width", variable2 = "Petal.Length")
   expect_silent(print(p))
 })
 
-test_that("plot_importance_ggpairs works", {
+test_that("plot_importance_ggpairs works for randomForest classification forests", {
   p <- plot_importance_ggpairs(rf_c)
   expect_silent(suppressMessages(print(p)))
 })
 
-test_that("plot_importance_rankings works", {
+test_that("plot_importance_rankings works for randomForest classification forests", {
   p <- plot_importance_rankings(rf_c)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-context("Test randomForest regression forests")
+# Test randomForest regression forests ---------------
 
-test_that("measure_importance works", {
+test_that("measure_importance works for randomForest regression forests ", {
   imp_df <- measure_importance(rf_r, mean_sample = "all_trees",
                                measures = c("mean_min_depth", "mse_increase", "node_purity_increase",
                                             "no_of_nodes", "times_a_root", "p_value"))
@@ -81,58 +81,58 @@ test_that("measure_importance works", {
                c("am", "carb", "cyl", "disp", "drat", "gear", "hp", "qsec", "vs", "wt"))
 })
 
-test_that("important_variables works", {
+test_that("important_variables works for randomForest regression forests ", {
   imp_vars <- important_variables(rf_r, k = 3,
                                   measures = c("mean_min_depth", "mse_increase", "node_purity_increase",
                                                "no_of_nodes", "times_a_root", "p_value"))
   expect_equal(imp_vars, c("cyl", "disp", "hp", "wt"))
 })
 
-test_that("min_depth_distribution works", {
+test_that("min_depth_distribution works for randomForest regression forests ", {
   min_depth_dist <- min_depth_distribution(rf_r)
   expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "cyl", ]$minimal_depth,
                     0)
 })
 
-test_that("min_depth_interactions works", {
+test_that("min_depth_interactions works for randomForest regression forests ", {
   min_depth_int <- min_depth_interactions(rf_r, vars = c("cyl"))
   expect_equivalent(min_depth_int[min_depth_int$interaction == "cyl:wt", ]$mean_min_depth,
                     1)
 })
 
-test_that("plot_multi_way_importance works", {
+test_that("plot_multi_way_importance works for randomForest regression forests ", {
   p <- plot_multi_way_importance(rf_r)
   expect_silent(suppressWarnings(print(p)))
 })
 
-test_that("plot_min_depth_distribution works", {
+test_that("plot_min_depth_distribution works for randomForest regression forests ", {
   p <- plot_min_depth_distribution(rf_r)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_interactions works", {
+test_that("plot_min_depth_interactions works for randomForest regression forests ", {
   p <- plot_min_depth_interactions(rf_r)
   expect_silent(print(p))
 })
 
-test_that("plot_predict_interaction works", {
+test_that("plot_predict_interaction works for randomForest regression forests ", {
   p <- plot_predict_interaction(rf_r, data = mtcars, variable1 = "cyl", variable2 = "wt")
   expect_silent(print(p))
 })
 
-test_that("plot_importance_ggpairs works", {
+test_that("plot_importance_ggpairs works for randomForest regression forests ", {
   p <- plot_importance_ggpairs(rf_r)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-test_that("plot_importance_rankings works", {
+test_that("plot_importance_rankings works for randomForest regression forests ", {
   p <- plot_importance_rankings(rf_r)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-context("Test randomForest unsupervised forests")
+# Test randomForest unsupervised forests ----------------------------------
 
-test_that("measure_importance works", {
+test_that("measure_importance works for randomForest unsupervised forests", {
   imp_df <- measure_importance(rf_u, mean_sample = "all_trees",
                                measures = c("mean_min_depth", "accuracy_decrease", "gini_decrease",
                                             "no_of_nodes", "times_a_root", "p_value"))
@@ -140,36 +140,36 @@ test_that("measure_importance works", {
                c("Petal.Length", "Petal.Width", "Sepal.Length", "Sepal.Width", "Species"))
 })
 
-test_that("important_variables works", {
+test_that("important_variables works for randomForest unsupervised forests", {
   imp_vars <- important_variables(rf_u, k = 3,
                                   measures = c("mean_min_depth", "accuracy_decrease", "gini_decrease",
                                                "no_of_nodes", "times_a_root", "p_value"))
   expect_equal(imp_vars, c("Petal.Length", "Sepal.Length", "Species"))
 })
 
-test_that("min_depth_distribution works", {
+test_that("min_depth_distribution works for randomForest unsupervised forests", {
   min_depth_dist <- min_depth_distribution(rf_u)
   expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Sepal.Width", ]$minimal_depth,
                     0)
 })
 
-test_that("min_depth_interactions works", {
+test_that("min_depth_interactions works for randomForest unsupervised forests", {
   min_depth_int <- min_depth_interactions(rf_u, vars = c("Petal.Width"))
   expect_equivalent(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
                     1)
 })
 
-test_that("plot_multi_way_importance works", {
+test_that("plot_multi_way_importance works for randomForest unsupervised forests", {
   p <- plot_multi_way_importance(rf_u)
   expect_silent(suppressWarnings(print(p)))
 })
 
-test_that("plot_min_depth_distribution works", {
+test_that("plot_min_depth_distribution works for randomForest unsupervised forests", {
   p <- plot_min_depth_distribution(rf_u)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_interactions works", {
+test_that("plot_min_depth_interactions works for randomForest unsupervised forests", {
   p <- plot_min_depth_interactions(rf_u)
   expect_silent(print(p))
 })
@@ -179,12 +179,12 @@ test_that("plot_predict_interaction does not work for unsupervised forests", {
   expect_null(p)
 })
 
-test_that("plot_importance_ggpairs works", {
+test_that("plot_importance_ggpairs works for randomForest unsupervised forests", {
   p <- plot_importance_ggpairs(rf_u)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-test_that("plot_importance_rankings works", {
+test_that("plot_importance_rankings works for randomForest unsupervised forests", {
   p <- plot_importance_rankings(rf_u)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
