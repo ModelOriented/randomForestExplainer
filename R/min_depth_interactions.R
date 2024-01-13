@@ -160,16 +160,15 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
   interactions_frame <- tidyr::pivot_longer(
     interactions_frame,
     cols = -"variable",
-    names_to = "variable"
+    names_to = "root_variables",
+    values_to = "mean_min_depth"
     )
-  colnames(interactions_frame)[2:3] <- c("root_variable", "mean_min_depth")
   occurrences <- tidyr::pivot_longer(
     occurrences,
     cols = -"variable",
-    names_to = "variable"
+    names_to = "root_variable",
+    values_to = "occurrences"
     )
-
-  colnames(occurrences)[2:3] <- c("root_variable", "occurrences")
   interactions_frame <- merge(interactions_frame, occurrences)
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
   forest_table <-
