@@ -29,14 +29,17 @@ test_that("important_variables works for randomForest classification forests", {
 
 test_that("min_depth_distribution works for randomForest classification forests", {
   min_depth_dist <- min_depth_distribution(rf_c)
-  expect_equal(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth,
-                    0)
+  expect_equal(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth, 0)
 })
 
 test_that("min_depth_interactions works for randomForest classification forests", {
+  # depth_int returns matrix
   min_depth_int <- min_depth_interactions(rf_c, vars = c("Petal.Width"))
-  expect_equal(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
-                    0)
+  expect_equal(
+    min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
+    0,
+    ignore_attr = "dim"
+    )
 })
 
 test_that("plot_multi_way_importance works for randomForest classification forests", {
@@ -90,12 +93,14 @@ test_that("important_variables works for randomForest regression forests ", {
 
 test_that("min_depth_distribution works for randomForest regression forests ", {
   min_depth_dist <- min_depth_distribution(rf_r)
-  expect_equal(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "cyl", ]$minimal_depth,
-                    0)
+  expect_equal(
+    min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "cyl", ]$minimal_depth,
+    0)
 })
 
 test_that("min_depth_interactions works for randomForest regression forests ", {
   min_depth_int <- min_depth_interactions(rf_r, vars = c("cyl"))
+  # returns matrix
   expect_equal(
     min_depth_int[min_depth_int$interaction == "cyl:wt", ]$mean_min_depth,
     1,
@@ -158,9 +163,11 @@ test_that("min_depth_distribution works for randomForest unsupervised forests", 
 
 test_that("min_depth_interactions works for randomForest unsupervised forests", {
   min_depth_int <- min_depth_interactions(rf_u, vars = c("Petal.Width"))
+  # returns matrix
   expect_equal(
     min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
-    1
+    1,
+    ignore_attr = "dim"
   )
 })
 
