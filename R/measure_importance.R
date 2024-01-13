@@ -10,8 +10,7 @@ measure_min_depth <- function(min_depth_frame, mean_sample){
 # randomForest
 measure_no_of_nodes <- function(forest_table){
   `split var` <- NULL
-  frame <- dplyr::group_by(forest_table, `split var`) %>% dplyr::summarize(n())
-  colnames(frame) <- c("variable", "no_of_nodes")
+  frame <- dplyr::group_by(forest_table, variable = `split var`) %>% dplyr::summarize(no_of_nodes = dplyr::n())
   frame <- as.data.frame(frame[!is.na(frame$variable),])
   frame$variable <- as.character(frame$variable)
   return(frame)
@@ -21,8 +20,7 @@ measure_no_of_nodes <- function(forest_table){
 # randomForest
 measure_no_of_nodes_ranger <- function(forest_table){
   splitvarName <- NULL
-  frame <- dplyr::group_by(forest_table, splitvarName) %>% dplyr::summarize(n())
-  colnames(frame) <- c("variable", "no_of_nodes")
+  frame <- dplyr::group_by(forest_table, variable = splitvarName) %>% dplyr::summarize(no_of_nodes = n())
   frame <- as.data.frame(frame[!is.na(frame$variable),])
   frame$variable <- as.character(frame$variable)
   return(frame)
@@ -75,8 +73,7 @@ measure_vimp_ranger <- function(forest){
 measure_no_of_trees <- function(min_depth_frame){
   variable <- NULL
   frame <- dplyr::group_by(min_depth_frame, variable) %>%
-    dplyr::summarize(count = n()) %>% as.data.frame()
-  colnames(frame)[2] <- "no_of_trees"
+    dplyr::summarize(no_of_trees = n()) %>% as.data.frame()
   frame$variable <- as.character(frame$variable)
   return(frame)
 }
@@ -85,8 +82,7 @@ measure_no_of_trees <- function(min_depth_frame){
 measure_times_a_root <- function(min_depth_frame){
   variable <- NULL
   frame <- min_depth_frame[min_depth_frame$minimal_depth == 0, ] %>%
-    dplyr::group_by(variable) %>% dplyr::summarize(count = n()) %>% as.data.frame()
-  colnames(frame)[2] <- "times_a_root"
+    dplyr::group_by(variable) %>% dplyr::summarize(times_a_root = n()) %>% as.data.frame()
   frame$variable <- as.character(frame$variable)
   return(frame)
 }
