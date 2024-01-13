@@ -264,7 +264,7 @@ plot_min_depth_interactions <- function(interactions_frame, k = 30,
     geom_bar(stat = "identity") +
     geom_pointrange(aes(ymin = pmin(mean_min_depth, uncond_mean_min_depth), y = uncond_mean_min_depth,
                         ymax = pmax(mean_min_depth, uncond_mean_min_depth), shape = "unconditional"), fatten = 2, size = 1) +
-    geom_hline(aes(yintercept = minimum, linetype = "minimum"), color = "red", size = 1.5) +
+    geom_hline(aes(yintercept = minimum, linetype = "minimum"), color = "red", linewidth = 1.5) +
     scale_linetype_manual(name = NULL, values = 1) + theme_bw() +
     scale_shape_manual(name = NULL, values = 19) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -330,7 +330,7 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
   }
   if(forest$type == "regression"){
     newdata$prediction <- predict(forest, newdata, type = "response")
-    plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
+    plot <- ggplot(newdata, aes(x = .data[[variable1]], y = .data[[variable2]], fill = prediction)) +
       geom_raster() + theme_bw() +
       scale_fill_gradient2(midpoint = min(newdata$prediction) + 0.5 * (max(newdata$prediction) - min(newdata$prediction)),
                            low = "blue", high = "red")
@@ -343,7 +343,7 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
     }
     newdata <- tidyr::pivot_longer(newdata, cols = !dplyr::all_of(id_vars), names_to = "variable")
     newdata$prediction <- newdata$value
-    plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
+    plot <- ggplot(newdata, aes(x = .data[[variable1]], y = .data[[variable2]], fill = prediction)) +
       geom_raster() + theme_bw() + facet_wrap(~ variable) +
       scale_fill_gradient2(midpoint = min(newdata$prediction) + 0.5 * (max(newdata$prediction) - min(newdata$prediction)),
                            low = "blue", high = "red")
@@ -358,6 +358,7 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
 #' @importFrom stats predict
 #' @importFrom stats terms
 #' @importFrom stats as.formula
+#' @importFrom rlang .data
 #' @export
 plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, grid = 100,
                                             main = paste0("Prediction of the forest for different values of ",
@@ -378,7 +379,7 @@ plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, 
   }
   if(forest$treetype == "Regression"){
     newdata$prediction <- predict(forest, newdata, type = "response")$predictions
-    plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
+    plot <- ggplot(newdata, aes(x = .data[[variable1]], y = .data[[variable2]], fill = prediction)) +
       geom_raster() + theme_bw() +
       scale_fill_gradient2(midpoint = min(newdata$prediction) + 0.5 * (max(newdata$prediction) - min(newdata$prediction)),
                            low = "blue", high = "red")
@@ -392,7 +393,7 @@ plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, 
     }
     newdata <- tidyr::pivot_longer(newdata, cols = !dplyr::all_of(id_vars), names_to = "variable")
     newdata$prediction <- newdata$value
-    plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
+    plot <- ggplot(newdata, aes(x = .data[[variable1]], y = .data[[variable2]], fill = prediction)) +
       geom_raster() + theme_bw() + facet_wrap(~ variable) +
       scale_fill_gradient2(midpoint = min(newdata$prediction) + 0.5 * (max(newdata$prediction) - min(newdata$prediction)),
                            low = "blue", high = "red")
@@ -409,7 +410,7 @@ plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, 
       time <- new_time
     }
     newdata$prediction <- pred$survival[, pred$unique.death.times == time, drop = TRUE]
-    plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
+    plot <- ggplot(newdata, aes(x = .data[[variable1]], y = .data[[variable2]], fill = prediction)) +
       geom_raster() + theme_bw() +
       scale_fill_gradient2(midpoint = min(newdata$prediction) + 0.5 * (max(newdata$prediction) - min(newdata$prediction)),
                            low = "blue", high = "red")
