@@ -335,7 +335,7 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
         geom_label_repel(data = data_for_labels, aes(label = variable), show.legend = FALSE) +
         theme_bw() + scale_alpha_discrete(name = "variable", range = c(1, 1))
     } else {
-      plot <- ggplot(data, aes(x = .data[[x_measure]], y = .data[[y_measure]], size = size_measure)) +
+      plot <- ggplot(data, aes(x = .data[[x_measure]], y = .data[[y_measure]], size = .data[[size_measure]])) +
         geom_point(aes(colour = "black")) + geom_point(data = data_for_labels, aes(colour = "blue")) +
         geom_label_repel(data = data_for_labels, aes(label = variable, size = NULL), show.legend = FALSE) +
         scale_colour_manual(name = "variable", values = c("black", "blue"), labels = c("non-top", "top")) +
