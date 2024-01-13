@@ -1,10 +1,10 @@
 # randomForestExplainer 0.10.2
 
-* Remove dependency on reshape2 in favour of tidyr (@olivroy)
+* Remove dependency on reshape2 in favour of tidyr (@olivroy, #33)
 
-* Silence deprecation warnings from ggplot2 and dplyr
+* Silence deprecation warnings from ggplot2 and dplyr (@olivroy, #29)
 
-* Use testthat 3rd edition.
+* Use testthat 3rd edition. (@olivroy, #33)
 
 # randomForestExplainer 0.10.1
 
