@@ -5,7 +5,7 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/randomForestExplainer)](https://cran.r-project.org/package=randomForestExplainer)
 [![R-CMD-check](https://github.com/ModelOriented/randomForestExplainer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ModelOriented/randomForestExplainer/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://app.codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ModelOriented/randomForestExplainer?branch=master)
+[![codecov](https://codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ModelOriented/randomForestExplainer?branch=master)
 [![DOI](https://zenodo.org/badge/97007621.svg)](https://zenodo.org/badge/latestdoi/97007621)
 <!-- badges: end -->
 
