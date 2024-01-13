@@ -28,13 +28,13 @@ test_that("important_variables works for ranger classification forests", {
 
 test_that("min_depth_distribution works for ranger classification forests", {
   min_depth_dist <- min_depth_distribution(ranger_c)
-  expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth,
+  expect_equal(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth,
                     0)
 })
 
 test_that("min_depth_interactions works for ranger classification forests", {
   min_depth_int <- min_depth_interactions(ranger_c, vars = c("Petal.Width"))
-  expect_equivalent(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
+  expect_equal(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
                     1.5)
 })
 
@@ -87,13 +87,13 @@ test_that("important_variables works", {
 
 test_that("min_depth_distribution works", {
   min_depth_dist <- min_depth_distribution(ranger_r)
-  expect_equivalent(min_depth_dist[min_depth_dist$tree == 2 & min_depth_dist$variable == "cyl", ]$minimal_depth,
+  expect_equal(min_depth_dist[min_depth_dist$tree == 2 & min_depth_dist$variable == "cyl", ]$minimal_depth,
                     0)
 })
 
 test_that("min_depth_interactions works", {
   min_depth_int <- min_depth_interactions(ranger_r, vars = c("cyl"))
-  expect_equivalent(min_depth_int[min_depth_int$interaction == "cyl:wt", ]$mean_min_depth,
+  expect_equal(min_depth_int[min_depth_int$interaction == "cyl:wt", ]$mean_min_depth,
                     0.5)
 })
 
@@ -146,13 +146,13 @@ test_that("important_variables works for ranger survival forests", {
 
 test_that("min_depth_distribution works for ranger survival forests", {
   min_depth_dist <- min_depth_distribution(ranger_s)
-  expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "age", ]$minimal_depth,
+  expect_equal(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "age", ]$minimal_depth,
                     0)
 })
 
 test_that("min_depth_interactions works for ranger survival forests", {
   min_depth_int <- min_depth_interactions(ranger_s, vars = c("age"))
-  expect_equivalent(min_depth_int[min_depth_int$interaction == "age:ecog.ps", ]$mean_min_depth,
+  expect_equal(min_depth_int[min_depth_int$interaction == "age:ecog.ps", ]$mean_min_depth,
                     0.5)
 })
 

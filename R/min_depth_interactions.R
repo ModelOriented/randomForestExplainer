@@ -67,12 +67,18 @@ min_depth_interactions_values <- function(forest, vars){
   interactions_frame <-
     data.table::as.data.table(interactions_frame)[, conditional_depth(as.data.frame(.SD), vars), by = tree] %>% as.data.frame()
   mean_tree_depth <- dplyr::group_by(interactions_frame[, c("tree", vars)], tree) %>%
-    dplyr::summarize_at(vars, funs(max(., na.rm = TRUE))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) max(x, na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   mean_tree_depth[mean_tree_depth == -Inf] <- NA
   mean_tree_depth <- colMeans(mean_tree_depth[, vars, drop = FALSE], na.rm = TRUE)
   min_depth_interactions_frame <-
     interactions_frame %>% dplyr::group_by(tree, `split var`) %>%
-    dplyr::summarize_at(vars, funs(min(., na.rm = TRUE))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) min(x, na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   min_depth_interactions_frame[min_depth_interactions_frame == Inf] <- NA
   min_depth_interactions_frame <- min_depth_interactions_frame[!is.na(min_depth_interactions_frame$`split var`), ]
   colnames(min_depth_interactions_frame)[2] <- "variable"
@@ -92,12 +98,18 @@ min_depth_interactions_values_ranger <- function(forest, vars){
   interactions_frame <-
     data.table::as.data.table(interactions_frame)[, conditional_depth_ranger(as.data.frame(.SD), vars), by = tree] %>% as.data.frame()
   mean_tree_depth <- dplyr::group_by(interactions_frame[, c("tree", vars)], tree) %>%
-    dplyr::summarize_at(vars, funs(max(., na.rm = TRUE))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) max(x, na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   mean_tree_depth[mean_tree_depth == -Inf] <- NA
   mean_tree_depth <- colMeans(mean_tree_depth[, vars, drop = FALSE], na.rm = TRUE)
   min_depth_interactions_frame <-
     interactions_frame %>% dplyr::group_by(tree, splitvarName) %>%
-    dplyr::summarize_at(vars, funs(min(., na.rm = TRUE))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) min(x, na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   min_depth_interactions_frame[min_depth_interactions_frame == Inf] <- NA
   min_depth_interactions_frame <- min_depth_interactions_frame[!is.na(min_depth_interactions_frame$splitvarName), ]
   colnames(min_depth_interactions_frame)[2] <- "variable"
@@ -137,11 +149,17 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
   min_depth_interactions_frame <- min_depth_interactions_frame[[1]]
   interactions_frame <-
     min_depth_interactions_frame %>% dplyr::group_by(variable) %>%
-    dplyr::summarize_at(vars, funs(mean(., na.rm = TRUE))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) mean(x, na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   interactions_frame[is.na(as.matrix(interactions_frame))] <- NA
   occurrences <-
     min_depth_interactions_frame %>% dplyr::group_by(variable) %>%
-    dplyr::summarize_at(vars, funs(sum(!is.na(.)))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) sum(!is.na(x)))
+    ) %>%
+    as.data.frame()
   if(mean_sample == "all_trees"){
     non_occurrences <- occurrences
     non_occurrences[, -1] <- forest$ntree - occurrences[, -1]
@@ -175,9 +193,8 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
     lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
              mutate_if(is.factor, as.character) %>%
              calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
-  min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
-    dplyr::summarize(min(depth))
-  colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
+  min_depth_frame <- dplyr::group_by(forest_table, tree, variable = `split var`) %>%
+    dplyr::summarize(minimal_depth = min(depth))
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
   importance_frame <- get_min_depth_means(min_depth_frame, min_depth_count(min_depth_frame), uncond_mean_sample)
   colnames(importance_frame)[2] <- "uncond_mean_min_depth"
@@ -195,11 +212,17 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
   min_depth_interactions_frame <- min_depth_interactions_frame[[1]]
   interactions_frame <-
     min_depth_interactions_frame %>% dplyr::group_by(variable) %>%
-    dplyr::summarize_at(vars, funs(mean(., na.rm = TRUE))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) mean(x, na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   interactions_frame[is.na(as.matrix(interactions_frame))] <- NA
   occurrences <-
     min_depth_interactions_frame %>% dplyr::group_by(variable) %>%
-    dplyr::summarize_at(vars, funs(sum(!is.na(.)))) %>% as.data.frame()
+    dplyr::summarise(
+      dplyr::across({{ vars }}, function(x) sum(!is.na(x), na.rm = TRUE))
+    ) %>%
+    as.data.frame()
   if(mean_sample == "all_trees"){
     non_occurrences <- occurrences
     non_occurrences[, -1] <- forest$num.trees - occurrences[, -1]
@@ -222,9 +245,8 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
   forest_table <-
     lapply(1:forest$num.trees, function(i) ranger::treeInfo(forest, tree = i) %>%
              calculate_tree_depth_ranger() %>% cbind(tree = i)) %>% rbindlist()
-  min_depth_frame <- dplyr::group_by(forest_table, tree, splitvarName) %>%
-    dplyr::summarize(min(depth))
-  colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
+  min_depth_frame <- dplyr::group_by(forest_table, tree, variable = splitvarName) %>%
+    dplyr::summarize(minimal_depth = min(depth))
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
   importance_frame <- get_min_depth_means(min_depth_frame, min_depth_count(min_depth_frame), uncond_mean_sample)
   colnames(importance_frame)[2] <- "uncond_mean_min_depth"
