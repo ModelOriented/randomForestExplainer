@@ -20,8 +20,8 @@ Imports:
   ggrepel (>= 0.6.5),
   randomForest (>= 4.6.12),
   ranger(>= 0.9.0),
-  reshape2 (>= 1.4.2),
-  rmarkdown (>= 1.5)
+  rmarkdown (>= 1.5),
+  tidyr
 Suggests:
     knitr,
     MASS (>= 7.3.47),

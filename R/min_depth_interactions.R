@@ -157,9 +157,18 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
     interactions_frame[, -1] <- (interactions_frame[, -1] * occurrences[, -1] +
                                    as.matrix(non_occurrences[, -1]) %*% diag(mean_tree_depth, nrow = length(mean_tree_depth)))/(forest$ntree - minimum_non_occurrences)
   }
-  interactions_frame <- reshape2::melt(interactions_frame, id.vars = "variable")
+  interactions_frame <- tidyr::pivot_longer(
+    interactions_frame,
+    cols = -"variable",
+    names_to = "variable"
+    )
   colnames(interactions_frame)[2:3] <- c("root_variable", "mean_min_depth")
-  occurrences <- reshape2::melt(occurrences, id.vars = "variable")
+  occurrences <- tidyr::pivot_longer(
+    occurrences,
+    cols = -"variable",
+    names_to = "variable"
+    )
+
   colnames(occurrences)[2:3] <- c("root_variable", "occurrences")
   interactions_frame <- merge(interactions_frame, occurrences)
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
@@ -207,10 +216,8 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
     interactions_frame[, -1] <- (interactions_frame[, -1] * occurrences[, -1] +
                                    as.matrix(non_occurrences[, -1]) %*% diag(mean_tree_depth, nrow = length(mean_tree_depth)))/(forest$num.trees - minimum_non_occurrences)
   }
-  interactions_frame <- reshape2::melt(interactions_frame, id.vars = "variable")
-  colnames(interactions_frame)[2:3] <- c("root_variable", "mean_min_depth")
-  occurrences <- reshape2::melt(occurrences, id.vars = "variable")
-  colnames(occurrences)[2:3] <- c("root_variable", "occurrences")
+  interactions_frame <- tidyr::pivot_longer(interactions_frame, cols = -"variable", names_to = "root_variable", values_to = "mean_min_depth")
+  occurrences <- tidyr::pivot_longer(occurrences, cols = -"variable", names_to = "root_variable", values_to = "occurences")
   interactions_frame <- merge(interactions_frame, occurrences)
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
   forest_table <-
@@ -251,7 +258,7 @@ plot_min_depth_interactions <- function(interactions_frame, k = 30,
                                              interactions_frame[
                                                order(interactions_frame$occurrences, decreasing = TRUE), "interaction"])
   minimum <- min(interactions_frame$mean_min_depth, na.rm = TRUE)
-  if(is.null(k)) k <- length(levels(interactions_frame$interaction))
+  if(is.null(k)) k <- nlevels(interactions_frame$interaction)
   plot <- ggplot(interactions_frame[interactions_frame$interaction %in% levels(interactions_frame$interaction)[1:k] &
                                       !is.na(interactions_frame$mean_min_depth), ],
                  aes(x = interaction, y = mean_min_depth, fill = occurrences)) +
@@ -335,7 +342,7 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
     } else {
       newdata[, paste0("probability_", forest$classes)] <- predict(forest, newdata, type = "prob")
     }
-    newdata <- reshape2::melt(newdata, id.vars = id_vars)
+    newdata <- tidyr::pivot_longer(newdata, cols = !dplyr::all_of(id_vars), names_to = "variable")
     newdata$prediction <- newdata$value
     plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
       geom_raster() + theme_bw() + facet_wrap(~ variable) +
@@ -384,7 +391,7 @@ plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, 
     } else {
       newdata[, paste0("probability_", colnames(pred))] <- pred
     }
-    newdata <- reshape2::melt(newdata, id.vars = id_vars)
+    newdata <- tidyr::pivot_longer(newdata, cols = !dplyr::all_of(id_vars), names_to = "variable")
     newdata$prediction <- newdata$value
     plot <- ggplot(newdata, aes_string(x = variable1, y = variable2, fill = "prediction")) +
       geom_raster() + theme_bw() + facet_wrap(~ variable) +
