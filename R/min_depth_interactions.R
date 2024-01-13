@@ -217,7 +217,7 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
                                    as.matrix(non_occurrences[, -1]) %*% diag(mean_tree_depth, nrow = length(mean_tree_depth)))/(forest$num.trees - minimum_non_occurrences)
   }
   interactions_frame <- tidyr::pivot_longer(interactions_frame, cols = -"variable", names_to = "root_variable", values_to = "mean_min_depth")
-  occurrences <- tidyr::pivot_longer(occurrences, cols = -"variable", names_to = "root_variable", values_to = "occurences")
+  occurrences <- tidyr::pivot_longer(occurrences, cols = -"variable", names_to = "root_variable", values_to = "occurrences")
   interactions_frame <- merge(interactions_frame, occurrences)
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
   forest_table <-
