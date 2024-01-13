@@ -20,3 +20,6 @@ max_na <- function(x) {
   }
   max(x, na.rm = TRUE)
 }
+
+utils::globalVariables(c("prediction", "variable"))
+
