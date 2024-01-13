@@ -97,15 +97,15 @@ if "p_value" is to be calculated then "no_of_nodes" will be too. Suitable measur
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu">randomForest</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html" class="external-link">randomForest</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, localImp <span class="op">=</span> <span class="cn">TRUE</span>, ntree <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">measure_importance</span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       variable mean_min_depth no_of_nodes accuracy_decrease gini_decrease</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Petal.Length      1.0270282         770       0.306290467     43.187884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Petal.Width      0.9525424         738       0.295119877     43.629329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Sepal.Length      2.1955480         466       0.040406534     10.006202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Sepal.Width      3.2352768         329       0.006317268      2.456963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Petal.Length      0.8993289         796       0.332686952     46.623867</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Petal.Width      1.1048546         721       0.272628994     39.578597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Sepal.Length      2.2073714         499       0.039987377     10.525047</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  Sepal.Width      3.2914989         348       0.009315119      2.478699</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   no_of_trees times_a_root      p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         291          123 8.444599e-20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         295          121 1.780179e-14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         248           56 1.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         206            0 1.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         298          132 2.687474e-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         296          107 8.694212e-10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         251           61 9.999961e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         218            0 1.000000e+00</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
