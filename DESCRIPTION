@@ -29,3 +29,4 @@ Suggests:
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 URL: https://github.com/ModelOriented/randomForestExplainer, https://modeloriented.github.io/randomForestExplainer/
+Config/testthat/edition: 3

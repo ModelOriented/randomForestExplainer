@@ -10,7 +10,7 @@ load(system.file("testdata/test_randomForest.rda", package="randomForestExplaine
 # save(rf_c, rf_r, rf_u, file = "inst/testdata/test_randomForest.rda")
 
 
-context("Test randomForest classification forests")
+# "Test randomForest classification forests"
 
 test_that("measure_importance works", {
   imp_df <- measure_importance(rf_c, mean_sample = "all_trees",
@@ -49,7 +49,9 @@ test_that("plot_min_depth_distribution works", {
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_interactions works", {
+test_that("plot_min_depth_interacxtions works", {
+  int_frame <- min_depth_interactions(rf_c)
+  expect_equal(dim(int_frame), c(16, 6))
   p <- plot_min_depth_interactions(rf_c)
   expect_silent(print(p))
 })
