@@ -48,20 +48,14 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="index.html">randomForestExplainer</a>
         <div class="info">
-          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
-           developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.10.1</span>
+          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
+           developed by the <a href="https://mi2.ai/" class="external-link">MI².AI</a> </span>
+          <span class="version version-default">0.10.2</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/randomForestExplainer.html">Get started</a>
 </li>
@@ -72,7 +66,7 @@
   <a href="news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/ModelOriented/randomForestExplainer/">
+  <a href="https://github.com/ModelOriented/randomForestExplainer/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -89,42 +83,42 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="randomforestexplainer-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#randomforestexplainer-" class="anchor"></a>randomForestExplainer <img src="reference/figures/logo.png" align="right" width="150">
+<div class="section level1">
+<div class="page-header"><h1 id="randomforestexplainer-">randomForestExplainer <img src="reference/figures/logo.png" align="right" width="150"><a class="anchor" aria-label="anchor" href="#randomforestexplainer-"></a>
 </h1></div>
+<!-- badges: start -->
 
-<p>A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: <a href="https://cdn.staticaly.com/gh/geneticsMiNIng/BlackBoxOpener/master/randomForestExplainer_Master_thesis.pdf">Master thesis on randomForestExplainer</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>A set of tools to understand what is happening inside a Random Forest. A detailed discussion of the package and importance measures it implements can be found here: <a href="https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer_Master_thesis.pdf" class="external-link">Master thesis on randomForestExplainer</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># the easiest way to get randomForestExplainer is to install it from CRAN:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"randomForestExplainer"</span><span class="op">)</span>
-
-<span class="co"># Or the the development version from GitHub:</span>
-<span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"ModelOriented/randomForestExplainer"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># the easiest way to get randomForestExplainer is to install it from CRAN:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"randomForestExplainer"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or the the development version from GitHub:</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ModelOriented/randomForestExplainer"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="vignette" class="section level2">
-<h2 class="hasAnchor">
-<a href="#vignette" class="anchor"></a>Vignette</h2>
+<div class="section level2">
+<h2 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
+</h2>
 <ul>
-<li><a href="https://modeloriented.github.io/randomForestExplainer/articles/randomForestExplainer.html">Understanding random forests with randomForestExplainer</a></li>
+<li><a href="https://modeloriented.github.io/randomForestExplainer/articles/randomForestExplainer.html" class="external-link">Understanding random forests with randomForestExplainer</a></li>
 </ul>
 </div>
-<div id="cheatsheets" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cheatsheets" class="anchor"></a>Cheatsheets</h2>
+<div class="section level2">
+<h2 id="cheatsheets">Cheatsheets<a class="anchor" aria-label="anchor" href="#cheatsheets"></a>
+</h2>
 <ul>
-<li><a href="https://github.com/ModelOriented/randomForestExplainer/blob/master/materials/cheatsheet.pdf">A one-page summary</a></li>
+<li><a href="https://github.com/ModelOriented/randomForestExplainer/blob/master/materials/cheatsheet.pdf" class="external-link">A one-page summary</a></li>
 </ul>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
 <ul>
-<li><a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer/inst/doc/randomForestExplainer.html">Initial vignette for glioblastoma data</a></li>
+<li><a href="https://htmlpreview.github.io/?https://github.com/geneticsMiNIng/BlackBoxOpener/blob/master/randomForestExplainer/inst/doc/randomForestExplainer.html" class="external-link">Initial vignette for glioblastoma data</a></li>
 </ul>
 </div>
 </div>
@@ -132,48 +126,59 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=randomForestExplainer">https://​cloud.r-project.org/​package=randomForestExplainer</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/ModelOriented/randomForestExplainer/">https://​github.com/​ModelOriented/​randomForestExplainer/​</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=randomForestExplainer" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/ModelOriented/randomForestExplainer/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL</li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Aleksandra Paluszynska <br><small class="roles"> Author </small>  </li>
-<li>Przemyslaw Biecek <br><small class="roles"> Author, thesis advisor </small>  </li>
-<li>Yue Jiang <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9798-5517" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing randomForestExplainer</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=randomForestExplainer"><img src="http://www.r-pkg.org/badges/version/randomForestExplainer" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://travis-ci.org/ModelOriented/randomForestExplainer"><img src="https://travis-ci.org/ModelOriented/randomForestExplainer.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://codecov.io/gh/ModelOriented/randomForestExplainer"><img src="https://codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://zenodo.org/badge/latestdoi/97007621"><img src="https://zenodo.org/badge/97007621.svg" alt="DOI"></a></li>
+<li>Aleksandra Paluszynska <br><small class="roles"> Author </small>  </li>
+<li>Przemyslaw Biecek <br><small class="roles"> Author, thesis advisor </small>  </li>
+<li>Yue Jiang <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9798-5517" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=randomForestExplainer" class="external-link"><img src="https://www.r-pkg.org/badges/version/randomForestExplainer" alt="CRAN status"></a></li>
+<li><a href="https://github.com/ModelOriented/randomForestExplainer/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/ModelOriented/randomForestExplainer/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/ModelOriented/randomForestExplainer?branch=master" class="external-link"><img src="https://app.codecov.io/gh/ModelOriented/randomForestExplainer/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/97007621" class="external-link"><img src="https://zenodo.org/badge/97007621.svg" alt="DOI"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Aleksandra Paluszynska, Przemyslaw Biecek, Yue Jiang.</p>
+  <p></p>
+<p>Developed by Aleksandra Paluszynska, Przemyslaw Biecek, Yue Jiang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
