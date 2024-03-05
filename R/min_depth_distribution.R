@@ -183,7 +183,7 @@ plot_min_depth_distribution <- function(min_depth_frame, k = 10, min_no_of_trees
   plot <- ggplot(data, aes(x = variable, y = count)) +
     geom_col(position = position_stack(reverse = TRUE), aes(fill = as.factor(minimal_depth))) + coord_flip() +
     scale_x_discrete(limits = rev(levels(data$variable))) +
-    geom_errorbar(aes(ymin = mean_minimal_depth_label, ymax = mean_minimal_depth_label), size = 1.5) +
+    geom_errorbar(aes(ymin = mean_minimal_depth_label, ymax = mean_minimal_depth_label), linewidth = 1.5) +
     xlab("Variable") + ylab("Number of trees") + guides(fill = guide_legend(title = "Minimal depth")) +
     theme_bw() + geom_label(data = data_for_labels,
                             aes(y = mean_minimal_depth_label, label = mean_minimal_depth))

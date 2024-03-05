@@ -10,8 +10,7 @@ measure_min_depth <- function(min_depth_frame, mean_sample){
 # randomForest
 measure_no_of_nodes <- function(forest_table){
   `split var` <- NULL
-  frame <- dplyr::group_by(forest_table, `split var`) %>% dplyr::summarize(n())
-  colnames(frame) <- c("variable", "no_of_nodes")
+  frame <- dplyr::group_by(forest_table, variable = `split var`) %>% dplyr::summarize(no_of_nodes = dplyr::n())
   frame <- as.data.frame(frame[!is.na(frame$variable),])
   frame$variable <- as.character(frame$variable)
   return(frame)
@@ -21,8 +20,7 @@ measure_no_of_nodes <- function(forest_table){
 # randomForest
 measure_no_of_nodes_ranger <- function(forest_table){
   splitvarName <- NULL
-  frame <- dplyr::group_by(forest_table, splitvarName) %>% dplyr::summarize(n())
-  colnames(frame) <- c("variable", "no_of_nodes")
+  frame <- dplyr::group_by(forest_table, variable = splitvarName) %>% dplyr::summarize(no_of_nodes = n())
   frame <- as.data.frame(frame[!is.na(frame$variable),])
   frame$variable <- as.character(frame$variable)
   return(frame)
@@ -75,8 +73,7 @@ measure_vimp_ranger <- function(forest){
 measure_no_of_trees <- function(min_depth_frame){
   variable <- NULL
   frame <- dplyr::group_by(min_depth_frame, variable) %>%
-    dplyr::summarize(count = n()) %>% as.data.frame()
-  colnames(frame)[2] <- "no_of_trees"
+    dplyr::summarize(no_of_trees = n()) %>% as.data.frame()
   frame$variable <- as.character(frame$variable)
   return(frame)
 }
@@ -85,8 +82,7 @@ measure_no_of_trees <- function(min_depth_frame){
 measure_times_a_root <- function(min_depth_frame){
   variable <- NULL
   frame <- min_depth_frame[min_depth_frame$minimal_depth == 0, ] %>%
-    dplyr::group_by(variable) %>% dplyr::summarize(count = n()) %>% as.data.frame()
-  colnames(frame)[2] <- "times_a_root"
+    dplyr::group_by(variable) %>% dplyr::summarize(times_a_root = n()) %>% as.data.frame()
   frame$variable <- as.character(frame$variable)
   return(frame)
 }
@@ -329,13 +325,13 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
     if(size_measure == "p_value"){
       data$p_value <- cut(data$p_value, breaks = c(-Inf, 0.01, 0.05, 0.1, Inf),
                           labels = c("<0.01", "[0.01, 0.05)", "[0.05, 0.1)", ">=0.1"), right = FALSE)
-      plot <- ggplot(data, aes_string(x = x_measure, y = y_measure)) +
-        geom_point(aes_string(color = size_measure), size = 3) +
+      plot <- ggplot(data, aes(x = .data[[x_measure]], y = .data[[y_measure]])) +
+        geom_point(aes(color = .data[[size_measure]]), size = 3) +
         geom_point(data = data_for_labels, color = "black", stroke = 2, aes(alpha = "top"), size = 3, shape = 21) +
         geom_label_repel(data = data_for_labels, aes(label = variable), show.legend = FALSE) +
         theme_bw() + scale_alpha_discrete(name = "variable", range = c(1, 1))
     } else {
-      plot <- ggplot(data, aes_string(x = x_measure, y = y_measure, size = size_measure)) +
+      plot <- ggplot(data, aes(x = .data[[x_measure]], y = .data[[y_measure]], size = .data[[size_measure]])) +
         geom_point(aes(colour = "black")) + geom_point(data = data_for_labels, aes(colour = "blue")) +
         geom_label_repel(data = data_for_labels, aes(label = variable, size = NULL), show.legend = FALSE) +
         scale_colour_manual(name = "variable", values = c("black", "blue"), labels = c("non-top", "top")) +
@@ -345,7 +341,7 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
       }
     }
   } else {
-    plot <- ggplot(data, aes_string(x = x_measure, y = y_measure)) +
+    plot <- ggplot(data, aes(x = .data[[x_measure]], y = .data[[y_measure]])) +
       geom_point(aes(colour = "black")) + geom_point(data = data_for_labels, aes(colour = "blue")) +
       geom_label_repel(data = data_for_labels, aes(label = variable, size = NULL), show.legend = FALSE) +
       scale_colour_manual(name = "variable", values = c("black", "blue"), labels = c("non-top", "top")) +

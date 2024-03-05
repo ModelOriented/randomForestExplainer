@@ -10,65 +10,71 @@ load(system.file("testdata/test_ranger.rda", package="randomForestExplainer", mu
 # ranger_s <- ranger(Surv(futime, fustat) ~ ., data = ovarian, importance = "impurity", num.trees = 2)
 # save(ranger_c, ranger_r, ranger_s, ovarian, file = "inst/testdata/test_ranger.rda")
 
-context("Test ranger classification forests")
+# Test ranger classification forests ---------------------
 
-test_that("measure_importance works", {
+test_that("measure_importance works for ranger classification forests", {
   imp_df <- measure_importance(ranger_c, mean_sample = "all_trees",
                                measures = c("mean_min_depth", "impurity",
                                             "no_of_nodes", "times_a_root", "p_value"))
   expect_equal(as.character(imp_df$variable), c("Petal.Length", "Petal.Width", "Sepal.Length", "Sepal.Width"))
 })
 
-test_that("important_variables works", {
+test_that("important_variables works for ranger classification forests", {
   imp_vars <- important_variables(ranger_c, k = 3,
                                   measures = c("mean_min_depth", "impurity",
                                                "no_of_nodes", "times_a_root", "p_value"))
   expect_equal(imp_vars, c("Petal.Width", "Sepal.Length", "Petal.Length"))
 })
 
-test_that("min_depth_distribution works", {
+test_that("min_depth_distribution works for ranger classification forests", {
   min_depth_dist <- min_depth_distribution(ranger_c)
-  expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth,
-                    0)
+  expect_equal(
+    min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "Petal.Width", ]$minimal_depth,
+    0
+  )
 })
 
-test_that("min_depth_interactions works", {
+test_that("min_depth_interactions works for ranger classification forests", {
   min_depth_int <- min_depth_interactions(ranger_c, vars = c("Petal.Width"))
-  expect_equivalent(min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
-                    1.5)
+  # returns matrix
+  expect_equal(
+    min_depth_int[min_depth_int$interaction == "Petal.Width:Sepal.Length", ]$mean_min_depth,
+    1.5,
+    ignore_attr = "dim"
+  )
 })
 
-test_that("plot_multi_way_importance works", {
+test_that("plot_multi_way_importance works for ranger classification forests", {
   p <- plot_multi_way_importance(ranger_c)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_distribution works", {
+test_that("plot_min_depth_distribution works for ranger classification forests", {
   p <- plot_min_depth_distribution(ranger_c)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_interactions works", {
+test_that("plot_min_depth_interactions works for ranger classification forests", {
   p <- plot_min_depth_interactions(ranger_c)
   expect_silent(print(p))
 })
 
-test_that("plot_predict_interaction works", {
+test_that("plot_predict_interaction works for ranger classification forests", {
   p <- plot_predict_interaction(ranger_c, data = iris, variable1 = "Petal.Width", variable2 = "Petal.Length")
   expect_silent(print(p))
 })
 
-test_that("plot_importance_ggpairs works", {
+test_that("plot_importance_ggpairs works for ranger classification forests", {
   p <- plot_importance_ggpairs(ranger_c)
   expect_silent(suppressMessages(print(p)))
 })
 
-test_that("plot_importance_rankings works", {
+test_that("plot_importance_rankings works for ranger classification forests", {
   p <- plot_importance_rankings(ranger_c)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-context("Test ranger regression forests")
+# Test ranger regression forests -------
 
 test_that("measure_importance works", {
   imp_df <- measure_importance(ranger_r, mean_sample = "all_trees",
@@ -87,14 +93,20 @@ test_that("important_variables works", {
 
 test_that("min_depth_distribution works", {
   min_depth_dist <- min_depth_distribution(ranger_r)
-  expect_equivalent(min_depth_dist[min_depth_dist$tree == 2 & min_depth_dist$variable == "cyl", ]$minimal_depth,
-                    0)
+  expect_equal(
+    min_depth_dist[min_depth_dist$tree == 2 & min_depth_dist$variable == "cyl", ]$minimal_depth,
+    0,
+    ignore_attr = "dim"
+  )
 })
 
 test_that("min_depth_interactions works", {
   min_depth_int <- min_depth_interactions(ranger_r, vars = c("cyl"))
-  expect_equivalent(min_depth_int[min_depth_int$interaction == "cyl:wt", ]$mean_min_depth,
-                    0.5)
+  expect_equal(
+    min_depth_int[min_depth_int$interaction == "cyl:wt", ]$mean_min_depth,
+    0.5,
+    ignore_attr = "dim"
+  )
 })
 
 test_that("plot_multi_way_importance works", {
@@ -127,9 +139,9 @@ test_that("plot_importance_rankings works", {
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-context("Test ranger survival forests")
+# Test ranger survival forests --------------------------
 
-test_that("measure_importance works", {
+test_that("measure_importance works for ranger survival forests", {
   imp_df <- measure_importance(ranger_s, mean_sample = "all_trees",
                                measures = c("mean_min_depth", "impurity",
                                             "no_of_nodes", "times_a_root", "p_value"))
@@ -137,51 +149,56 @@ test_that("measure_importance works", {
                c("age", "ecog.ps", "resid.ds", "rx"))
 })
 
-test_that("important_variables works", {
+test_that("important_variables works for ranger survival forests", {
   imp_vars <- important_variables(ranger_s, k = 3,
                                   measures = c("mean_min_depth", "impurity",
                                                "no_of_nodes", "times_a_root", "p_value"))
   expect_equal(imp_vars, c("age", "ecog.ps", "rx"))
 })
 
-test_that("min_depth_distribution works", {
+test_that("min_depth_distribution works for ranger survival forests", {
   min_depth_dist <- min_depth_distribution(ranger_s)
-  expect_equivalent(min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "age", ]$minimal_depth,
-                    0)
+  expect_equal(
+    min_depth_dist[min_depth_dist$tree == 1 & min_depth_dist$variable == "age", ]$minimal_depth,
+    0
+    )
 })
 
-test_that("min_depth_interactions works", {
+test_that("min_depth_interactions works for ranger survival forests", {
   min_depth_int <- min_depth_interactions(ranger_s, vars = c("age"))
-  expect_equivalent(min_depth_int[min_depth_int$interaction == "age:ecog.ps", ]$mean_min_depth,
-                    0.5)
+  # returns matrix
+  expect_equal(
+    min_depth_int[min_depth_int$interaction == "age:ecog.ps", ]$mean_min_depth,
+    0.5,
+    ignore_attr = "dim")
 })
 
-test_that("plot_multi_way_importance works", {
+test_that("plot_multi_way_importance works for ranger survival forests", {
   p <- plot_multi_way_importance(ranger_s)
   expect_silent(suppressWarnings(print(p)))
 })
 
-test_that("plot_min_depth_distribution works", {
+test_that("plot_min_depth_distribution works for ranger survival forests", {
   p <- plot_min_depth_distribution(ranger_s)
   expect_silent(print(p))
 })
 
-test_that("plot_min_depth_interactions works", {
+test_that("plot_min_depth_interactions works for ranger survival forests", {
   p <- plot_min_depth_interactions(ranger_s)
   expect_silent(print(p))
 })
 
-test_that("plot_predict_interaction works", {
+test_that("plot_predict_interaction works for ranger survival forests", {
   p <- plot_predict_interaction(ranger_s, data = ovarian, variable1 = "age", variable2 = "ecog.ps")
   expect_silent(print(p))
 })
 
-test_that("plot_importance_ggpairs works", {
+test_that("plot_importance_ggpairs works for ranger survival forests", {
   p <- plot_importance_ggpairs(ranger_s)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
 
-test_that("plot_importance_rankings works", {
+test_that("plot_importance_rankings works for ranger survival forests", {
   p <- plot_importance_rankings(ranger_s)
   expect_silent(suppressWarnings(suppressMessages(print(p))))
 })
