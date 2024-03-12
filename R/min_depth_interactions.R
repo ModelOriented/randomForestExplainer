@@ -58,11 +58,16 @@ conditional_depth_ranger <- function(frame, vars){
 # randomForest
 min_depth_interactions_values <- function(forest, vars){
   `.` <- NULL; .SD <- NULL; tree <- NULL; `split var` <- NULL
-  interactions_frame <-
-    lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
-             mutate_if(is.factor, as.character) %>%
-             calculate_tree_depth() %>% cbind(., tree = i, number = 1:nrow(.))) %>%
-    data.table::rbindlist() %>% as.data.frame()
+  interactions_frame <- lapply(
+    1:forest$ntree,
+    function(i)
+      randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
+      mutate_if(is.factor, as.character) %>%
+      calculate_tree_depth() %>%
+      cbind(., tree = i, number = 1:nrow(.))
+  ) %>%
+    data.table::rbindlist() %>%
+    as.data.frame()
   interactions_frame[vars] <- NA_real_
   interactions_frame <-
     data.table::as.data.table(interactions_frame)[, conditional_depth(as.data.frame(.SD), vars), by = tree] %>% as.data.frame()
@@ -89,10 +94,15 @@ min_depth_interactions_values <- function(forest, vars){
 # ranger
 min_depth_interactions_values_ranger <- function(forest, vars){
   `.` <- NULL; .SD <- NULL; tree <- NULL; splitvarName <- NULL
-  interactions_frame <-
-    lapply(1:forest$num.trees, function(i) ranger::treeInfo(forest, tree = i) %>%
-             calculate_tree_depth_ranger() %>% cbind(., tree = i, number = 1:nrow(.))) %>%
-    data.table::rbindlist() %>% as.data.frame()
+  interactions_frame <- lapply(
+    1:forest$num.trees,
+    function(i)
+      ranger::treeInfo(forest, tree = i) %>%
+      calculate_tree_depth_ranger() %>%
+      cbind(., tree = i, number = 1:nrow(.))
+  ) %>%
+    data.table::rbindlist() %>%
+    as.data.frame()
   interactions_frame[vars] <- NA_real_
   interactions_frame <-
     data.table::as.data.table(interactions_frame)[, conditional_depth_ranger(as.data.frame(.SD), vars), by = tree] %>% as.data.frame()
@@ -185,10 +195,15 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
     )
   interactions_frame <- merge(interactions_frame, occurrences)
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
-  forest_table <-
-    lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
-             mutate_if(is.factor, as.character) %>%
-             calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
+  forest_table <- lapply(
+    1:forest$ntree,
+    function(i)
+      randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
+      mutate_if(is.factor, as.character) %>%
+      calculate_tree_depth() %>%
+      cbind(tree = i)
+  ) %>%
+    rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, variable = `split var`) %>%
     dplyr::summarize(minimal_depth = min(depth))
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
@@ -238,9 +253,14 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
   occurrences <- tidyr::pivot_longer(occurrences, cols = -"variable", names_to = "root_variable", values_to = "occurrences")
   interactions_frame <- merge(interactions_frame, occurrences)
   interactions_frame$interaction <- paste(interactions_frame$root_variable, interactions_frame$variable, sep = ":")
-  forest_table <-
-    lapply(1:forest$num.trees, function(i) ranger::treeInfo(forest, tree = i) %>%
-             calculate_tree_depth_ranger() %>% cbind(tree = i)) %>% rbindlist()
+  forest_table <- lapply(
+    1:forest$num.trees,
+    function(i)
+      ranger::treeInfo(forest, tree = i) %>%
+      calculate_tree_depth_ranger() %>%
+      cbind(tree = i)
+  ) %>%
+    rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, variable = splitvarName) %>%
     dplyr::summarize(minimal_depth = min(depth))
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
