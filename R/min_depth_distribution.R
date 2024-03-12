@@ -60,10 +60,15 @@ min_depth_distribution <- function(forest){
 #' @export
 min_depth_distribution.randomForest <- function(forest){
   tree <- NULL; `split var` <- NULL; depth <- NULL
-  forest_table <-
-    lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
-             mutate_if(is.factor, as.character) %>%
-             calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
+  forest_table <- lapply(
+    1:forest$ntree,
+    function(i)
+      randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
+      mutate(`split var` = as.character(`split var`)) %>%
+      calculate_tree_depth() %>%
+      cbind(tree = i)
+  ) %>%
+    rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
     dplyr::summarize(min(depth))
   colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
@@ -76,9 +81,14 @@ min_depth_distribution.randomForest <- function(forest){
 #' @export
 min_depth_distribution.ranger <- function(forest){
   tree <- NULL; splitvarName <- NULL; depth <- NULL
-  forest_table <-
-    lapply(1:forest$num.trees, function(i) ranger::treeInfo(forest, tree = i) %>%
-             calculate_tree_depth_ranger() %>% cbind(tree = i)) %>% rbindlist()
+  forest_table <- lapply(
+    1:forest$num.trees,
+    function(i)
+      ranger::treeInfo(forest, tree = i) %>%
+      calculate_tree_depth_ranger() %>%
+      cbind(tree = i)
+  ) %>%
+    rbindlist()
   min_depth_frame <- dplyr::group_by(forest_table, tree, splitvarName) %>%
     dplyr::summarize(min(depth))
   colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")

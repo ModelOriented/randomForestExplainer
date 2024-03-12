@@ -142,10 +142,15 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
     if (is.null(forest$forest)) {
       stop("Make sure forest has been saved when calling randomForest by randomForest(..., keep.forest = TRUE).")
     }
-    forest_table <-
-      lapply(1:forest$ntree, function(i) randomForest::getTree(forest, k = i, labelVar = T) %>%
-               mutate_if(is.factor, as.character) %>%
-               calculate_tree_depth() %>% cbind(tree = i)) %>% rbindlist()
+    forest_table <- lapply(
+      1:forest$ntree,
+      function(i)
+        randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
+        mutate(`split var` = as.character(`split var`)) %>%
+        calculate_tree_depth() %>%
+        cbind(tree = i)
+    ) %>%
+      rbindlist()
     min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
       dplyr::summarize(min(depth))
     colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
@@ -201,9 +206,14 @@ measure_importance.ranger <- function(forest, mean_sample = "top_trees", measure
   importance_frame <- data.frame(variable = names(forest$variable.importance), stringsAsFactors = FALSE)
   # Get objects necessary to calculate importance measures based on the tree structure
   if(any(c("mean_min_depth", "no_of_nodes", "no_of_trees", "times_a_root", "p_value") %in% measures)){
-    forest_table <-
-      lapply(1:forest$num.trees, function(i) ranger::treeInfo(forest, tree = i) %>%
-               calculate_tree_depth_ranger() %>% cbind(tree = i)) %>% rbindlist()
+    forest_table <- lapply(
+      1:forest$num.trees,
+      function(i)
+        ranger::treeInfo(forest, tree = i) %>%
+        calculate_tree_depth_ranger() %>%
+        cbind(tree = i)
+    ) %>%
+      rbindlist()
     min_depth_frame <- dplyr::group_by(forest_table, tree, splitvarName) %>%
       dplyr::summarize(min(depth))
     colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
