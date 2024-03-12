@@ -62,7 +62,7 @@ min_depth_interactions_values <- function(forest, vars){
     1:forest$ntree,
     function(i)
       randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
-      mutate_if(is.factor, as.character) %>%
+      mutate(`split var` = as.character(`split var`)) %>%
       calculate_tree_depth() %>%
       cbind(., tree = i, number = 1:nrow(.))
   ) %>%
@@ -199,7 +199,7 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
     1:forest$ntree,
     function(i)
       randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
-      mutate_if(is.factor, as.character) %>%
+      mutate(`split var` = as.character(`split var`)) %>%
       calculate_tree_depth() %>%
       cbind(tree = i)
   ) %>%

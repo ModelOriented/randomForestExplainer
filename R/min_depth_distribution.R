@@ -64,7 +64,7 @@ min_depth_distribution.randomForest <- function(forest){
     1:forest$ntree,
     function(i)
       randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
-      mutate_if(is.factor, as.character) %>%
+      mutate(`split var` = as.character(`split var`)) %>%
       calculate_tree_depth() %>%
       cbind(tree = i)
   ) %>%
