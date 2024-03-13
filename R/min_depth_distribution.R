@@ -24,7 +24,7 @@ calculate_tree_depth_ranger <- function(frame){
 }
 
 # Internal function used to determine the depth of each node.
-# The input is a with left and right child node indices in 1:nrow(childs).
+# The input is a matrix with left and right child nodes in 1:nrow(childs).
 calculate_tree_depth_ <- function(childs) {
   n <- nrow(childs)
   depth <- rep(NA, times = n)
