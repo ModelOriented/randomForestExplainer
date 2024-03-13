@@ -27,14 +27,14 @@ calculate_tree_depth_ranger <- function(frame){
 # Node indices are assumed to have values in 1:nrow(childs)
 calculate_tree_depth_ <- function(childs) {
   n <- nrow(childs)
-  node_id <- seq_len(n)
   depth <- rep(NA, times = n)
   j <- depth[1L] <- 0
-  ix <- 1
+  ix <- 1L  # current nodes, initialized with root node index
 
   # j loops over tree depth
   while(anyNA(depth) || j >= n) {
-    ix <- c(childs[ix, ])
+    ix <- as.integer(childs[ix, ])
+    ix <- ix[!is.na(ix) & ix >= 1L]  # leave nodes do not have childs
     j <- j + 1
     depth[ix] <- j
   }
