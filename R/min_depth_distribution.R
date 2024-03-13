@@ -5,7 +5,7 @@ calculate_tree_depth <- function(frame){
           It should be a product of the function getTree(..., labelVar = T).")
   }
   frame[["depth"]] <- calculate_tree_depth_(
-    as.matrix(frame[, c("left daughter", "right daughter")])
+    frame[, c("left daughter", "right daughter")]
   )
   return(frame)
 }
@@ -18,14 +18,15 @@ calculate_tree_depth_ranger <- function(frame){
   }
   # Child nodes are zero based, so we increase them by 1
   frame[["depth"]] <- calculate_tree_depth_(
-    as.matrix(frame[, c("leftChild", "rightChild")]) + 1
+    frame[, c("leftChild", "rightChild")] + 1
   )
   return(frame)
 }
 
 # Internal function used to determine the depth of each node.
-# The input is a matrix with left and right child nodes in 1:nrow(childs).
+# The input is a data.frame with left and right child nodes in 1:nrow(childs).
 calculate_tree_depth_ <- function(childs) {
+  childs <- as.matrix(childs)
   n <- nrow(childs)
   depth <- rep(NA, times = n)
   j <- depth[1L] <- 0
