@@ -23,8 +23,8 @@ calculate_tree_depth_ranger <- function(frame){
   return(frame)
 }
 
-# Internal function used to determine the depth of each node
-# Node indices are assumed to have values in 1:nrow(childs)
+# Internal function used to determine the depth of each node.
+# The input is a with left and right child node indices in 1:nrow(childs).
 calculate_tree_depth_ <- function(childs) {
   n <- nrow(childs)
   depth <- rep(NA, times = n)
@@ -32,9 +32,9 @@ calculate_tree_depth_ <- function(childs) {
   ix <- 1L  # current nodes, initialized with root node index
 
   # j loops over tree depth
-  while(anyNA(depth) || j >= n) {
+  while(anyNA(depth) && j < n) {  # The second condition is never used
     ix <- as.integer(childs[ix, ])
-    ix <- ix[!is.na(ix) & ix >= 1L]  # leave nodes do not have childs
+    ix <- ix[!is.na(ix) & ix >= 1L]  # leaf nodes do not have childs
     j <- j + 1
     depth[ix] <- j
   }
