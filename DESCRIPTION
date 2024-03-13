@@ -5,6 +5,7 @@ Authors@R: c(
   person("Aleksandra", "Paluszynska", email = "ola.paluszynska@gmail.com", role = c("aut")),
   person("Przemyslaw", "Biecek", email = "przemyslaw.biecek@gmail.com", role = c("aut","ths")),
   person("Michael", "Mayer", email = "mayermichael79@gmail.com", role = c("aut")),
+  person("Olivier", "Roy", role = c("aut")),
   person("Yue", "Jiang", email = "rivehill@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9798-5517"))
   )
 Description: A set of tools to help explain which variables are most important in a random forests. Various variable importance measures are calculated and visualized in different settings in order to get an idea on how their importance changes depending on our criteria (Hemant Ishwaran and Udaya B. Kogalur and Eiran Z. Gorodeski and Andy J. Minn and Michael S. Lauer (2010) <doi:10.1198/jasa.2009.tm08622>, Leo Breiman (2001) <doi:10.1023/A:1010933404324>).
