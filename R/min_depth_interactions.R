@@ -1,7 +1,6 @@
 # Calculate conditional depth in a tree with respect to all variables from vector vars
 # randomForest
 conditional_depth <- function(frame, vars){
-  `.SD` <- NULL; depth <- NULL; `split var` <- NULL
   index <- data.table::as.data.table(frame)[, .SD[which.min(depth), "number"], by = `split var`]
   index <- index[!is.na(index$`split var`), ]
   if(any(index$`split var` %in% vars)){
@@ -29,7 +28,6 @@ conditional_depth <- function(frame, vars){
 # Calculate conditional depth in a tree with respect to all variables from vector vars
 # ranger
 conditional_depth_ranger <- function(frame, vars){
-  `.SD` <- NULL; depth <- NULL; splitvarName <- NULL
   index <- data.table::as.data.table(frame)[, .SD[which.min(depth), "number"], by = splitvarName]
   index <- index[!is.na(index$splitvarName), ]
   if(any(index$splitvarName %in% vars)){
@@ -57,7 +55,6 @@ conditional_depth_ranger <- function(frame, vars){
 # Get a data frame with values of minimal depth conditional on selected variables for the whole forest
 # randomForest
 min_depth_interactions_values <- function(forest, vars){
-  `.` <- NULL; .SD <- NULL; tree <- NULL; `split var` <- NULL
   interactions_frame <- lapply(
     1:forest$ntree,
     function(i)
@@ -93,7 +90,6 @@ min_depth_interactions_values <- function(forest, vars){
 # Get a data frame with values of minimal depth conditional on selected variables for the whole forest
 # ranger
 min_depth_interactions_values_ranger <- function(forest, vars){
-  `.` <- NULL; .SD <- NULL; tree <- NULL; splitvarName <- NULL
   interactions_frame <- lapply(
     1:forest$num.trees,
     function(i)
@@ -149,7 +145,6 @@ min_depth_interactions <- function(forest, vars = important_variables(measure_im
 #' @export
 min_depth_interactions.randomForest <- function(forest, vars = important_variables(measure_importance(forest)),
                                                 mean_sample = "top_trees", uncond_mean_sample = mean_sample){
-  variable <- NULL; `.` <- NULL; tree <- NULL; `split var` <- NULL; depth <- NULL
   min_depth_interactions_frame <- min_depth_interactions_values(forest, vars)
   mean_tree_depth <- min_depth_interactions_frame[[2]]
   min_depth_interactions_frame <- min_depth_interactions_frame[[1]]
@@ -217,7 +212,6 @@ min_depth_interactions.randomForest <- function(forest, vars = important_variabl
 #' @export
 min_depth_interactions.ranger <- function(forest, vars = important_variables(measure_importance(forest)),
                                           mean_sample = "top_trees", uncond_mean_sample = mean_sample){
-  variable <- NULL; `.` <- NULL; tree <- NULL; splitvarName <- NULL; depth <- NULL
   min_depth_interactions_frame <- min_depth_interactions_values_ranger(forest, vars)
   mean_tree_depth <- min_depth_interactions_frame[[2]]
   min_depth_interactions_frame <- min_depth_interactions_frame[[1]]
@@ -287,7 +281,6 @@ min_depth_interactions.ranger <- function(forest, vars = important_variables(mea
 plot_min_depth_interactions <- function(interactions_frame, k = 30,
                                         main = paste0("Mean minimal depth for ",
                                                       paste0(k, " most frequent interactions"))){
-  mean_min_depth <- NULL; occurrences <- NULL; uncond_mean_min_depth <- NULL
   if(any(c("randomForest", "ranger") %in% class(interactions_frame))){
     interactions_frame <- min_depth_interactions(interactions_frame)
   }

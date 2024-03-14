@@ -323,7 +323,6 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
                                       y_measure = "times_a_root", size_measure = NULL,
                                       min_no_of_trees = 0, no_of_labels = 10,
                                       main = "Multi-way importance plot"){
-  variable <- NULL
   if(any(c("randomForest", "ranger") %in% class(importance_frame))){
     importance_frame <- measure_importance(importance_frame)
   }

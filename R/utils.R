@@ -21,5 +21,25 @@ max_na <- function(x) {
   max(x, na.rm = TRUE)
 }
 
-utils::globalVariables(c("prediction", "variable"))
+# Deal with the global variable note
+utils::globalVariables(
+  c(
+    ".",
+    ".SD",
+    "depth",
+    "mean_min_depth",
+    "mean_minimal_depth",
+    "mean_minimal_depth_label",
+    "minimal_depth",
+    "occurrences",
+    "prediction",
+    "split var",
+    "splitvarName",
+    "tree",
+    "uncond_mean_min_depth",
+    "variable"
+  )
+)
+
+
 
