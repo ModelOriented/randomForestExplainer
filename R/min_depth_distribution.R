@@ -26,10 +26,12 @@ min_depth_distribution <- function(forest){
 min_depth_count <- function(min_depth_frame){
   tree <- NULL; minimal_depth <- NULL; variable <- NULL
   mean_tree_depth <- dplyr::group_by(min_depth_frame, tree) %>%
-    dplyr::summarize(depth = max(minimal_depth) + 1, .groups = "drop") %>% as.data.frame()
+    dplyr::summarize(depth = max(minimal_depth) + 1) %>%
+    as.data.frame()
   mean_tree_depth <- mean(mean_tree_depth$depth)
   min_depth_count <- dplyr::group_by(min_depth_frame, variable, minimal_depth) %>%
-    dplyr::summarize(count = n(), .groups = "drop") %>% as.data.frame()
+    dplyr::summarize(count = n(), .groups = "drop") %>%
+    as.data.frame()
   occurrences <- stats::aggregate(count ~ variable, data = min_depth_count, sum)
   colnames(occurrences)[2] <- "no_of_occurrences"
   min_depth_count <-
