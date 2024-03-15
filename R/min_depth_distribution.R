@@ -23,26 +23,6 @@ calculate_tree_depth_ranger <- function(frame){
   return(frame)
 }
 
-# Internal function used to determine the depth of each node.
-# The input is a data.frame with left and right child nodes in 1:nrow(childs).
-calculate_tree_depth_ <- function(childs) {
-  childs <- as.matrix(childs)
-  n <- nrow(childs)
-  depth <- rep(NA, times = n)
-  j <- depth[1L] <- 0
-  ix <- 1L  # current nodes, initialized with root node index
-
-  # j loops over tree depth
-  while(anyNA(depth) && j < n) {  # The second condition is never used
-    ix <- as.integer(childs[ix, ])
-    ix <- ix[!is.na(ix) & ix >= 1L]  # leaf nodes do not have childs
-    j <- j + 1
-    depth[ix] <- j
-  }
-
-  return(depth)
-}
-
 #' Calculate minimal depth distribution of a random forest
 #'
 #' Get minimal depth values for all trees in a random forest
