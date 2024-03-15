@@ -25,7 +25,7 @@ utils::globalVariables(c("prediction", "variable"))
 
 # Depth of each node of a single tree.
 # The input is a matrix with left and right child nodes in 1:nrow(childs).
-calculate_tree_depth <- function(childs) {
+tree_depth <- function(childs) {
   n <- nrow(childs)
   depth <- rep(NA, times = n)
   j <- depth[1L] <- 0
@@ -43,7 +43,7 @@ calculate_tree_depth <- function(childs) {
 }
 
 # Unifies the getTree() and treeInfo() functions and calculates tree depth.
-# Returns df with tree id, node id, split variable, child ids, and depth
+# Returns df with tree id, node id, split_var, child ids, and depth
 tree2df <- function(x, k = 1) {
   stopifnot(inherits(x, c("randomForest", "ranger")))
   if (inherits(x, "randomForest")) {
@@ -56,11 +56,11 @@ tree2df <- function(x, k = 1) {
     v <- df[["splitvarName"]]
     childs <- as.matrix(df[, c("leftChild", "rightChild")]) + 1  # zero based
   }
-  depth <- calculate_tree_depth(childs)
+  depth <- tree_depth(childs)
   data.table::data.table(
     tree = k,
     node = seq_along(v),
-    variable = v,
+    split_var = v,
     left_child = childs[, 1L],
     right_child = childs[, 2L],
     depth = depth,
