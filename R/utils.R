@@ -78,7 +78,3 @@ ntrees <- function(x) {
 forest2df <- function(x) {
   rbindlist(lapply(seq_len(ntrees(x)), function(i) tree2df(x, i)))
 }
-
-bench::mark(
-  forest2df(fit)
-)

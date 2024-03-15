@@ -29,5 +29,4 @@ Calculate mean conditional minimal depth with respect to a vector of variables
 \examples{
 forest <- randomForest::randomForest(Species ~ ., data = iris, ntree = 100)
 min_depth_interactions(forest, c("Petal.Width", "Petal.Length"))
-
 }
