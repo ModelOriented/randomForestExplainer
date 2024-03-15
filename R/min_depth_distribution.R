@@ -1,28 +1,3 @@
-# Calculate the depth of each node in a single tree obtained from a forest with randomForest::getTree
-calculate_tree_depth <- function(frame){
-  if(!all(c("right daughter", "left daughter") %in% names(frame))){
-    stop("The data frame has to contain columns called 'right daughter' and 'left daughter'!
-          It should be a product of the function getTree(..., labelVar = T).")
-  }
-  frame[["depth"]] <- calculate_tree_depth_(
-    frame[, c("left daughter", "right daughter")]
-  )
-  return(frame)
-}
-
-# Calculate the depth of each node in a single tree obtained from a forest with ranger::treeInfo
-calculate_tree_depth_ranger <- function(frame){
-  if(!all(c("rightChild", "leftChild") %in% names(frame))){
-    stop("The data frame has to contain columns called 'rightChild' and 'leftChild'!
-         It should be a product of the function ranger::treeInfo().")
-  }
-  # Child nodes are zero based, so we increase them by 1
-  frame[["depth"]] <- calculate_tree_depth_(
-    frame[, c("leftChild", "rightChild")] + 1
-  )
-  return(frame)
-}
-
 #' Calculate minimal depth distribution of a random forest
 #'
 #' Get minimal depth values for all trees in a random forest
@@ -36,47 +11,13 @@ calculate_tree_depth_ranger <- function(frame){
 #' min_depth_distribution(ranger::ranger(Species ~ ., data = iris, num.trees = 100))
 #'
 #' @export
+#' @import dplyr
+#' @importFrom data.table rbindlist
 min_depth_distribution <- function(forest){
-  UseMethod("min_depth_distribution")
-}
-
-#' @import dplyr
-#' @importFrom data.table rbindlist
-#' @export
-min_depth_distribution.randomForest <- function(forest){
   tree <- NULL; `split var` <- NULL; depth <- NULL
-  forest_table <- lapply(
-    1:forest$ntree,
-    function(i)
-      randomForest::getTree(forest, k = i, labelVar = TRUE) %>%
-      mutate(`split var` = as.character(`split var`)) %>%
-      calculate_tree_depth() %>%
-      cbind(tree = i)
-  ) %>%
-    rbindlist()
-  min_depth_frame <- dplyr::group_by(forest_table, tree, `split var`) %>%
-    dplyr::summarize(min(depth))
-  colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
-  min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
-  return(min_depth_frame)
-}
-
-#' @import dplyr
-#' @importFrom data.table rbindlist
-#' @export
-min_depth_distribution.ranger <- function(forest){
-  tree <- NULL; splitvarName <- NULL; depth <- NULL
-  forest_table <- lapply(
-    1:forest$num.trees,
-    function(i)
-      ranger::treeInfo(forest, tree = i) %>%
-      calculate_tree_depth_ranger() %>%
-      cbind(tree = i)
-  ) %>%
-    rbindlist()
-  min_depth_frame <- dplyr::group_by(forest_table, tree, splitvarName) %>%
-    dplyr::summarize(min(depth))
-  colnames(min_depth_frame) <- c("tree", "variable", "minimal_depth")
+  forest_table <- forest2df(forest)
+  min_depth_frame <- dplyr::group_by(forest_table, tree, variable) %>%
+    dplyr::summarize(minimal_depth = min(depth), .groups = "drop")
   min_depth_frame <- as.data.frame(min_depth_frame[!is.na(min_depth_frame$variable),])
   return(min_depth_frame)
 }
@@ -85,10 +26,10 @@ min_depth_distribution.ranger <- function(forest){
 min_depth_count <- function(min_depth_frame){
   tree <- NULL; minimal_depth <- NULL; variable <- NULL
   mean_tree_depth <- dplyr::group_by(min_depth_frame, tree) %>%
-    dplyr::summarize(depth = max(minimal_depth) + 1) %>% as.data.frame()
+    dplyr::summarize(depth = max(minimal_depth) + 1, .groups = "drop") %>% as.data.frame()
   mean_tree_depth <- mean(mean_tree_depth$depth)
   min_depth_count <- dplyr::group_by(min_depth_frame, variable, minimal_depth) %>%
-    dplyr::summarize(count = n()) %>% as.data.frame()
+    dplyr::summarize(count = n(), .groups = "drop") %>% as.data.frame()
   occurrences <- stats::aggregate(count ~ variable, data = min_depth_count, sum)
   colnames(occurrences)[2] <- "no_of_occurrences"
   min_depth_count <-

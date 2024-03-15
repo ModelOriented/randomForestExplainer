@@ -43,7 +43,7 @@ tree_depth <- function(childs) {
 }
 
 # Unifies the getTree() and treeInfo() functions and calculates tree depth.
-# Returns df with tree id, node id, split_var, child ids, and depth
+# Returns df with tree id, node id, split variable, child ids, and depth
 tree2df <- function(x, k = 1) {
   stopifnot(inherits(x, c("randomForest", "ranger")))
   if (inherits(x, "randomForest")) {
@@ -60,7 +60,7 @@ tree2df <- function(x, k = 1) {
   data.table::data.table(
     tree = k,
     node = seq_along(v),
-    split_var = v,
+    variable = v,
     left_child = childs[, 1L],
     right_child = childs[, 2L],
     depth = depth,
