@@ -59,7 +59,7 @@ tree2df <- function(x, k = 1) {
   depth <- tree_depth(childs)
   data.table::data.table(
     tree = k,
-    node = seq_along(v),
+    number = seq_along(v),
     variable = v,
     left_child = childs[, 1L],
     right_child = childs[, 2L],
