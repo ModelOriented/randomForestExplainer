@@ -56,9 +56,7 @@ Now, we will use all the functions of `randomForestExplainer` in turn and commen
 To obtain the distribution of minimal depth we pass our forest to the function `min_depth_distribution` and store the result, which contains the following columns (we save this and load it from memory as it takes a while):
 
 ```{r}
-# min_depth_frame <- min_depth_distribution(forest)
-# save(min_depth_frame, file = "min_depth_frame.rda")
-load("min_depth_frame.rda")
+min_depth_frame <- min_depth_distribution(forest)
 head(min_depth_frame, n = 10)
 ```
 
@@ -94,9 +92,7 @@ Regardless of the exact parameters used in `plot_min_depth_distribution`, lookin
 To further explore variable importance measures we pass our forest to `measure_importance` function and get the following data frame (we save and load it from memory to save time):
 
 ```{r}
-# importance_frame <- measure_importance(forest)
-# save(importance_frame, file = "importance_frame.rda")
-load("importance_frame.rda")
+importance_frame <- measure_importance(forest)
 importance_frame
 ```
 
