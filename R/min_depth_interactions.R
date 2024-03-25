@@ -214,12 +214,8 @@ plot_predict_interaction.randomForest <- function(forest, data, variable1, varia
   newdata <- expand.grid(seq(min(data[[variable1]]), max(data[[variable1]]), length.out = grid),
                          seq(min(data[[variable2]]), max(data[[variable2]]), length.out = grid))
   colnames(newdata) <- c(variable1, variable2)
-  if(as.character(forest$call$formula)[3] == "."){
-    other_vars <- setdiff(names(data), as.character(forest$call$formula)[2])
-  } else {
-    other_vars <- labels(terms(as.formula(forest$call$formula)))
-  }
-  other_vars <- setdiff(other_vars, c(variable1, variable2))
+
+  other_vars <- setdiff(get_feature_names(forest), c(variable1, variable2))
   n <- nrow(data)
   for(i in other_vars){
     newdata[[i]] <- data[[i]][sample(1:n, nrow(newdata), replace = TRUE)]
@@ -263,12 +259,8 @@ plot_predict_interaction.ranger <- function(forest, data, variable1, variable2, 
   newdata <- expand.grid(seq(min(data[[variable1]]), max(data[[variable1]]), length.out = grid),
                          seq(min(data[[variable2]]), max(data[[variable2]]), length.out = grid))
   colnames(newdata) <- c(variable1, variable2)
-  if(as.character(forest$call[[2]])[3] == "."){
-    other_vars <- setdiff(names(data), as.character(forest$call[[2]])[2])
-  } else {
-    other_vars <- labels(terms(as.formula(forest$call[[2]])))
-  }
-  other_vars <- setdiff(other_vars, c(variable1, variable2))
+
+  other_vars <- setdiff(get_feature_names(forest), c(variable1, variable2))
   n <- nrow(data)
   for(i in other_vars){
     newdata[[i]] <- data[[i]][sample(1:n, nrow(newdata), replace = TRUE)]
