@@ -41,7 +41,8 @@ Plot the prediction of the forest for a grid of values of two numerical variable
 \examples{
 forest <- randomForest::randomForest(Species ~., data = iris)
 plot_predict_interaction(forest, iris, "Petal.Width", "Sepal.Width")
-forest_ranger <- ranger::ranger(Species ~., data = iris)
+
+forest <- ranger::ranger(Species ~., data = iris, probability = TRUE)
 plot_predict_interaction(forest, iris, "Petal.Width", "Sepal.Width")
 
 }

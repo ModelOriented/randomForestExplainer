@@ -74,6 +74,17 @@ ntrees <- function(x) {
   if (inherits(x, "randomForest")) x$ntree else x$num.trees
 }
 
+# Helper function that extracts feature names from fitted random forest
+# Used in plot_predict_interaction()
+get_feature_names <- function(x) {
+  stopifnot(inherits(x, c("randomForest", "ranger")))
+  if (inherits(x, "randomForest")) {
+    rownames(x[["importance"]])
+  } else { # ranger
+    x[[c("forest", "independent.variable.names")]]
+  }
+}
+
 # Applies tree2df() to each tree and stacks the results
 forest2df <- function(x) {
   rbindlist(lapply(seq_len(ntrees(x)), function(i) tree2df(x, i)))
