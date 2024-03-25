@@ -4,8 +4,8 @@ test_that("functions work as expected without warnings", {
 })
 
 test_that("get_feature_names() work with '.' features", {
-  fit_rf <- randomForest(Sepal.Width ~ ., data = iris)
-  fit_ranger <- ranger(Sepal.Width ~ ., data = iris)
+  fit_rf <- randomForest::randomForest(Sepal.Width ~ ., data = iris)
+  fit_ranger <- ranger::ranger(Sepal.Width ~ ., data = iris)
 
   expected <- setdiff(colnames(iris), "Sepal.Width")
 
@@ -15,8 +15,8 @@ test_that("get_feature_names() work with '.' features", {
 
 test_that("get_feature_names() work with explicit features", {
   form <- Sepal.Width ~ Sepal.Length + Species
-  fit_rf <- randomForest(form, data = iris)
-  fit_ranger <- ranger(form, data = iris)
+  fit_rf <- randomForest::randomForest(form, data = iris)
+  fit_ranger <- ranger::ranger(form, data = iris)
 
   expected <- c("Sepal.Length", "Species")
 
@@ -26,7 +26,7 @@ test_that("get_feature_names() work with explicit features", {
 
 test_that("get_feature_names() work with xy interface of ranger", {
   xvars <- setdiff(colnames(iris), "Sepal.Width")
-  fit_ranger <- ranger(y = iris$Sepal.Width, x = iris[xvars])
+  fit_ranger <- ranger::ranger(y = iris$Sepal.Width, x = iris[xvars])
 
   expect_equal(get_feature_names(fit_ranger), xvars)
 })
