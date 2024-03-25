@@ -14,7 +14,6 @@
 #' @import dplyr
 #' @importFrom data.table rbindlist
 min_depth_distribution <- function(forest){
-  tree <- NULL; `split var` <- NULL; depth <- NULL
   forest_table <- forest2df(forest)
   min_depth_frame <- dplyr::group_by(forest_table, tree, variable) %>%
     dplyr::summarize(minimal_depth = min(depth), .groups = "drop")
@@ -24,7 +23,6 @@ min_depth_distribution <- function(forest){
 
 # Count the trees in which each variable had a given minimal depth
 min_depth_count <- function(min_depth_frame){
-  tree <- NULL; minimal_depth <- NULL; variable <- NULL
   mean_tree_depth <- dplyr::group_by(min_depth_frame, tree) %>%
     dplyr::summarize(depth = max(minimal_depth) + 1) %>%
     as.data.frame()
@@ -45,7 +43,6 @@ min_depth_count <- function(min_depth_frame){
 
 # Get a data frame with means of minimal depth calculated using sample = c("all_trees", "top_trees", "relevant_trees")
 get_min_depth_means <- function(min_depth_frame, min_depth_count_list, mean_sample){
-  .SD <- NULL; variable <- NULL
   if(mean_sample == "all_trees"){
     min_depth_count_list[[1]][is.na(min_depth_count_list[[1]]$minimal_depth), "minimal_depth"] <- min_depth_count_list[[3]]
     min_depth_means <-
@@ -89,7 +86,6 @@ get_min_depth_means <- function(min_depth_frame, min_depth_count_list, mean_samp
 plot_min_depth_distribution <- function(min_depth_frame, k = 10, min_no_of_trees = 0,
                                         mean_sample = "top_trees", mean_scale = FALSE, mean_round = 2,
                                         main = "Distribution of minimal depth and its mean"){
-  minimal_depth <- NULL; mean_minimal_depth_label <- NULL; mean_minimal_depth <- NULL
   if(any(c("randomForest", "ranger") %in% class(min_depth_frame))){
     min_depth_frame <- min_depth_distribution(min_depth_frame)
   }

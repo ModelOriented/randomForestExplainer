@@ -8,7 +8,6 @@ measure_min_depth <- function(min_depth_frame, mean_sample){
 
 # Calculate the number of nodes split on each variable for a data frame with the whole forest
 measure_no_of_nodes <- function(forest_table){
-  `split var` <- NULL
   frame <- dplyr::group_by(forest_table, variable = variable) %>%
     dplyr::summarize(no_of_nodes = dplyr::n())
   frame <- as.data.frame(frame[!is.na(frame$variable),])
@@ -60,7 +59,6 @@ measure_vimp_ranger <- function(forest){
 
 # Calculate the number of trees using each variable for splitting
 measure_no_of_trees <- function(min_depth_frame){
-  variable <- NULL
   frame <- dplyr::group_by(min_depth_frame, variable) %>%
     dplyr::summarize(no_of_trees = n()) %>%
     as.data.frame()
@@ -69,7 +67,6 @@ measure_no_of_trees <- function(min_depth_frame){
 
 # Calculate the number of times each variable is split on the root node
 measure_times_a_root <- function(min_depth_frame){
-  variable <- NULL
   frame <- min_depth_frame[min_depth_frame$minimal_depth == 0, ] %>%
     dplyr::group_by(variable) %>%
     dplyr::summarize(times_a_root = n()) %>%
@@ -113,7 +110,6 @@ measure_importance <- function(forest, mean_sample = "top_trees", measures = NUL
 #' @importFrom data.table rbindlist
 #' @export
 measure_importance.randomForest <- function(forest, mean_sample = "top_trees", measures = NULL){
-  tree <- NULL; `split var` <- NULL; depth <- NULL
   if(is.null(measures)){
     if(forest$type %in% c("classification", "unsupervised")){
       measures <- c("mean_min_depth", "no_of_nodes", "accuracy_decrease",
@@ -177,7 +173,6 @@ measure_importance.randomForest <- function(forest, mean_sample = "top_trees", m
 #' @importFrom data.table rbindlist
 #' @export
 measure_importance.ranger <- function(forest, mean_sample = "top_trees", measures = NULL){
-  tree <- NULL; splitvarName <- NULL; depth <- NULL
   if(is.null(measures)){
     measures <- c("mean_min_depth", "no_of_nodes", forest$importance.mode, "no_of_trees", "times_a_root", "p_value")
   }
@@ -296,7 +291,6 @@ plot_multi_way_importance <- function(importance_frame, x_measure = "mean_min_de
                                       y_measure = "times_a_root", size_measure = NULL,
                                       min_no_of_trees = 0, no_of_labels = 10,
                                       main = "Multi-way importance plot"){
-  variable <- NULL
   if(any(c("randomForest", "ranger") %in% class(importance_frame))){
     importance_frame <- measure_importance(importance_frame)
   }
