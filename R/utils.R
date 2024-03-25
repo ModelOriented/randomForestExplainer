@@ -21,8 +21,6 @@ max_na <- function(x) {
   max(x, na.rm = TRUE)
 }
 
-utils::globalVariables(c("prediction", "variable"))
-
 # Depth of each node of a single tree.
 # The input is a matrix with left and right child nodes in 1:nrow(childs).
 tree_depth <- function(childs) {
@@ -75,6 +73,27 @@ ntrees <- function(x) {
 }
 
 # Applies tree2df() to each tree and stacks the results
+#' @importFrom data.table rbindlist
 forest2df <- function(x) {
   rbindlist(lapply(seq_len(ntrees(x)), function(i) tree2df(x, i)))
 }
+
+# Deal with the global variable note
+utils::globalVariables(
+  c(
+    ".",
+    ".SD",
+    "depth",
+    "mean_min_depth",
+    "mean_minimal_depth",
+    "mean_minimal_depth_label",
+    "minimal_depth",
+    "occurrences",
+    "prediction",
+    "split var",
+    "splitvarName",
+    "tree",
+    "uncond_mean_min_depth",
+    "variable"
+  )
+)
